@@ -36,9 +36,17 @@
     </section>
 
     <section class="page" id="quranPage">
-      <div class="page-heading"><span class="eyebrow">OKU VE ANLA</span><h1>Kur'an-ı Kerim</h1><p>Sure seçerek Arapça metni okuyabilirsin.</p></div>
-      <label class="search-box"><span>⌕</span><input id="surahSearch" type="search" placeholder="Sure ara..." autocomplete="off"></label>
-      <div id="surahList" class="surah-list"><div class="loading-state">Sure listesi yükleniyor…</div></div>
+      <div class="page-heading quran-page-heading"><span class="eyebrow">OKU VE ANLA</span><h1>Kur'an-ı Kerim</h1><p>Aradığın sureyi kolayca seç, okumaya başla.</p></div>
+      <section id="surahPicker" class="surah-picker">
+        <div class="picker-ornament" aria-hidden="true">۞</div>
+        <div class="picker-kicker">KUR'AN-I KERİM</div>
+        <h2>Hangi sureyi okumak istersin?</h2>
+        <p>Sure adını yazabilir veya listeden seçebilirsin.</p>
+        <label class="search-box picker-search"><span>⌕</span><input id="surahSearch" type="search" placeholder="Sure ara... Örn. Yasin" autocomplete="off"></label>
+        <label class="surah-select-label" for="surahSelect">Sure seçimi</label>
+        <select id="surahSelect" class="surah-select" disabled><option value="">Sureler yükleniyor…</option></select>
+        <div class="picker-hint">114 sure · Arapça metin ve Türkçe meal</div>
+      </section>
       <div id="readingPanel" class="reading-panel" hidden>
         <button class="back-link" id="backToSurahs">← Sure listesine dön</button>
         <div class="reading-tools"><div class="font-tools"><span>Yazı boyutu</span><button id="fontSmaller" type="button" aria-label="Yazıyı küçült">A−</button><button id="fontLarger" type="button" aria-label="Yazıyı büyüt">A+</button></div><div class="surah-tools"><button id="previousSurah" type="button">← Önceki sure</button><button id="nextSurah" type="button">Sonraki sure →</button></div></div>
