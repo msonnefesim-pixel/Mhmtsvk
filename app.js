@@ -1,0 +1,6 @@
+const pages={home:"homePage",quran:"quranPage",listen:"listenPage",names:"namesPage",continue:"continuePage"};
+function showPage(name){const id=pages[name]||pages.home;document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));document.querySelectorAll(".nav-item").forEach(b=>b.classList.toggle("selected",b.dataset.go===name||(name==="continue"&&b.dataset.go==="quran")));window.scrollTo({top:0,behavior:"smooth"});}
+document.querySelectorAll("[data-go]").forEach(button=>button.addEventListener("click",()=>showPage(button.dataset.go)));
+document.getElementById("themeButton").addEventListener("click",()=>{document.body.classList.toggle("dark");localStorage.setItem("quran-theme",document.body.classList.contains("dark")?"dark":"light");});
+if(localStorage.getItem("quran-theme")==="dark")document.body.classList.add("dark");
+if("serviceWorker"in navigator&&location.protocol.startsWith("http"))window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
