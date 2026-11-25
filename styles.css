@@ -86,3 +86,23 @@ body.dark .dua-option:active{background:#263d32}
 .names-search{margin:0 0 11px}.names-result-count{font-size:11px;color:var(--muted);margin:0 2px 10px}.names-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.esma-card{position:relative;min-width:0;min-height:164px;padding:13px 10px 14px;text-align:center;border:1px solid #e8dfc9;border-radius:16px;background:linear-gradient(180deg,#fffefa,#fbfaf5);box-shadow:0 4px 14px rgba(40,55,43,.04)}.esma-number{position:absolute;top:9px;left:10px;display:grid;place-items:center;width:25px;height:25px;border-radius:9px;background:#f1ecdc;color:#9b7b3d;font-size:10px;font-weight:800}.esma-arabic{min-height:49px;display:grid;place-items:center;margin:15px 0 4px;color:#174638;font-family:"Noto Naskh Arabic","Amiri",serif;font-size:29px;line-height:1.7}.esma-name{margin:3px 0 6px;color:#174638;font-family:Georgia,serif;font-size:14px}.esma-meaning{margin:0;color:#737a70;font-size:11px;line-height:1.55}.names-empty{grid-column:1/-1;padding:24px;text-align:center;color:var(--muted);font-size:13px}
 body.dark .names-intro{background:linear-gradient(155deg,#1b3027,#172720);border-color:#5b5136}body.dark .names-intro>p{color:#c3cbbf}body.dark .names-count{background:#20362b;color:#e9eee8;border-color:#8f7948}body.dark .esma-card{background:#172720;border-color:#34483b}body.dark .esma-arabic,body.dark .esma-name{color:#e8d9b5}body.dark .esma-meaning{color:#c0c9c1}
 @media(max-width:350px){.names-grid{gap:7px}.esma-card{padding-left:7px;padding-right:7px}.esma-name{font-size:12px}.esma-arabic{font-size:26px}}
+
+
+/* Sesli dinleme sayfasi */
+.listen-picker{padding:20px 16px 18px;border:1px solid #e4d7b6;border-radius:21px;background:linear-gradient(155deg,#fffefa,#f0eee2);box-shadow:0 10px 26px rgba(18,60,50,.06)}
+.listen-ornament{width:62px;height:62px;margin:0 auto 18px;display:grid;place-items:center;border:1px solid #d8c38b;border-radius:50%;background:#f8f4e8;color:#a88743;font-size:32px}
+.listen-label{display:block;margin:0 0 8px;color:var(--green);font-size:12px;font-weight:800}
+.listen-player{margin-top:18px;padding:19px 14px 14px;border:1px solid #e8dfc9;border-radius:17px;background:var(--paper);text-align:center}
+.listen-track-icon{width:58px;height:58px;margin:0 auto 12px;display:grid;place-items:center;border-radius:18px;background:linear-gradient(145deg,#123c32,#28614f);color:#ead9a8;font-size:30px}
+.listen-track-info>span{font-size:9px;letter-spacing:2px;color:#a88743;font-weight:800}
+.listen-track-info h2{margin:5px 0;color:var(--green);font-family:Georgia,serif;font-size:22px}
+.listen-track-info p{margin:0;color:var(--muted);font-size:11px}
+.listen-controls{display:flex;justify-content:center;gap:28px;margin:17px 0 12px}
+.listen-controls button{width:42px;height:42px;border:1px solid var(--line);border-radius:50%;background:var(--paper);color:var(--green);font-size:19px}
+.listen-player audio{display:block;width:100%;height:42px;margin:12px auto 0}
+.listen-status{min-height:18px;margin:10px 0 0;color:var(--muted);font-size:11px}
+body.dark .listen-picker{background:linear-gradient(155deg,#1b3027,#172720);border-color:#5b5136}
+body.dark .listen-ornament{background:#20362b;border-color:#8f7948}
+body.dark .listen-player{background:#172720;border-color:#34483b}
+body.dark .listen-track-icon{background:linear-gradient(145deg,#173e31,#28614f)}
+body.dark .listen-controls button{background:#20362b;color:#e8d9b5;border-color:#34483b}
