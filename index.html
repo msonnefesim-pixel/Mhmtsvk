@@ -15,7 +15,6 @@
     <div><div class="eyebrow">HUZUR • HİDAYET • BEREKET</div><div class="brand-name">Kur'an-ı Kerim</div></div>
     <button class="icon-button" id="themeButton" aria-label="Görünümü değiştir">◐</button>
   </header>
-
   <main id="app">
     <section class="page active" id="homePage">
       <div class="hero">
@@ -25,27 +24,31 @@
         <p>Kur'an-ı Kerim'i oku, mealini takip et ve dinle.</p>
         <button class="gold-button" data-go="quran">Kur'an okumaya başla <span>→</span></button>
       </div>
-
       <div class="section-heading"><div><span class="eyebrow">KEŞFET</span><h2>İçerikler</h2></div></div>
       <div class="feature-grid">
         <button class="feature-card" data-go="quran"><span class="feature-icon">۞</span><strong>Kur'an-ı Kerim</strong><small>Arapça ve Türkçe meal</small><span class="card-arrow">↗</span></button>
         <button class="feature-card" data-go="listen"><span class="feature-icon">♫</span><strong>Sure Dinle</strong><small>Kur'an-ı Kerim tilaveti</small><span class="card-arrow">↗</span></button>
-        <button class="feature-card" data-go="names"><span class="feature-icon">✧</span><strong>Esma-ül Hüsna</strong><small>Allah'ın güzel isimleri</small><span class="card-arrow">↗</span></button>
-        <button class="feature-card" data-go="continue"><span class="feature-icon">▤</span><strong>Kaldığım Yer</strong><small>Son okuduğun ayet</small><span class="card-arrow">↗</span></button>
+        <button class="feature-card" data-go="names"><span class="feature-icon">✧</span><strong>Esma-ül Hüsna</strong><small>99 güzel isim</small><span class="card-arrow">↗</span></button>
+        <button class="feature-card" data-go="continue"><span class="feature-icon">▤</span><strong>Kaldığım Yer</strong><small>Son okunan ayet</small><span class="card-arrow">↗</span></button>
       </div>
-      <div class="note-card"><span>✦</span><p><strong>Sade ve huzurlu bir okuma deneyimi</strong><br>İçerikler güvenilir kaynaklardan doğrulanarak eklenecek.</p></div>
+      <div class="note-card"><span>✦</span><p><strong>Sade ve huzurlu bir okuma deneyimi</strong><br>Kur'an metni kaynağı: AlQuran Cloud. Meal ve ses kayıtları izin kontrolünden sonra eklenecek.</p></div>
     </section>
 
     <section class="page" id="quranPage">
-      <div class="page-heading"><span class="eyebrow">OKU VE ANLA</span><h1>Kur'an-ı Kerim</h1><p>Arapça metin ve Türkçe meal</p></div>
+      <div class="page-heading"><span class="eyebrow">OKU VE ANLA</span><h1>Kur'an-ı Kerim</h1><p>Sure seçerek Arapça metni okuyabilirsin.</p></div>
       <label class="search-box"><span>⌕</span><input id="surahSearch" type="search" placeholder="Sure ara..." autocomplete="off"></label>
-      <div class="empty-state"><div class="empty-symbol">۞</div><h2>Kur'an içerikleri hazırlanıyor</h2><p>114 surenin Arapça metni ve Türkçe meali, doğruluğu kontrol edilmiş bir kaynaktan eklenecek.</p></div>
+      <div id="surahList" class="surah-list"><div class="loading-state">Sure listesi yükleniyor…</div></div>
+      <div id="readingPanel" class="reading-panel" hidden>
+        <button class="back-link" id="backToSurahs">← Sure listesine dön</button>
+        <div id="surahTitle" class="surah-title"></div>
+        <div id="ayahList" class="ayah-list"></div>
+        <p class="source-note">Arapça metin kaynağı: AlQuran Cloud (Uthmani). Türkçe meal, yayın izni doğrulandıktan sonra eklenecektir.</p>
+      </div>
     </section>
 
     <section class="page" id="listenPage">
-      <div class="page-heading"><span class="eyebrow">DİNLE VE DİNLE</span><h1>Sure Dinle</h1><p>Kur'an-ı Kerim tilaveti</p></div>
-      <div class="player-card"><div class="player-art">♫</div><span class="eyebrow">KUR'AN-I KERİM</span><h2>Sure seçilmedi</h2><p>Dinlemek istediğin sureyi seçtiğinde oynatıcı burada görünecek.</p><div class="player-track"><span></span></div><div class="player-controls"><button disabled>‹</button><button class="play-button" disabled>▶</button><button disabled>›</button></div></div>
-      <p class="helper-text">Ses kayıtları, kullanım izinleri doğrulandıktan sonra eklenecek.</p>
+      <div class="page-heading"><span class="eyebrow">DİNLE VE DİNLE</span><h1>Sure Dinle</h1><p>Sure sesleri ve okuyucu seçenekleri hazırlanıyor.</p></div>
+      <div class="empty-state"><div class="empty-symbol">♫</div><h2>Sesli dinleme</h2><p>Ses kayıtlarının ticari uygulamada kullanım izni doğrulandıktan sonra sure seçimi ve oynatıcı eklenecek.</p></div>
     </section>
 
     <section class="page" id="namesPage">
@@ -55,10 +58,9 @@
 
     <section class="page" id="continuePage">
       <div class="page-heading"><span class="eyebrow">OKUMAYA DEVAM ET</span><h1>Kaldığım Yer</h1></div>
-      <div class="empty-state"><div class="empty-symbol">▤</div><h2>Henüz kayıt yok</h2><p>Okumaya başladığında son kaldığın sure ve ayet burada saklanacak.</p></div>
+      <div id="lastReadPanel" class="empty-state"><div class="empty-symbol">▤</div><h2>Henüz kayıt yok</h2><p>Okumaya başladığında son kaldığın sure burada saklanacak.</p></div>
     </section>
   </main>
-
   <nav class="bottom-nav" aria-label="Ana gezinme">
     <button class="nav-item selected" data-go="home"><span>⌂</span><small>Ana Sayfa</small></button>
     <button class="nav-item" data-go="quran"><span>۞</span><small>Kur'an</small></button>
