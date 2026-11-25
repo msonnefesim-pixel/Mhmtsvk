@@ -56,10 +56,12 @@
     </section>
 
     <section class="page" id="duasPage">
-      <div class="page-heading"><span class="eyebrow">KUR'AN-I KERİM'DEKİ DUALAR</span><h1>Kur'an Duaları</h1><p>Bir dua seç; Arapça metnini ve Türkçe mealini oku.</p></div>
-      <label class="dua-select-label" for="duaSelect">Dua seç</label>
-      <select id="duaSelect" class="dua-select"><option value="">Bir dua seçiniz</option></select>
-      <div id="duaReading" class="dua-reading empty-state"><div class="empty-symbol">۞</div><h2>Duanı seç</h2><p>Seçtiğin duanın Arapça metni ve Türkçe meali burada görünecek.</p></div>
+      <div class="page-heading dua-page-heading"><span class="eyebrow">KUR'AN-I KERİM'DEKİ DUALAR</span><h1>Kur'an Duaları</h1><p>Bir duaya dokun; metni hemen altında açılsın.</p></div>
+      <details class="dua-picker" id="duaPicker">
+        <summary id="duaPickerSummary"><span>۞</span> Dua seçmek için dokun</summary>
+        <div id="duaOptions" class="dua-options"></div>
+      </details>
+      <div id="duaReading" class="dua-reading empty-state"><div class="empty-symbol">۞</div><h2>Bir dua seç</h2><p>Seçtiğin duanın Arapçası ve Türkçe meali burada, hemen altında açılacak.</p></div>
       <p class="source-note">Arapça Kur'an metni AlQuran Cloud kaynağından alınır. Türkçe meal, ayetin anlamını aktaran sade bir çeviridir.</p>
     </section>
 
