@@ -80,39 +80,3 @@ async function showDua(index){
 
 loadSurahList();
 if("serviceWorker"in navigator&&location.protocol.startsWith("http"))window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
-
-
-// Sesli dinleme: sureyi ve okuyucuyu seç, tilaveti internetten dinle.
-(function initListening(){
- const select=document.getElementById("listenSurahSelect");
- const player=document.getElementById("listenAudio");
- const title=document.getElementById("listenTrackTitle");
- const status=document.getElementById("listenStatus");
- const previous=document.getElementById("listenPrevious");
- const next=document.getElementById("listenNext");
- if(!select||!player)return;
- TURKISH_SURAH_NAMES.forEach((name,index)=>{
-  const option=document.createElement("option");
-  option.value=String(index+1);
-  option.textContent=(index+1)+". "+name;
-  select.append(option);
- });
- function loadTrack(autoplay){
-  const number=Number(select.value);
-  const name=TURKISH_SURAH_NAMES[number-1]||"Sure";
-  title.textContent=name+" Suresi";
-  player.pause();
-  player.src="https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/"+number+".mp3";
-  player.load();
-  status.textContent="Tilavet hazır. Dinlemek için oynat tuşuna bas.";
-  if(autoplay)player.play().catch(()=>{status.textContent="Oynatmak için ses çubuğundaki tuşa dokun.";});
- }
- select.addEventListener("change",()=>loadTrack(false));
- previous.addEventListener("click",()=>{select.selectedIndex=Math.max(0,select.selectedIndex-1);loadTrack(true);});
- next.addEventListener("click",()=>{select.selectedIndex=Math.min(select.options.length-1,select.selectedIndex+1);loadTrack(true);});
- player.addEventListener("playing",()=>{status.textContent="Şu anda dinleniyor.";});
- player.addEventListener("waiting",()=>{status.textContent="Ses yükleniyor…";});
- player.addEventListener("ended",()=>{status.textContent="Sure tamamlandı.";});
- player.addEventListener("error",()=>{status.textContent="Ses şu anda yüklenemedi. İnternet bağlantını kontrol edip tekrar dene.";});
- loadTrack(false);
-})();
