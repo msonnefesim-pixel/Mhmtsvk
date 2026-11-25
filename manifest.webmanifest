@@ -1,1 +1,1 @@
-{"name":"Kur'an-ı Kerim","short_name":"Kur'an","lang":"tr","start_url":"./","display":"standalone","background_color":"#f7f5ee","theme_color":"#123c32","description":"Kur'an-ı Kerim, Türkçe meal, sure dinleme ve Esma-ül Hüsna."}
+{"name":"Kur'an-ı Kerim","short_name":"Kur'an","lang":"tr","start_url":"./","scope":"./","display":"standalone","background_color":"#f7f5ee","theme_color":"#123c32","description":"Kur'an-ı Kerim, Türkçe meal, sure dinleme ve Esma-ül Hüsna.","icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}
