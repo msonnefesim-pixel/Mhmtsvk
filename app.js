@@ -7,12 +7,52 @@ const pages={home:"homePage",quran:"quranPage",duas:"duasPage",listen:"listenPag
 let surahs=[];
 let appCurrentPage="home";
 let appCurrentView="list";
-function pushAppState(page,view="list"){appCurrentPage=page;appCurrentView=view;history.pushState({quranApp:true,page,view},"",location.pathname+location.search);}
-function renderAppPage(page,view="list"){const id=pages[page]||pages.home;appCurrentPage=page;appCurrentView=view;document.querySelectorAll(".page").forEach(p=>{const visible=p.id===id;p.classList.toggle("active",visible);p.style.display=visible?"block":"none";});document.querySelectorAll(".nav-item").forEach(b=>b.classList.toggle("selected",b.dataset.go===page||(page==="continue"&&b.dataset.go==="quran")));if(page==="quran"){const reader=view==="reader";readingPanel.hidden=!reader;pickerEl.hidden=reader;quranHeading.hidden=reader;}if(page==="continue")renderLastRead();window.scrollTo({top:0,behavior:"instant"});}
-function showPage(name,addHistory=true){if(addHistory)pushAppState(name,"list");else{appCurrentPage=name;appCurrentView="list";}renderAppPage(name,"list");}
-if(!history.state||!history.state.quranApp){history.replaceState({quranApp:true,page:"home",view:"list"},"",location.pathname+location.search);}
-window.addEventListener("popstate",event=>{const state=event.state;const page=state&&state.quranApp&&pages[state.page]?state.page:"home";const view=page==="quran"&&state.view==="reader"?"reader":"list";renderAppPage(page,view);});
-document.querySelectorAll("[data-go]").forEach(button=>button.addEventListener("click",()=>showPage(button.dataset.go)));document.getElementById("themeButton").addEventListener("click",()=>{document.body.classList.toggle("dark");localStorage.setItem("quran-theme",document.body.classList.contains("dark")?"dark":"light");});
+const appNavStack=[{page:"home",view:"list"}];
+function pushAppState(page,view="list"){
+  const state={page,view};
+  appNavStack.push(state);
+  appCurrentPage=page;appCurrentView=view;
+  history.pushState({quranApp:true,...state},"",location.pathname+location.search);
+}
+function renderAppPage(page,view="list"){
+  const id=pages[page]||pages.home;
+  appCurrentPage=page;appCurrentView=view;
+  document.querySelectorAll(".page").forEach(p=>{const visible=p.id===id;p.classList.toggle("active",visible);p.style.display=visible?"block":"none";});
+  document.querySelectorAll(".nav-item").forEach(b=>b.classList.toggle("selected",b.dataset.go===page||(page==="continue"&&b.dataset.go==="quran")));
+  if(page==="quran"){const reader=view==="reader";readingPanel.hidden=!reader;pickerEl.hidden=reader;quranHeading.hidden=reader;}
+  if(page==="continue")renderLastRead();
+  window.scrollTo({top:0,behavior:"instant"});
+}
+function showPage(name,addHistory=true){
+  if(addHistory)pushAppState(name,"list");
+  else{appCurrentPage=name;appCurrentView="list";}
+  renderAppPage(name,"list");
+}
+history.replaceState({quranApp:true,page:"home",view:"list"},"",location.pathname+location.search);
+document.addEventListener("click",event=>{
+  const button=event.target.closest("[data-go]");
+  if(!button)return;
+  event.preventDefault();
+  event.stopImmediatePropagation();
+  showPage(button.dataset.go);
+},true);
+window.addEventListener("popstate",event=>{
+  if(appNavStack.length>1)appNavStack.pop();
+  const state=event.state;
+  const page=state&&state.quranApp&&pages[state.page]?state.page:"home";
+  const view=page==="quran"&&state.view==="reader"?"reader":"list";
+  if(appNavStack.length===0)appNavStack.push({page,view});
+  renderAppPage(page,view);
+});
+window.addEventListener("keydown",event=>{
+  if(event.key==="Escape"||event.key==="BrowserBack"){
+    if(appCurrentPage!=="home"||appCurrentView==="reader"){
+      event.preventDefault();
+      history.back();
+    }
+  }
+});
+document.getElementById("themeButton").addEventListener("click",()=>{document.body.classList.toggle("dark");localStorage.setItem("quran-theme",document.body.classList.contains("dark")?"dark":"light");});
 if(localStorage.getItem("quran-theme")==="dark")document.body.classList.add("dark");
 const pickerEl=document.getElementById("surahPicker");
 const surahSelect=document.getElementById("surahSelect");
