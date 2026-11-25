@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#123c32">
   <meta name="description" content="Kur'an-ı Kerim, Türkçe meal, sure dinleme ve Esma-ül Hüsna.">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css?v=15">
+  <link rel="stylesheet" href="styles.css?v=16">
   <title>Kur'an-ı Kerim</title>
 </head>
 <body>
@@ -68,8 +68,23 @@
     </section>
 
     <section class="page" id="listenPage">
-      <div class="page-heading"><span class="eyebrow">DİNLE VE DİNLE</span><h1>Sure Dinle</h1><p>Sure sesleri ve okuyucu seçenekleri hazırlanıyor.</p></div>
-      <div class="empty-state"><div class="empty-symbol">♫</div><h2>Sesli dinleme</h2><p>Ses kayıtlarının ticari uygulamada kullanım izni doğrulandıktan sonra sure seçimi ve oynatıcı eklenecek.</p></div>
+      <div class="page-heading"><span class="eyebrow">KUR'AN-I KERİM TİLAVETİ</span><h1>Sure Dinle</h1><p>Dinlemek istediğin sureyi seç ve tilaveti başlat.</p></div>
+      <div class="listen-picker">
+        <div class="listen-ornament">♫</div>
+        <label class="listen-label" for="listenSurahSelect">Sure seç</label>
+        <select id="listenSurahSelect" class="surah-select"></select>
+        <div class="listen-player">
+          <div class="listen-track-icon">۞</div>
+          <div class="listen-track-info"><span>ŞU AN SEÇİLİ</span><h2 id="listenTrackTitle">Fâtiha Suresi</h2><p>Mişari Raşid el-Afasi</p></div>
+          <div class="listen-controls">
+            <button id="listenPrevious" type="button" aria-label="Önceki sure">⏮</button>
+            <button id="listenNext" type="button" aria-label="Sonraki sure">⏭</button>
+          </div>
+          <audio id="listenAudio" controls preload="none"></audio>
+          <p id="listenStatus" class="listen-status">Tilavet hazır. Dinlemek için oynat tuşuna bas.</p>
+        </div>
+      </div>
+      <p class="source-note">Ses: AlQuran Cloud / Islamic Network · Okuyucu: Mişari Raşid el-Afasi. Ses internet üzerinden yayınlanır; dinlemek için bağlantı gerekir.</p>
     </section>
 
     <section class="page" id="namesPage">
@@ -93,7 +108,7 @@
     <button class="nav-item" data-go="listen"><span>♫</span><small>Dinle</small></button>
     <button class="nav-item" data-go="names"><span>✧</span><small>Esma</small></button>
   </nav>
-  <script src="app.js?v=15"></script>
+  <script src="app.js?v=16"></script>
   <script src="esma.js?v=1"></script>
 </body>
 </html>
