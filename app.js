@@ -127,4 +127,4 @@ async function showDua(index){
 }
 
 loadSurahList();
-if("serviceWorker"in navigator&&location.protocol.startsWith("http"))window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=31").then(reg=>reg.update()).catch(()=>{}));
+if("serviceWorker"in navigator&&location.protocol.startsWith("http"))window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=32",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{}));
