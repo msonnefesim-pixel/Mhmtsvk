@@ -36,7 +36,13 @@
     </section>
 
     <section class="page" id="quranPage">
-      <div class="page-heading quran-page-heading"><span class="eyebrow">OKU VE ANLA</span><h1>Kur'an-ı Kerim</h1><p>Aradığın sureyi kolayca seç, okumaya başla.</p></div>
+      <div class="page-heading quran-page-heading"><span class="eyebrow">OKU VE ANLA</span><h1>Kur'an-ı Kerim</h1><p>Sure oku, mealini takip et veya Kur'an'daki duaları seç.</p></div>
+      <details class="dua-picker" id="duaPicker">
+        <summary id="duaPickerSummary"><span>۞</span> Kur'an dualarından birini seç</summary>
+        <div id="duaOptions" class="dua-options"></div>
+      </details>
+      <div id="duaReading" class="dua-reading empty-state"><div class="empty-symbol">۞</div><h2>Bir dua seç</h2><p>Seçtiğin duanın Arapçası ve Türkçe meali burada, hemen altında açılacak.</p></div>
+      <p class="source-note">Arapça Kur'an metni AlQuran Cloud kaynağından alınır. Türkçe meal, ayetin anlamını aktaran sade bir çeviridir.</p>
       <section id="surahPicker" class="surah-picker">
         <div class="picker-ornament" aria-hidden="true">۞</div>
         <div class="picker-kicker">KUR'AN-I KERİM</div>
@@ -53,16 +59,6 @@
         <div id="surahTitle" class="surah-title"></div>
         <div id="ayahList" class="ayah-list"></div>
       </div>
-    </section>
-
-    <section class="page" id="duasPage">
-      <div class="page-heading dua-page-heading"><span class="eyebrow">KUR'AN-I KERİM'DEKİ DUALAR</span><h1>Kur'an Duaları</h1><p>Bir duaya dokun; metni hemen altında açılsın.</p></div>
-      <details class="dua-picker" id="duaPicker">
-        <summary id="duaPickerSummary"><span>۞</span> Dua seçmek için dokun</summary>
-        <div id="duaOptions" class="dua-options"></div>
-      </details>
-      <div id="duaReading" class="dua-reading empty-state"><div class="empty-symbol">۞</div><h2>Bir dua seç</h2><p>Seçtiğin duanın Arapçası ve Türkçe meali burada, hemen altında açılacak.</p></div>
-      <p class="source-note">Arapça Kur'an metni AlQuran Cloud kaynağından alınır. Türkçe meal, ayetin anlamını aktaran sade bir çeviridir.</p>
     </section>
 
     <section class="page" id="listenPage">
