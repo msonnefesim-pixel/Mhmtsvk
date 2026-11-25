@@ -115,3 +115,105 @@ body.dark .listen-controls button{background:#20362b;color:#e8d9b5;border-color:
 .app-footer{display:flex;flex-direction:column;align-items:center;gap:5px;margin:30px 0 18px;padding:17px 12px 8px;border-top:1px solid var(--line);color:var(--muted);font-size:11px;letter-spacing:.2px;text-align:center}.app-footer strong{color:var(--green);font-weight:750}body.dark .app-footer strong{color:#e8d9b5}
 
 .home-quote{position:relative;margin:13px 0 18px;padding:15px 16px 14px 42px;border:1px solid #e8dfc8;border-radius:15px;background:linear-gradient(135deg,#fffdf7,#f3efe3);color:#29483c;box-shadow:0 5px 16px rgba(18,60,50,.04)}.home-quote .quote-mark{position:absolute;left:14px;top:10px;color:var(--gold);font-family:Georgia,serif;font-size:30px;line-height:1}.home-quote p{margin:0;font-family:Georgia,serif;font-size:15px;line-height:1.55;font-weight:600}.home-quote small{display:block;margin-top:7px;color:#85806f;font-size:10px}.dark .home-quote{background:#202f27;border-color:#3a4a3e;color:#e9e5d6}.dark .home-quote small{color:#c2b99f}
+
+
+/* Adaçayı kart renkleri - v30 */
+.feature-card,
+.surah-row,
+.ayah-card,
+.esma-card,
+.dua-picker,
+.dua-reading,
+.listen-picker,
+.listen-player,
+.empty-state,
+.player-card,
+.surah-picker,
+.names-intro {
+  background: #d3dfd1;
+  border-color: #b8c9b7;
+  color: #29372f;
+}
+.feature-card strong,
+.surah-names strong,
+.surah-arabic,
+.ayah-meaning,
+.esma-name,
+.esma-arabic,
+.dua-picker summary,
+.dua-title,
+.listen-track-info h2,
+.empty-state h2,
+.player-card h2 {
+  color: #29372f;
+}
+.feature-icon,
+.surah-number,
+.esma-number {
+  background: #bdcfbc;
+  color: #34483a;
+}
+.feature-card small,
+.surah-names small,
+.esma-meaning,
+.empty-state p {
+  color: #58675b;
+}
+.feature-card:active,
+.surah-row:active,
+.dua-option:active {
+  background: #c5d6c2;
+}
+.nav-item.selected {
+  color: #8c7138;
+  background: rgba(201,168,92,.16);
+  border-radius: 12px;
+}
+.nav-item.selected span {
+  color: #a88743;
+}
+body.dark .feature-card,
+body.dark .surah-row,
+body.dark .ayah-card,
+body.dark .esma-card,
+body.dark .dua-picker,
+body.dark .dua-reading,
+body.dark .listen-picker,
+body.dark .listen-player,
+body.dark .empty-state,
+body.dark .player-card,
+body.dark .surah-picker,
+body.dark .names-intro {
+  background: #26392f;
+  border-color: #405647;
+  color: #e5ebe2;
+}
+body.dark .feature-card strong,
+body.dark .surah-names strong,
+body.dark .surah-arabic,
+body.dark .ayah-meaning,
+body.dark .esma-name,
+body.dark .esma-arabic,
+body.dark .dua-picker summary,
+body.dark .dua-title,
+body.dark .listen-track-info h2,
+body.dark .empty-state h2,
+body.dark .player-card h2 {
+  color: #e5ebe2;
+}
+body.dark .feature-icon,
+body.dark .surah-number,
+body.dark .esma-number {
+  background: #344b3c;
+  color: #ead9a8;
+}
+body.dark .feature-card small,
+body.dark .surah-names small,
+body.dark .esma-meaning,
+body.dark .empty-state p {
+  color: #c0cbbf;
+}
+body.dark .nav-item.selected {
+  color: #ead9a8;
+  background: rgba(201,168,92,.13);
+}
