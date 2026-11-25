@@ -117,7 +117,7 @@ body.dark .listen-controls button{background:#20362b;color:#e8d9b5;border-color:
 .home-quote{position:relative;margin:13px 0 18px;padding:15px 16px 14px 42px;border:1px solid #e8dfc8;border-radius:15px;background:linear-gradient(135deg,#fffdf7,#f3efe3);color:#29483c;box-shadow:0 5px 16px rgba(18,60,50,.04)}.home-quote .quote-mark{position:absolute;left:14px;top:10px;color:var(--gold);font-family:Georgia,serif;font-size:30px;line-height:1}.home-quote p{margin:0;font-family:Georgia,serif;font-size:15px;line-height:1.55;font-weight:600}.home-quote small{display:block;margin-top:7px;color:#85806f;font-size:10px}.dark .home-quote{background:#202f27;border-color:#3a4a3e;color:#e9e5d6}.dark .home-quote small{color:#c2b99f}
 
 
-/* Adaçayı kart renkleri - v30 */
+/* Adaçayı kart renkleri - v31 */
 .feature-card,
 .surah-row,
 .ayah-card,
