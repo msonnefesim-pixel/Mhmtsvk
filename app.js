@@ -24,7 +24,7 @@ const quranDuas=[
 {ref:"3:8",name:"Kalplerin Sapmaması Duası",meaning:"Rabbimiz! Bizi doğru yola ilettikten sonra kalplerimizi eğriltme. Bize katından rahmet bağışla. Şüphesiz Sen çok bağışlayansın."},
 {ref:"3:16",name:"Bağışlanma ve Korunma Duası",meaning:"Rabbimiz! Biz iman ettik; günahlarımızı bağışla ve bizi ateş azabından koru."},
 {ref:"7:23",name:"Hz. Âdem'in Tövbe Duası",meaning:"Rabbimiz! Biz kendimize zulmettik. Eğer bizi bağışlamaz ve bize merhamet etmezsen mutlaka ziyana uğrayanlardan oluruz."},
-{ref:"10:85",name:"Allah'a Güvenme Duası",meaning:"Allah'a tevekkül ettik. Rabbimiz! Bizi zalimler topluluğu için bir sınama konusu yapma."},
+{ref:"10:85",name:"Allah'a Sığınma ve Dayanma Duası",meaning:"Allah'a tevekkül ettik. Rabbimiz! Bizi zalimler topluluğu için bir sınama konusu yapma."},
 {ref:"14:40",name:"Namaz ve Nesil İçin Dua",meaning:"Rabbim! Beni namazı dosdoğru kılanlardan eyle; soyumdan da böyle kimseler yetiştir. Rabbimiz, duamı kabul et."},
 {ref:"17:24",name:"Anne Babaya Merhamet Duası",meaning:"Rabbim! Küçüklüğümde onlar beni nasıl yetiştirdilerse Sen de onlara öyle merhamet et."},
 {ref:"20:25",name:"Hz. Musa'nın Kolaylık Duası",meaning:"Rabbim! Gönlüme ferahlık ver; işimi kolaylaştır."},
