@@ -86,12 +86,11 @@ if("serviceWorker"in navigator&&location.protocol.startsWith("http"))window.addE
 (function initListening(){
  const select=document.getElementById("listenSurahSelect");
  const player=document.getElementById("listenAudio");
- const reciter=document.getElementById("listenReciter");
  const title=document.getElementById("listenTrackTitle");
  const status=document.getElementById("listenStatus");
  const previous=document.getElementById("listenPrevious");
  const next=document.getElementById("listenNext");
- if(!select||!player||!reciter)return;
+ if(!select||!player)return;
  TURKISH_SURAH_NAMES.forEach((name,index)=>{
   const option=document.createElement("option");
   option.value=String(index+1);
@@ -109,7 +108,6 @@ if("serviceWorker"in navigator&&location.protocol.startsWith("http"))window.addE
   if(autoplay)player.play().catch(()=>{status.textContent="Oynatmak için ses çubuğundaki tuşa dokun.";});
  }
  select.addEventListener("change",()=>loadTrack(false));
- reciter.addEventListener("change",()=>loadTrack(false));
  previous.addEventListener("click",()=>{select.selectedIndex=Math.max(0,select.selectedIndex-1);loadTrack(true);});
  next.addEventListener("click",()=>{select.selectedIndex=Math.min(select.options.length-1,select.selectedIndex+1);loadTrack(true);});
  player.addEventListener("playing",()=>{status.textContent="Şu anda dinleniyor.";});
