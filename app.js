@@ -1,3 +1,6 @@
+const APP_VERSION=new URL(document.currentScript.src).searchParams.get("v")||"1";
+const versionLabel=document.getElementById("appVersion");
+if(versionLabel)versionLabel.textContent="v"+APP_VERSION;
 const API="https://api.alquran.cloud/v1";
 const MEAL_API="https://quranenc.com/api/v1";
 const MEAL_KEY="turkish_rwwad";
