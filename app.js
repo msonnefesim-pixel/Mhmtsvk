@@ -43,12 +43,20 @@ const quranDuas=[
 {ref:"40:7",name:"Müminler İçin Bağışlanma Duası",meaning:"Rabbimiz! Rahmetin ve ilmin her şeyi kuşatmıştır. Tövbe edenleri ve yoluna uyanları bağışla; onları cehennem azabından koru."},
 {ref:"66:8",name:"Nurun Tamamlanması Duası",meaning:"Rabbimiz! Nurumuzu tamamla ve bizi bağışla. Şüphesiz Sen her şeye gücü yetensin."}
 ];
-const duaSelect=document.getElementById("duaSelect");
+const duaPicker=document.getElementById("duaPicker");
+const duaPickerSummary=document.getElementById("duaPickerSummary");
+const duaOptions=document.getElementById("duaOptions");
 const duaReading=document.getElementById("duaReading");
-quranDuas.forEach((dua,index)=>{const option=document.createElement("option");option.value=String(index);option.textContent=dua.name;duaSelect.append(option);});
-duaSelect.addEventListener("change",async()=>{
- const dua=quranDuas[Number(duaSelect.value)];
- if(!dua){duaReading.className="dua-reading empty-state";duaReading.innerHTML='<div class="empty-symbol">۞</div><h2>Duanı seç</h2><p>Seçtiğin duanın Arapça metni ve Türkçe meali burada görünecek.</p>';return;}
+quranDuas.forEach((dua,index)=>{
+ const option=document.createElement("button");
+ option.type="button";
+ option.className="dua-option";
+ option.textContent=dua.name;
+ option.addEventListener("click",()=>{duaPickerSummary.innerHTML="<span>۞</span> "+dua.name;duaPicker.open=false;showDua(index);});
+ duaOptions.append(option);
+});
+async function showDua(index){
+ const dua=quranDuas[index];
  duaReading.className="dua-reading";
  duaReading.replaceChildren();
  const loading=document.createElement("p");loading.className="loading-state";loading.textContent="Dua yükleniyor…";duaReading.append(loading);
@@ -66,9 +74,8 @@ duaSelect.addEventListener("change",async()=>{
   const meal=document.createElement("p");meal.className="dua-meaning";meal.textContent=dua.meaning;
   const source=document.createElement("small");source.className="dua-reference";source.textContent=(data.surah?.englishName||"Kur'an")+" · "+dua.ref.replace(":"," / ")+" · "+(data.numberInSurah||"")+" . ayet";
   duaReading.append(title,arabicLabel,arabic,divider,mealLabel,meal,source);
-  window.scrollTo({top:0,behavior:"smooth"});
  }catch(error){duaReading.replaceChildren();const msg=document.createElement("p");msg.className="error-note";msg.textContent="Dua şu anda yüklenemedi. İnternet bağlantını kontrol edip tekrar dene.";duaReading.append(msg);}
-});
+}
 
 loadSurahList();
 if("serviceWorker"in navigator&&location.protocol.startsWith("http"))window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
