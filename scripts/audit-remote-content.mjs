@@ -11,6 +11,7 @@ async function fetchWithRetry(url, options = {}, attempts = 3) {
     try {
       const response = await fetch(url, options);
       if (response.ok) return response;
+      if (response.status === 405 || response.status === 501) return response;
       if (response.status !== 429 && response.status < 500) {
         throw new Error(`HTTP ${response.status}`);
       }
