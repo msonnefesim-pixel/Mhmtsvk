@@ -33,7 +33,8 @@ function setBannerInset(height) {
 function updatePrivacyOptionsEntryPoint(consent) {
   const button = document.getElementById('adPrivacyOptions');
   if (!button) return;
-  button.hidden = consent.privacyOptionsRequirementStatus !== 'REQUIRED';
+  const requirement = String(consent.privacyOptionsRequirementStatus || '').toUpperCase();
+  button.hidden = requirement !== 'REQUIRED';
 }
 
 async function hideNativeBanner() {
