@@ -1,9 +1,9 @@
 import { readFile } from "node:fs/promises";
 
 const read = path => readFile(new URL("../" + path, import.meta.url), "utf8");
-const [html, app, esma, zikirmatik, tesbih, inspiration, sw, packageText, buildWorkflow] = await Promise.all([
+const [html, app, esma, zikirmatik, tesbih, inspiration, ads, sw, packageText, buildWorkflow] = await Promise.all([
   read("index.html"), read("app.js"), read("esma.js"), read("zikirmatik.js"), read("tesbih.js"), read("inspiration.js"),
-  read("sw.js"), read("package.json"), read(".github/workflows/build-android-apk.yml")
+  read("ads.js"), read("sw.js"), read("package.json"), read(".github/workflows/build-android-apk.yml")
 ]);
 
 function extractArray(source, pattern, label) {
@@ -51,7 +51,7 @@ for (const [file, source] of [["app.js", app], ["esma.js", esma], ["zikirmatik.j
 }
 
 const ids = new Set([...html.matchAll(/\bid=["']([^"']+)["']/g)].map(match => match[1]));
-for (const [file, source] of [["app.js", app], ["esma.js", esma], ["inspiration.js", inspiration]]) {
+for (const [file, source] of [["app.js", app], ["esma.js", esma], ["inspiration.js", inspiration], ["ads.js", ads]]) {
   const refs = [...source.matchAll(/getElementById\(["']([^"']+)["']\)/g)].map(match => match[1]);
   const missing = [...new Set(refs.filter(id => !ids.has(id)))];
   if (missing.length) throw new Error(file + " references missing HTML ids: " + missing.join(", "));
@@ -79,6 +79,19 @@ for (const match of duaRefs) {
   }
 }
 
+if (!html.includes('ads.bundle.js?v=94') || !sw.includes('./ads.bundle.js?v=94')) {
+  throw new Error("Native ad bridge script or offline cache entry is missing");
+}
+const adPagesMatch = ads.match(/const AD_ALLOWED_PAGES = new Set\(\[([\s\S]*?)\]\);/);
+if (!adPagesMatch) throw new Error("Ad screen allowlist is missing");
+const adPages = [...adPagesMatch[1].matchAll(/'([^']+)'/g)].map(match => match[1]);
+if (["quran", "tesbih", "zikirmatik"].some(page => adPages.includes(page))) {
+  throw new Error("Ads must stay disabled on Quran reading, tesbih, and zikirmatik screens");
+}
+if (!ads.includes("isTesting: true") || !ads.includes("npa: true") ||
+    !ads.includes("showPrivacyOptionsForm") || !html.includes('id="adPrivacyOptions"')) {
+  throw new Error("AdMob test mode, consent, or privacy options entry point is incomplete");
+}
 if (!html.includes("Uygulama Sahibi:") || !html.includes("Mehmet Şavk") || !html.includes('id="appVersion"')) {
   throw new Error("App owner/version footer is missing");
 }
