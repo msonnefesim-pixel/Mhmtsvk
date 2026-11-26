@@ -1,4 +1,4 @@
-import { writeFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 
 const META_URL = "https://api.alquran.cloud/v1/surah";
 const MEAL_BASE = "https://quranenc.com/api/v1/translation/sura/turkish_rwwad/";
@@ -43,6 +43,17 @@ if (metaJson.code !== 200 || !Array.isArray(metaJson.data) || metaJson.data.leng
 }
 const surahs = metaJson.data;
 
+const appSource = await readFile(new URL("../app.js", import.meta.url), "utf8");
+const duaRefs = [...appSource.matchAll(/\\{ref:"(\\d+):(\\d+)(?:-(\\d+))?",name:"([^"]+)"\\}/g)];
+if (duaRefs.length !== 15) throw new Error("Expected 15 Quran dua references, found " + duaRefs.length);
+for (const match of duaRefs) {
+  const surahNo = Number(match[1]), firstAyah = Number(match[2]), lastAyah = Number(match[3] || match[2]);
+  const surah = surahs.find(item => Number(item.number) === surahNo);
+  if (!surah || firstAyah < 1 || lastAyah < firstAyah || lastAyah > Number(surah.numberOfAyahs)) {
+    throw new Error("Quran dua reference is outside its surah: " + match[0]);
+  }
+}
+
 const mealResults = await runPool(surahs, 4, async surah => {
   try {
     const response = await fetchWithRetry(MEAL_BASE + surah.number);
@@ -71,6 +82,7 @@ const report = [
   "",
   "- Turkish meal edition: QuranEnc / Rowwad Translation Center, `turkish_rwwad`, version 1.0.4.",
   "- Meal coverage checked: " + mealResults.filter(result => result.ok).length + "/114 surahs; every verse number, unique ayah key, and non-empty translation checked against surah metadata.",
+  "- Quran dua references: " + duaRefs.length + " entries; every referenced surah and ayah range is within the published surah boundaries.",
   "",
   "## Meal failures",
   ...(mealFailures.length ? mealFailures.map(result => `- Surah ${result.surah}: ${result.error}`) : ["- None"]),
