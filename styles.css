@@ -265,3 +265,9 @@ body.dark .esma-counter{color:#e8d9b5}
 /* Esma hedef adetleri: kaynak notlu geleneksel sayılar */
 .esma-target{display:block;margin:10px 0 0;color:#9b7b3d;font-size:9px;font-weight:850;letter-spacing:.35px;line-height:1.4}
 body.dark .esma-target{color:#d8bd79}
+
+/* Esma kartlarında çekilen zikir adedini belirgin göster */
+.esma-counter{display:inline-flex;align-items:center;justify-content:center;min-width:92px;min-height:42px;margin:12px auto 2px;padding:4px 14px;border:1px solid #d8bd79;border-radius:13px;background:#f7f0dc;color:#174638;font:800 23px Georgia,serif;font-variant-numeric:tabular-nums}
+.esma-counter-label{display:block;margin-bottom:3px;color:#8a7548;font-size:9px;font-weight:850;letter-spacing:.8px}
+body.dark .esma-counter{background:#293b30;border-color:#8d794a;color:#f0dfb2}
+body.dark .esma-counter-label{color:#d8bd79}
