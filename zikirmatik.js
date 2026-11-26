@@ -15,6 +15,7 @@ function load(){
  return x;
 }
 function save(){localStorage.setItem(KEY,JSON.stringify(state));}
+save();
 function active(){return state.items.find(x=>x.id===state.active)||state.items[0];}
 function render(){
  const item=active();if(!item)return;
