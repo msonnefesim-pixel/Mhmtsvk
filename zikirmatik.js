@@ -1,9 +1,19 @@
 (()=>{"use strict";
 const KEY="quran-zikirmatik-v1";
-const PRESETS=[{"id":"preset-subhanallah","name":"Sübhanallah","target":33},{"id":"preset-elhamdulillah","name":"Elhamdülillah","target":33},{"id":"preset-allahu-akbar","name":"Allahu Ekber","target":33},{"id":"preset-tahlil","name":"Lâ ilâhe illallah","target":100},{"id":"preset-istighfar","name":"Estağfirullah","target":100},{"id":"preset-salawat","name":"Allahümme salli alâ Muhammed","target":100}];
+const PRESETS=[{"id":"preset-subhanallah","name":"Sübhanallah","target":33},{"id":"preset-elhamdulillah","name":"Elhamdülillah","target":33},{"id":"preset-allahu-akbar","name":"Allahu Ekber","target":33},{"id":"preset-tahlil","name":"Lâ ilâhe illallah","target":100},{"id":"preset-tehlil-tam","name":"Lâ ilâhe illallâhu vahdehû lâ şerîke leh...","target":1},{"id":"preset-istighfar","name":"Estağfirullah","target":100},{"id":"preset-istighfar-tawba","name":"Estağfirullâhe'l-azîm ve etûbü ileyh","target":100},{"id":"preset-salawat","name":"Allahümme salli alâ Muhammed","target":100},{"id":"preset-salawat-full","name":"Allahümme salli ve sellim alâ nebiyyinâ Muhammed","target":100},{"id":"preset-hawqala","name":"Lâ havle ve lâ kuvvete illâ billâh","target":100},{"id":"preset-hasbunallah","name":"Hasbünallahu ve ni'mel vekîl","target":100},{"id":"preset-subhan-bihamdihi","name":"Sübhanallahi ve bihamdihî","target":100},{"id":"preset-subhan-azim","name":"Sübhanallahil azîm","target":100},{"id":"preset-two-heavy","name":"Sübhanallahi ve bihamdihî, Sübhanallahil azîm","target":100},{"id":"preset-yunus","name":"Lâ ilâhe illâ ente sübhâneke innî küntü minez zâlimîn","target":100},{"id":"preset-rabbana-atina","name":"Rabbenâ âtinâ fid dünyâ haseneten...","target":33},{"id":"preset-hayyu-qayyum","name":"Yâ Hayyu yâ Kayyûm, bi-rahmetike esteğîs","target":100},{"id":"preset-ente-selam","name":"Allahümme ente's-selâmü ve minke's-selâm","target":1},{"id":"preset-compound","name":"Sübhanallahi velhamdülillahi ve lâ ilâhe illallahu vallahu ekber","target":100},{"id":"preset-rabbighfir","name":"Rabbiğfir lî ve tüb aleyye","target":100}];
 const $=id=>document.getElementById(id);
 const state=load();
-function load(){let x;try{x=JSON.parse(localStorage.getItem(KEY)||"null");}catch{}if(!x||!Array.isArray(x.items))x={items:[],active:"preset-subhanallah",vibrate:false};if(!x.items.length)x.items=[];PRESETS.forEach(p=>{if(!x.items.some(i=>i.id===p.id))x.items.unshift({...p,count:0});});if(!x.items.some(i=>i.id===x.active))x.active="preset-subhanallah";return x;}
+function load(){
+ let x;try{x=JSON.parse(localStorage.getItem(KEY)||"null");}catch{}
+ if(!x||!Array.isArray(x.items))x={items:[],active:"preset-subhanallah",vibrate:false};
+ const old=x.items||[];
+ const ready=PRESETS.map(p=>{const found=old.find(i=>i.id===p.id);return found?{...p,...found,name:p.name,target:found.target||p.target,count:Number(found.count)||0}:{...p,count:0};});
+ const custom=old.filter(i=>i&&typeof i==="object"&&!PRESETS.some(p=>p.id===i.id));
+ x.items=[...ready,...custom];
+ if(!x.items.some(i=>i.id===x.active))x.active="preset-subhanallah";
+ x.vibrate=!!x.vibrate;
+ return x;
+}
 function save(){localStorage.setItem(KEY,JSON.stringify(state));}
 function active(){return state.items.find(x=>x.id===state.active)||state.items[0];}
 function render(){
