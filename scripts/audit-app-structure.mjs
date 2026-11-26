@@ -45,6 +45,9 @@ for (const [file, source] of [["app.js", app], ["esma.js", esma], ["inspiration.
   const missing = [...new Set(refs.filter(id => !ids.has(id)))];
   if (missing.length) throw new Error(file + " references missing HTML ids: " + missing.join(", "));
 }
+const zikirmatikRefs = [...zikirmatik.matchAll(/\$\(["']([^"']+)["']\)/g)].map(match => match[1]);
+const missingZikirmatik = [...new Set(zikirmatikRefs.filter(id => !ids.has(id)))];
+if (missingZikirmatik.length) throw new Error("zikirmatik.js references missing HTML ids: " + missingZikirmatik.join(", "));
 
 const duaRefs = [...app.matchAll(/\{ref:"(\d+):(\d+)(?:-(\d+))?",name:"([^"]+)"\}/g)];
 if (duaRefs.length !== 15) throw new Error("Expected 15 Quran dua references, found " + duaRefs.length);
