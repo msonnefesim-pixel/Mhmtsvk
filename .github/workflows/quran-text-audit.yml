@@ -22,7 +22,15 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Compare all 6,236 ayahs against Tanzil Uthmani 1.1
+      - name: Check JavaScript syntax
+        run: |
+          node --check app.js
+          node --check esma.js
+          node --check zikirmatik.js
+          node --check inspiration.js
+          node --check listen.js
+          node --check scripts/audit-quran-text.mjs
+      - name: Verify bundled Tanzil Uthmani 1.1 text
         run: node scripts/audit-quran-text.mjs
       - name: Upload full comparison report
         if: always()
