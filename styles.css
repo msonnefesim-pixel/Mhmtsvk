@@ -261,3 +261,7 @@ body.dark .names-counter-settings{background:#26392f;border-color:#405647;color:
 body.dark .names-counter-settings input{background:#172720;border-color:#405647;color:#e5ebe2}
 body.dark .names-counter-settings span,body.dark .esma-counter-label{color:#c0cbbf}
 body.dark .esma-counter{color:#e8d9b5}
+
+/* Esma hedef adetleri: kaynak notlu geleneksel sayılar */
+.esma-target{display:block;margin:10px 0 0;color:#9b7b3d;font-size:9px;font-weight:850;letter-spacing:.35px;line-height:1.4}
+body.dark .esma-target{color:#d8bd79}
