@@ -116,9 +116,9 @@ jobs:
           gradle = gradle_path.read_text()
           if not re.search(r'applicationId\s*[= ]\s*["\']com\.mehmetsavk\.kuranikerim["\']', gradle):
               raise SystemExit("Android applicationId does not match Capacitor appId")
-          if 'versionName "0.94.0"' not in gradle or "versionCode 9400" not in gradle:
-              raise SystemExit("Android versionName/versionCode does not match package.json 0.94.0")
-          print("Android applicationId and V94 package version verified.")
+          if 'versionName "0.95.0"' not in gradle or "versionCode 9500" not in gradle:
+              raise SystemExit("Android versionName/versionCode does not match package.json 0.95.0")
+          print("Android applicationId and V95 package version verified.")
           PY
           test -s android-release-dependencies.txt
           echo "Merged release manifest audited; release dependency report generated."
@@ -127,7 +127,7 @@ jobs:
       - name: Upload installable APK
         uses: actions/upload-artifact@v4
         with:
-          name: kuran-i-kerim-v94-debug-apk
+          name: kuran-i-kerim-v95-debug-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 14
