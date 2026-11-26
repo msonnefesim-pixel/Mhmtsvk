@@ -13,8 +13,8 @@
 // v82 bundles verbatim Tanzil Uthmani 1.1 text for all Quran Arabic display.
 // v86 links Tanzil at all Arabic display points and migrates saved first-ayah favorites.
 // v89 uses delegated section-local click handling for inspiration tabs and quote selection.
-const CACHE="quran-shell-v89";
-const FILES=["./","./index.html","./styles.css?v=89","./app.js?v=89","./esma.js?v=15","./zikirmatik.js?v=10","./inspiration.js?v=10","./manifest.webmanifest","./icon-v2.svg","./quran-uthmani.txt","./quran-offline-data.json"];
+const CACHE="quran-shell-v90";
+const FILES=["./","./index.html","./styles.css?v=90","./app.js?v=90","./esma.js?v=15","./zikirmatik.js?v=10","./inspiration.js?v=11","./manifest.webmanifest","./icon-v2.svg","./quran-uthmani.txt","./quran-offline-data.json"];
 self.addEventListener("install",event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES)).then(()=>self.skipWaiting())));
 self.addEventListener("activate",event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
 self.addEventListener("fetch",event=>{
