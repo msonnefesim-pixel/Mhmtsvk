@@ -393,3 +393,7 @@ body.dark .tesbih-count{color:#e4eddf}
 @media(prefers-reduced-motion:reduce){.tesbih-hand.is-moving,.tesbih-bead.is-current{animation:none}.tesbih-progress span{transition:none}}
 
 .ad-privacy-options{border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--green);padding:8px 12px;font:700 11px system-ui,sans-serif}
+
+/* Gece modunda ana Kur'an okuma düğmesinin parlaklığını azalt. */
+body.dark .hero .gold-button{background:#30483b;color:#eadfbd;border:1px solid #64745f;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);}
+body.dark .hero .gold-button span{color:#d9c99e;}
