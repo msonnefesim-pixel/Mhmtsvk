@@ -24,6 +24,7 @@ if (payload.code !== 200 || !Array.isArray(payload.data?.surahs) || payload.data
   throw new Error("AlQuran Cloud response did not contain all 114 surahs");
 }
 
+console.log("API first surah shape:", JSON.stringify(payload.data.surahs[0]).slice(0, 1200));
 const apiAyahs = [];
 const comparisons = [];
 const basmala = "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ";
