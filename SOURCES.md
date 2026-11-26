@@ -22,7 +22,7 @@
 - Arapça ayet: AlQuran Cloud `quran-uthmani`.
 - Türkçe meal: QuranEnc / Rowwad Translation Center, `turkish_rwwad`.
 - Dua ekranında ve paylaşım kartlarında ayet numarasıyla tam meal alınır; veri eksikse tahminî veya kısaltılmış meal gösterilmez.
-- Paylaşım kartlarındaki ayetler: İnşirah 94:5-6, Ra'd 13:28, Bakara 2:286, Zümer 39:53.
+- Paylaşım kartlarındaki ayetler: İnşirah 94:5-6, Ra'd 13:28, Bakara 2:286, Zümer 39:53. Kur'an dualarında Hz. Musa'nın duası Tâhâ 20:25-28; Allah'a sığınma ve dayanma duası Yûnus 10:85-86 aralığıyla tam gösterilir.
 
 ## Hadisler
 - Ameller niyetlere göredir: Buhârî, Bed'ü'l-Vahy, 1; Müslim, İmâre, 155. Diyanet kaynağı: https://www.diyanet.gov.tr/icerik/10217
