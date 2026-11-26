@@ -88,7 +88,7 @@ if (!sw.includes("./app.js?v=" + appVersion) || !sw.includes("./styles.css?v=" +
   throw new Error("Service worker pre-cache does not use the current app assets");
 }
 
-if (!html.includes("inspiration.js?v=12") || !sw.includes("./inspiration.js?v=12")) throw new Error("Gönle Dokunan Sözler script/cache version mismatch");
+if (!html.includes("inspiration.js?v=13") || !sw.includes("./inspiration.js?v=13")) throw new Error("Gönle Dokunan Sözler script/cache version mismatch");
 const inspirationItems = [...inspiration.matchAll(/\{id:"[ha]\d+"/g)];
 if (inspirationItems.length < 24) throw new Error("Daily inspiration library must contain at least 24 entries");
 if (!inspiration.includes('console.info("Gönle Dokunan Sözler hazır:"') || !inspiration.includes('root.addEventListener("click"') || !inspiration.includes('#inspirationSearch') || inspiration.includes("inspirationSelect")) throw new Error("Inspiration picker must use the interactive searchable list");
