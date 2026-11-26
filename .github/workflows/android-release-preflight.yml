@@ -138,7 +138,7 @@ jobs:
               raise SystemExit("Google official test banner configuration is missing")
           if "ca-app-pub-6907269049535125/1953987053" in ads:
               raise SystemExit("Production banner ID must remain disabled before device and consent testing")
-          allowed_match = re.search(r"const AD_ALLOWED_PAGES = new Set\\(\\[(.*?)\\]\\);", ads, re.S)
+          allowed_match = re.search(r"const AD_ALLOWED_PAGES = new Set\(\[(.*?)\]\);", ads, re.S)
           if not allowed_match:
               raise SystemExit("Ad page allowlist is missing")
           allowed_pages = set(re.findall(r"['\\"]([^'\\"]+)['\\"]", allowed_match.group(1)))
