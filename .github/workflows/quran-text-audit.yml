@@ -34,7 +34,7 @@ jobs:
           node --check scripts/audit-remote-content.mjs
       - name: Verify bundled Tanzil Uthmani 1.1 text
         run: node scripts/audit-quran-text.mjs
-      - name: Verify all 114 Turkish meal and audio endpoints
+      - name: Verify all 114 Turkish meal endpoints
         run: node scripts/audit-remote-content.mjs
       - name: Upload full comparison and availability reports
         if: always()
