@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#123c32">
   <meta name="description" content="Kur'an-ı Kerim, Türkçe meal, sure dinleme ve Esma-ül Hüsna.">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css?v=55">
+  <link rel="stylesheet" href="styles.css?v=56">
   <title>Kur'an-ı Kerim</title>
 </head>
 <body>
@@ -150,6 +150,11 @@
         <div class="dhikr-actions"><button id="dhikrUndo" type="button">↶ Geri al</button><button id="dhikrReset" type="button">Sıfırla</button></div>
       </div>
       <div class="dhikr-tools"><label class="dhikr-switch"><input id="vibrationToggle" type="checkbox"><span>Titreşim</span></label><label class="dhikr-label" for="newDhikrName">Kendi zikrini ekle (isteğe bağlı)</label><div class="dhikr-add"><input id="newDhikrName" class="dhikr-input" maxlength="50" placeholder="Yeni zikir adı"><button id="addDhikr" type="button">Ekle</button></div><p class="dhikr-note">Her zikir kendi sayacı ve hedefiyle bu cihazda saklanır.</p></div>
+      <section class="dhikr-history-section" aria-labelledby="dhikrHistoryTitle">
+        <div class="dhikr-history-heading"><div><span class="eyebrow">GEÇMİŞ KAYITLAR</span><h2 id="dhikrHistoryTitle">Zikir Geçmişim</h2></div><div class="dhikr-today-total"><strong id="dhikrTodayTotal">0</strong><small>BUGÜN</small></div></div>
+        <p class="dhikr-history-note">Günlük zikirlerin ve önceki günlerin burada saklanır.</p>
+        <div id="dhikrHistoryLog" class="dhikr-history-log"><p class="dhikr-history-empty">Henüz zikir kaydı yok.</p></div>
+      </section>
     </section>
     <footer class="app-footer"><span>Uygulama Sahibi: <strong>Mehmet Şavk</strong></span><span>Sürüm: <strong id="appVersion">...</strong></span></footer>
   </main>
@@ -160,9 +165,9 @@
     <button class="nav-item" data-go="listen"><span>♫</span><small>Dinle</small></button>
     <button class="nav-item" data-go="names"><span>99</span><small>Esma</small></button>
   </nav>
-  <script src="app.js?v=55"></script>
+  <script src="app.js?v=56"></script>
   <script src="listen.js?v=2"></script>
   <script src="esma.js?v=7"></script>
-  <script src="zikirmatik.js?v=9"></script>
+  <script src="zikirmatik.js?v=10"></script>
 </body>
 </html>
