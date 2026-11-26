@@ -6,6 +6,7 @@ on:
     paths:
       - "scripts/audit-quran-text.mjs"
       - "quran-uthmani.txt"
+      - "scripts/audit-remote-content.mjs"
       - ".github/workflows/quran-text-audit.yml"
   workflow_dispatch:
 
@@ -32,10 +33,14 @@ jobs:
           node --check scripts/audit-quran-text.mjs
       - name: Verify bundled Tanzil Uthmani 1.1 text
         run: node scripts/audit-quran-text.mjs
-      - name: Upload full comparison report
+      - name: Verify all 114 Turkish meal and audio endpoints
+        run: node scripts/audit-remote-content.mjs
+      - name: Upload full comparison and availability reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: quran-uthmani-audit-report
-          path: quran-audit-report.md
+          name: quran-content-audit-reports
+          path: |
+            quran-audit-report.md
+            remote-content-audit-report.md
           if-no-files-found: ignore
