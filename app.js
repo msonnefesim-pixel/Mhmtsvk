@@ -59,6 +59,7 @@ function renderAppPage(page,view="list"){
   if(page==="continue")renderLastRead();
   if(page==="favorites")renderFavorites();
   if(page==="readingStats")renderReadingStats();
+  if(window.setNativeAdVisibility)window.setNativeAdVisibility(page,view);
   window.scrollTo({top:0,behavior:"instant"});
 }
 function showPage(name,addHistory=true){
