@@ -22,13 +22,13 @@ function render(){
  $("dhikrName").textContent=item.name;
  $("dhikrCount").textContent=String(Math.floor(item.count/Math.max(1,item.target)));
  $("dhikrTarget").value=String(item.target);
- $("dhikrProgress").style.width=Math.min(100,item.target?item.count/item.target*100:0)+"%";
- $("dhikrProgressText").textContent=item.count+" / "+item.target;
+ const cycleCount=item.count%item.target;const progressCount=item.count>0&&cycleCount===0?item.target:cycleCount;$("dhikrProgress").style.width=Math.min(100,progressCount/item.target*100)+"%";
+ $("dhikrProgressText").textContent=progressCount+" / "+item.target;
  $("dhikrHistory").replaceChildren();
  state.items.forEach(x=>{const o=document.createElement("option");o.value=x.id;o.textContent=x.name;$("dhikrHistory").append(o);});
  $("dhikrHistory").value=item.id;
  $("vibrationToggle").checked=!!state.vibrate;
- $("dhikrComplete").hidden=item.count<item.target;
+ $("dhikrComplete").hidden=!(item.count>0&&item.count%item.target===0);
 }
 $("dhikrHistory").addEventListener("change",e=>{state.active=e.target.value;save();render();});
 $("dhikrTarget").addEventListener("change",e=>{active().target=Math.max(1,Math.min(100000,Number(e.target.value)||33));save();render();});
