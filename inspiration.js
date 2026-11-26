@@ -1,8 +1,8 @@
 const INSPIRATION_ITEMS=[
 {id:"h1",type:"hadith",title:"Ameller niyetlere göredir",text:"Ameller niyetlere göredir. Herkes ancak niyet ettiğinin karşılığını alır.",source:"Buhârî, Bed’ü’l-Vahy, 1 · Müslim, İmâre, 155"},
-{id:"h2",type:"hadith",title:"Kolaylaştırın",text:"Kolaylaştırınız, zorlaştırmayınız; müjdeleyiniz, nefret ettirmeyiniz.",source:"Buhârî, İlim, 11 · Müslim, Cihâd, 6-7"},
-{id:"h3",type:"hadith",title:"Kur’an’ı öğrenmek",text:"Sizin en hayırlınız, Kur’an’ı öğrenen ve öğretendir.",source:"Tirmizî, Fedâilü’l-Kur’ân, 15 · Hadis no: 2907"},
-{id:"h4",type:"hadith",title:"Güzel söz",text:"Güzel söz sadakadır.",source:"Buhârî, Edeb, 34 · Müslim, Zekât, 56"},
+{id:"h2",type:"hadith",title:"Kolaylaştırın",text:"Kolaylaştırınız, zorlaştırmayınız; müjdeleyiniz, nefret ettirmeyiniz.",source:"Buhârî, İlim, 69 · Müslim, Cihâd, 1732"},
+{id:"h3",type:"hadith",title:"Kur’an’ı öğrenmek",text:"Sizin en hayırlınız, Kur’an’ı öğrenen ve öğretendir.",source:"Buhârî, Fedâilü’l-Kur’ân, 5027"},
+{id:"h4",type:"hadith",title:"Güzel söz",text:"Güzel söz sadakadır.",source:"Buhârî, 2989 · Müslim, 1009"},
 {id:"a1",type:"ayah",title:"İnşirah Suresi · 5-6",text:"",source:"Kur’an-ı Kerim · İnşirah Suresi, 5-6. ayetler",ayahRef:{surah:94,ayahs:[5,6]}},
 {id:"a2",type:"ayah",title:"Ra’d Suresi · 28",text:"",source:"Kur’an-ı Kerim · Ra’d Suresi, 28. ayet",ayahRef:{surah:13,ayahs:[28]}},
 {id:"a3",type:"ayah",title:"Bakara Suresi · 286",text:"",source:"Kur’an-ı Kerim · Bakara Suresi, 286. ayet",ayahRef:{surah:2,ayahs:[286]}},
