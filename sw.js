@@ -2,8 +2,9 @@
 // v71 preserves QuranEnc publisher and translation-version attribution in every meal view.
 // v72 clarifies that Esma zikir amounts are traditional, not obligatory.
 // v73 corrects the El-Vacid gloss and clarifies the status of the appended 99-name list.
-const CACHE="quran-shell-v73";
-const FILES=["./","./index.html","./styles.css?v=73","./app.js?v=73","./esma.js?v=10","./zikirmatik.js?v=10","./inspiration.js?v=7","./listen.js?v=2","./manifest.webmanifest","./icon-v2.svg"];
+// v74 refines the El-Mukit meaning against the TDV Islam Ansiklopedisi entry.
+const CACHE="quran-shell-v74";
+const FILES=["./","./index.html","./styles.css?v=74","./app.js?v=74","./esma.js?v=11","./zikirmatik.js?v=10","./inspiration.js?v=7","./listen.js?v=2","./manifest.webmanifest","./icon-v2.svg"];
 self.addEventListener("install",event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES)).then(()=>self.skipWaiting())));
 self.addEventListener("activate",event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
 self.addEventListener("fetch",event=>{
