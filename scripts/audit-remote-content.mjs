@@ -44,7 +44,7 @@ if (metaJson.code !== 200 || !Array.isArray(metaJson.data) || metaJson.data.leng
 const surahs = metaJson.data;
 
 const appSource = await readFile(new URL("../app.js", import.meta.url), "utf8");
-const duaRefs = [...appSource.matchAll(/\\{ref:"(\\d+):(\\d+)(?:-(\\d+))?",name:"([^"]+)"\\}/g)];
+const duaRefs = [...appSource.matchAll(/\{ref:"(\d+):(\d+)(?:-(\d+))?",name:"([^"]+)"\}/g)];
 if (duaRefs.length !== 15) throw new Error("Expected 15 Quran dua references, found " + duaRefs.length);
 for (const match of duaRefs) {
   const surahNo = Number(match[1]), firstAyah = Number(match[2]), lastAyah = Number(match[3] || match[2]);
