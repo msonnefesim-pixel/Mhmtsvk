@@ -48,15 +48,20 @@ for (let s = 0; s < payload.data.surahs.length; s++) {
     const referenceLine = referenceLines[referenceIndex++];
     if (typeof referenceLine !== "string") throw new Error("Tanzil reference ended before the API ayah list");
     let expectedText = referenceLine;
+    let actualText = ayah.text.replace(/^\uFEFF/, "");
     if (a === 0 && s !== 0 && s !== 8) {
-      if (!expectedText.startsWith(basmala + " ")) {
-        throw new Error(`Expected Tanzil basmala prefix missing at surah ${s + 1}`);
+      const expectedPrefix = expectedText.match(/^(بِّ?سْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ )/u);
+      const actualPrefix = actualText.match(/^(بِّ?سْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ )/u);
+      if (!expectedPrefix || !actualPrefix) throw new Error(`Opening basmala missing or unrecognized at surah ${s + 1}`);
+      if (expectedPrefix[1].normalize("NFC") !== actualPrefix[1].normalize("NFC")) {
+        comparisons.push({ surah: s + 1, ayah: 1, expected: expectedPrefix[1].trim(), actual: actualPrefix[1].trim(), kind: "opening basmala" });
       }
-      expectedText = expectedText.slice((basmala + " ").length);
+      expectedText = expectedText.slice(expectedPrefix[1].length);
+      actualText = actualText.slice(actualPrefix[1].length);
     }
-    const item = { surah: s + 1, ayah: a + 1, text: ayah.text.replace(/^\uFEFF/, "") };
+    const item = { surah: s + 1, ayah: a + 1, text: actualText };
     apiAyahs.push(item);
-    comparisons.push({ ...item, expected: expectedText.normalize("NFC"), actual: item.text.normalize("NFC") });
+    comparisons.push({ ...item, expected: expectedText.normalize("NFC"), actual: actualText.normalize("NFC"), kind: "ayah text" });
   }
 }
 if (apiAyahs.length !== 6236 || referenceIndex !== 6236) {
@@ -64,7 +69,7 @@ if (apiAyahs.length !== 6236 || referenceIndex !== 6236) {
 }
 
 const mismatches = comparisons.filter(x => x.expected !== x.actual).map(x => ({
-  surah: x.surah, ayah: x.ayah, tanzil: x.expected, alquranCloud: x.actual
+  surah: x.surah, ayah: x.ayah, kind: x.kind, tanzil: x.expected, alquranCloud: x.actual
 }));
 const report = [
   "# Qur'an Uthmani text comparison",
@@ -72,7 +77,7 @@ const report = [
   "- Reference: Tanzil Uthmani 1.1 (pinned publisher-file mirror)",
   "- Reference SHA-256: " + actualSha256,
   "- Compared edition: AlQuran Cloud `quran-uthmani`",
-  "- Comparison: ayah-by-ayah, NFC-normalized exact Unicode string comparison; no letters or diacritics stripped. Tanzil's basmala prefix before the first ayah of each surah (except Al-Fatiha and At-Tawbah) is excluded because AlQuran Cloud returns that basmala as a separate surah-opening line, not as part of ayah 1.",
+  "- Comparison: ayah-by-ayah, NFC-normalized exact Unicode string comparison; no letters or diacritics stripped. For surahs 2–8 and 10–114, the opening basmala is compared separately and then excluded from ayah 1, because AlQuran Cloud includes it at the start of the first ayah response while it is not counted as that ayah.",
   "- Reference ayahs: " + referenceLines.length,
   "- API ayahs: " + apiAyahs.length,
   "- Exact mismatches: " + mismatches.length,
@@ -81,7 +86,7 @@ const report = [
   mismatches.length ? "The following ayahs differ and require review; this report does not assume they are harmless." : "All 6,236 ayahs match the pinned Tanzil text exactly after NFC normalization.",
   "",
   ...mismatches.slice(0, 100).map(x =>
-    `### ${x.surah}:${x.ayah}\n\n- Tanzil: ${JSON.stringify(x.tanzil)}\n- AlQuran Cloud: ${JSON.stringify(x.alquranCloud)}`
+    `### ${x.surah}:${x.ayah}\n\n- Difference type: ${x.kind}\n- Tanzil: ${JSON.stringify(x.tanzil)}\n- AlQuran Cloud: ${JSON.stringify(x.alquranCloud)}`
   )
 ].join("\n");
 await writeFile("quran-audit-report.md", report, "utf8");
