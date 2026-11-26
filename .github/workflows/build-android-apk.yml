@@ -20,6 +20,8 @@ jobs:
           java-version: "21"
       - name: Install Capacitor
         run: npm install --no-audit --no-fund
+      - name: Build native AdMob bridge
+        run: npm run build:ads
       - name: Check JavaScript syntax and app structure
         run: |
           node --check app.js
@@ -33,7 +35,7 @@ jobs:
       - name: Prepare app assets
         run: |
           mkdir -p www
-          cp index.html app.js esma.js zikirmatik.js inspiration.js tesbih.js styles.css manifest.webmanifest icon-v2.svg quran-uthmani.txt quran-offline-data.json privacy.html SOURCES.md sw.js www/
+          cp index.html app.js esma.js zikirmatik.js inspiration.js tesbih.js styles.css manifest.webmanifest icon-v2.svg quran-uthmani.txt quran-offline-data.json privacy.html SOURCES.md sw.js ads.bundle.js www/
           test -s www/index.html
           test -s www/quran-uthmani.txt
           test -s www/quran-offline-data.json
@@ -41,6 +43,8 @@ jobs:
           test -s www/sw.js
       - name: Generate Android project
         run: npx cap add android
+      - name: Configure Google test AdMob application ID
+        run: node scripts/configure-admob-test.mjs
       - name: Set Android package version from package.json
         run: |
           python3 - <<'PY'
