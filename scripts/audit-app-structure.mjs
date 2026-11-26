@@ -26,6 +26,14 @@ if (new Set(esmaList.map(item => item[0])).size !== 99) throw new Error("Duplica
 if (new Set(esmaList.map(item => item[1])).size !== 99) throw new Error("Duplicate Turkish Esma name");
 if (esmaTargets.some(value => !Number.isInteger(value) || value < 1)) throw new Error("Invalid Esma repetition target");
 
+const canonicalEsma = `الله|الرحمن|الرحيم|الملك|القدوس|السلام|المؤمن|المهيمن|العزيز|الجبار|المتكبر|الخالق|البارئ|المصور|الغفار|القهار|الوهاب|الرزاق|الفتاح|العليم|القابض|الباسط|الخافض|الرافع|المعز|المذل|السميع|البصير|الحكم|العدل|اللطيف|الخبير|الحليم|العظيم|الغفور|الشكور|العلي|الكبير|الحفيظ|المقيت|الحسيب|الجليل|الكريم|الرقيب|المجيب|الواسع|الحكيم|الودود|المجيد|الباعث|الشهيد|الحق|الوكيل|القوي|المتين|الولي|الحميد|المحصي|المبدئ|المعيد|المحيي|المميت|الحي|القيوم|الواجد|الماجد|الواحد|الصمد|القادر|المقتدر|المقدم|المؤخر|الأول|الآخر|الظاهر|الباطن|الوالي|المتعالي|البر|التواب|المنتقم|العفو|الرؤوف|مالك الملك|ذو الجلال والإكرام|المقسط|الجامع|الغني|المغني|المانع|الضار|النافع|النور|الهادي|البديع|الباقي|الوارث|الرشيد|الصبور`.split("|");
+const normalizeArabic = value => value.normalize("NFKC")
+  .replace(/[\\u064B-\\u065F\\u0670\\u06D6-\\u06EDـ]/g, "")
+  .replace(/[أإآٱ]/g, "ا").replace(/ى/g, "ي").replace(/\\s+/g, " ").trim();
+if (canonicalEsma.length !== 99 || esmaList.some((item, index) => normalizeArabic(item[0]) !== normalizeArabic(canonicalEsma[index]))) {
+  throw new Error("Arabic Esma names/order differ from the popular Tirmidhi 3507 list");
+}
+
 const surahNames = extractArray(app, /const TURKISH_SURAH_NAMES=(\[[\s\S]*?\]);/, "Turkish surah names");
 if (surahNames.length !== 114 || new Set(surahNames).size !== 114) {
   throw new Error("Turkish surah names must contain 114 unique entries");
