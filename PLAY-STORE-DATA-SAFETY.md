@@ -4,6 +4,7 @@ Son kod incelemesi: 26 Kasım 2026 · Uygulama: V94
 
 ## İncelenen uygulama davranışı
 - Hesap oluşturma veya oturum açma yok.
+- Android platformu, yeni Google Play uygulamalarının API 36 hedef şartı nedeniyle Capacitor 8.5.3 sürüm ailesine yükseltildi; bu hat Android 16 / API 36 ve minimum API 24 hedefler.
 - Android uygulama bağımlılıklarına Google Mobile Ads (AdMob) SDK eklendi. İlk Android test yapılandırması yalnızca Google'ın resmî test uygulama ve banner reklam kimliklerini kullanır; gerçek reklam kimlikleri henüz eklenmedi.
 - Native reklam köprüsü yalnızca Android platformunda çalışır. Web/PWA sürümünde AdMob SDK başlatılmaz.
 - Reklam rızası UMP üzerinden sorgulanır; yalnızca SDK'nın canRequestAds değeri true olduğunda reklam isteği yapılır.
@@ -22,7 +23,7 @@ Bu nedenle nihai Play Console formunda “hiç veri toplanmıyor” veya “hiç
 
 ## Android paket kontrolü durumu
 - Android derleme iş akışına, üretilecek birleştirilmiş AndroidManifest.xml içindeki izinleri ve releaseRuntimeClasspath bağımlılık ağacını raporlayan denetim adımı eklendi.
-- Android release preflight iş akışı, APK/AAB üretmeden Android projesini oluşturup manifest ve bağımlılık denetimi yapacak şekilde hazırlandı.
+- Android release preflight iş akışı, APK/AAB üretmeden Android projesini oluşturup manifest ve bağımlılık denetimi yapacak şekilde hazırlandı. Denetim artık yeni uygulama için targetSdkVersion 36 ve minSdkVersion 24 şartlarını da doğruluyor.
 - Preflight sonucu henüz tamamlanmadı; nihai manifest ve SDK raporu görülmeden denetim başarılı kabul edilmeyecek.
 
 ## Mevcut sınırlama
