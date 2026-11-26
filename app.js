@@ -6,7 +6,7 @@ const MEAL_API="https://quranenc.com/api/v1";
 const MEAL_KEY="turkish_rwwad";
 const MEAL_VERSION="1.0.4";
 let ayahObserver=null;
-const pages={home:"homePage",quran:"quranPage",duas:"duasPage",listen:"listenPage",names:"namesPage",continue:"continuePage"};
+const pages={home:"homePage",quran:"quranPage",duas:"duasPage",listen:"listenPage",names:"namesPage",continue:"continuePage",zikirmatik:"zikirmatikPage"};
 let surahs=[];
 let appCurrentPage="home";
 let appCurrentView="list";
@@ -127,4 +127,4 @@ async function showDua(index){
 }
 
 loadSurahList();
-if("serviceWorker"in navigator&&location.protocol.startsWith("http"))window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=32",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{}));
+if("serviceWorker"in navigator&&location.protocol.startsWith("http"))window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=33",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{}));
