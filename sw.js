@@ -9,8 +9,9 @@
 // v78 aligns all 99 short Esma meanings with the TDV alphabetical glossary.
 // v79 strengthens per-ayah Quran integrity checks and updates privacy disclosures.
 // v80 displays each surah-opening basmala separately from ayah 1.
-const CACHE="quran-shell-v80";
-const FILES=["./","./index.html","./styles.css?v=80","./app.js?v=80","./esma.js?v=15","./zikirmatik.js?v=10","./inspiration.js?v=7","./listen.js?v=2","./manifest.webmanifest","./icon-v2.svg"];
+// v81 adds meal attribution to saved ayah cards and Esma meaning source credit.
+const CACHE="quran-shell-v81";
+const FILES=["./","./index.html","./styles.css?v=81","./app.js?v=81","./esma.js?v=15","./zikirmatik.js?v=10","./inspiration.js?v=7","./listen.js?v=2","./manifest.webmanifest","./icon-v2.svg"];
 self.addEventListener("install",event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES)).then(()=>self.skipWaiting())));
 self.addEventListener("activate",event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
 self.addEventListener("fetch",event=>{
