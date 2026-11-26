@@ -105,6 +105,7 @@ if (inspirationItems.length < 24) throw new Error("Daily inspiration library mus
 if (!html.includes('id="inspirationPickerToggle"') || !html.includes('id="inspirationPickerPanel"') || !inspiration.includes("pickerPanel.hidden=true") || !inspiration.includes('pickerToggle.addEventListener("click"')) throw new Error("Inspiration picker must open and close as a collapsible list");
 if (!inspiration.includes('console.info("Gönle Dokunan Sözler hazır:"') || !inspiration.includes('root.addEventListener("click"') || !inspiration.includes('#inspirationSearch') || inspiration.includes("inspirationSelect")) throw new Error("Inspiration picker must use the interactive searchable list");
 if (!inspiration.includes("inspiration-preview-attribution") || inspiration.includes("inspiration-preview-kicker") || inspiration.includes("inspiration-preview-brand")) throw new Error("Share-card image must contain only quote and short attribution");
+// Keep the selector regression check explicit: it must start closed and be opened by its own button.
 console.log([
   "App structure audit passed",
   "- Esma: 99 complete entries, 99 unique Arabic spellings, 99 unique Turkish names, 99 positive repetition targets",
