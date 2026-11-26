@@ -40,12 +40,12 @@
 ## Sesli sureler
 - Kodda kullanılan akış adresi: `https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/{sure_no}.mp3` (Islamic Network ses CDN'si; Alafasy okuyucu koleksiyonu).
 - AlQuran Cloud koşulları ses kayıtlarının telifinin okuyucuya ait olduğunu; kişisel/eğitsel kullanım için akışa izin verildiğini ve ticari üründe okuyucunun kaldırma talebinde bulunabileceğini belirtir: https://alquran.cloud/terms-and-conditions
-- Durum: Teknik akış adresi seçilmiş; ticari kullanım/Google Play için açık izin veya uygun lisans henüz teyit edilmedi.
+- 26.11.2026 tarihli otomatik taramada 114/114 MP3 adresi HTTP ve ses içerik türü bakımından erişilebilir bulundu. Bu yalnızca teknik erişim kontrolüdür; okuyucu/ kayıt sahibinin ticari/Google Play dağıtım izni değildir.\n- Durum: Teknik erişim doğrulandı; ticari kullanım/Google Play için açık izin veya uygun lisans henüz teyit edilmedi.
 
 ## Yayın öncesi açık işler
 - [x] Arapça dosyanın Tanzil Uthmani 1.1 yayın kopyasıyla bayt bayt eşleşmesi, 6.236 ayet satırı, 114 sure ve besmele sınırı otomatik kontrolü.\n- [ ] Bağımsız ikinci Mushaf/uzman-hafız tarafından son okuma (otomatik aynı-kaynak kontrolünden ayrı bir onaydır).
 - [x] Esma-ül Hüsna 99 isim ve 99 zikir hedefi sayısı; 99 kısa anlam TDV İslâm Ansiklopedisi alfabetik tabloyla karşılaştırıldı.\n- [ ] Arapça yazılış ve Türkçe okunuşların uzman/hoca tarafından tek tek son kontrolü
 - [ ] Ses kayıtları için Google Play/ticari dağıtımın kapsamına uygun yazılı izin veya lisans (AlQuran Cloud koşulları, okuyucuya telif hakkı tanındığını ve ticari üründe kaldırma talep edilebileceğini söylüyor)
 - [x] QuranEnc yeniden yayımlama şartları (değiştirmeme, yayıncı/kaynak, sürüm, dipnot, güncel sürüm, reklam koşulları) kod ve arayüzle karşılaştırıldı; uygulamada reklam yok. Kaynakta değişiklik notu eklenirse QuranEnc'e ayrıca bildirilmelidir.
-- [x] Web/PWA gizlilik politikası; AlQuran Cloud, QuranEnc, Islamic Network ses CDN'si, cihaz içi depolama ve kullanıcının başlattığı paylaşım akışları eklendi.
+- [x] Web/PWA gizlilik politikası; yerel Tanzil metni, AlQuran Cloud sure metadata, QuranEnc meal, Islamic Network ses CDN'si, cihaz içi depolama ve kullanıcının başlattığı paylaşım akışları eklendi.
 - [ ] Nihai Android paketi ve Google Play Veri Güvenliği beyanını gerçek SDK/manifest/paket davranışıyla son kez inceleme
