@@ -1,22 +1,5 @@
 name: Build Android APK
 on:
-  push:
-    branches: [main]
-    paths:
-      - "capacitor.config.json"
-      - "package.json"
-      - ".github/workflows/build-android-apk.yml"
-      - "index.html"
-      - "app.js"
-      - "esma.js"
-      - "zikirmatik.js"
-      - "inspiration.js"
-      - "styles.css"
-      - "quran-uthmani.txt"
-      - "manifest.webmanifest"
-      - "icon-v2.svg"
-      - "sw.js"
-      - "SOURCES.md"
   workflow_dispatch:
 permissions:
   contents: read
