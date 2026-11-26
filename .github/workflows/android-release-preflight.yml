@@ -126,6 +126,18 @@ jobs:
           if f'versionName "{package["version"]}"' not in g or f"versionCode {expected_code}" not in g:
               raise SystemExit("Android version does not match package.json")
           print("Package ID, Android version, and API 36 target verified.")
+          app_meta = root.find("application/meta-data[@android:name='com.google.android.gms.ads.APPLICATION_ID']", {"android": "http://schemas.android.com/apk/res/android"})
+          if app_meta is None or app_meta.attrib.get(ns + "value") != "@string/admob_app_id":
+              raise SystemExit("AdMob application metadata is missing")
+          strings_path = Path("android/app/src/main/res/values/strings.xml")
+          strings_text = strings_path.read_text()
+          if "ca-app-pub-3940256099942544~3347511713" not in strings_text:
+              raise SystemExit("Official Google test AdMob application ID is missing")
+          deps = Path("android-release-dependencies.txt").read_text()
+          if "play-services-ads:" not in deps or "user-messaging-platform:" not in deps or "project :capacitor-community-admob" not in deps:
+              raise SystemExit("AdMob SDK or UMP dependency is missing from release graph")
+          Path("android-release-admob-strings.xml").write_bytes(strings_path.read_bytes())
+          print("Google test AdMob app ID, Google Mobile Ads SDK, and UMP verified.")
           PY
           test -s android-release-dependencies.txt
           echo "Preflight passed. No APK or AAB was built."
@@ -136,5 +148,6 @@ jobs:
           path: |
             android-release-dependencies.txt
             android-release-merged-manifest.xml
+            android-release-admob-strings.xml
           if-no-files-found: error
           retention-days: 7
