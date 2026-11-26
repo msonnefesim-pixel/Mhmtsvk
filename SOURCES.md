@@ -34,7 +34,7 @@
 ## Esma-ül Hüsna
 - Uygulamadaki liste, Tirmizî 3507'de yer alan ve yaygınlaşan 99 isim tertibidir: https://sunnah.com/tirmidhi:3507. TDV İslâm Ansiklopedisi, isim listesinin hadisin ikinci kısmında yalnız Tirmizî ve İbn Mâce rivayetlerinde bulunduğunu; birçok âlimin listenin râvi tarafından eklendiği görüşünde olduğunu ve iki rivayetteki listelerin farklılaştığını aktarır: https://islamansiklopedisi.org.tr/esma-i-husna. Bu nedenle uygulama listeyi tek ve tartışmasız tertip olarak sunmaz.
 - Bu nedenle uygulamadaki liste “Allah'ın yalnızca 99 ismi vardır” veya “bu sıralama tartışmasız biçimde Peygamberimizden aynen nakledilmiştir” anlamında sunulmamalıdır.
-- Arapça yazılış, okunuş ve kısa Türkçe anlamların tek tek uzman kontrolü henüz tamamlanmadı. İlk karşılaştırmada El-Vâcid'in kısa anlamı TDV tablosuyla uyumlu olacak şekilde “Dilediğini dilediği zaman bulan; hiçbir şeye muhtaç olmayan” olarak düzeltildi.
+- Arapça yazılış, okunuş ve kısa Türkçe anlamların tek tek uzman kontrolü henüz tamamlanmadı. TDV İslâm Ansiklopedisi'nin alfabetik anlam tablosuyla ilk karşılaştırma kapsamında El-Vâcid, El-Mukît ve v77'de El-Cebbâr, El-Kâbıd, El-Bâsıt, El-Hakem, El-Gafûr, Es-Samed, El-Mâni ve Ez-Zâhir açıklamaları gözden geçirilip kaynak anlamlarına yaklaştırıldı. Bu çalışma 99 ismin tamamının uzman kontrolünden geçtiği anlamına gelmez.
 - Zikir hedefleri, kaynakta aktarılan ebced temelli uygulama adetleridir; dinen zorunlu veya sahih hadisle sabit sayılar değildir. Allah ismi için gösterilen 66 da farz, sünnet veya zorunlu günlük hedef değildir.
 
 ## Sesli sureler
