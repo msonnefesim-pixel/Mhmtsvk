@@ -7,7 +7,7 @@ function load(){
  let x;try{x=JSON.parse(localStorage.getItem(KEY)||"null");}catch{}
  if(!x||!Array.isArray(x.items))x={items:[],active:"preset-subhanallah",vibrate:false};
  const old=x.items||[];
- const ready=PRESETS.map(p=>{const found=old.find(i=>i.id===p.id);return found?{...p,...found,name:p.name,target:p.id==="preset-tehlil-tam"?100:(found.target||p.target),count:Number(found.count)||0}:{...p,count:0};});
+ const ready=PRESETS.map(p=>{const found=old.find(i=>i.id===p.id);return found?{...p,...found,name:p.name,target:found.target===1&&p.target!==1?p.target:(found.target||p.target),count:Number(found.count)||0}:{...p,count:0};});
  const custom=old.filter(i=>i&&typeof i==="object"&&!PRESETS.some(p=>p.id===i.id));
  x.items=[...ready,...custom];
  if(!x.items.some(i=>i.id===x.active))x.active="preset-subhanallah";
