@@ -45,23 +45,33 @@ jobs:
         run: |
           python3 - <<'PY'
           import json
-          import re
           from pathlib import Path
 
-          package = json.loads(Path("package.json").read_text())
-          version = package["version"]
-          match = re.fullmatch(r"(\\d+)\\.(\\d+)\\.(\\d+)", version)
-          if not match:
+          version = json.loads(Path("package.json").read_text())["version"]
+          parts = version.split(".")
+          if len(parts) != 3 or not all(part.isdigit() for part in parts):
               raise SystemExit(f"Invalid package version: {version}")
-          major, minor, patch = map(int, match.groups())
+          major, minor, patch = map(int, parts)
           version_code = major * 10000 + minor * 100 + patch
+
           gradle_path = Path("android/app/build.gradle")
           if not gradle_path.is_file():
               raise SystemExit("Generated android/app/build.gradle not found")
-          gradle = gradle_path.read_text()
-          gradle, code_count = re.subn(r"(?m)^(\\s*versionCode\\s+)\\d+\\s*$",
-                                       rf"\\g<1>{version_code}", gradle, count=1)
-          gradle, name_count = re.subn(r'(?m)^(\\s*versionName\\s+)[\'"][^\'"]+[\'"]\\s*      - name: Audit generated Android manifest and SDK dependencies
+          lines = gradle_path.read_text().splitlines()
+          code_index = next((i for i, line in enumerate(lines)
+                             if line.strip().startswith("versionCode ")), None)
+          name_index = next((i for i, line in enumerate(lines)
+                             if line.strip().startswith("versionName ")), None)
+          if code_index is None or name_index is None:
+              raise SystemExit("Could not find versionCode/versionName in generated Gradle file")
+          code_prefix = lines[code_index][:len(lines[code_index]) - len(lines[code_index].lstrip())]
+          name_prefix = lines[name_index][:len(lines[name_index]) - len(lines[name_index].lstrip())]
+          lines[code_index] = code_prefix + f"versionCode {version_code}"
+          lines[name_index] = name_prefix + f'versionName "{version}"'
+          gradle_path.write_text("\n".join(lines) + "\n")
+          print(f"Android versionName={version}, versionCode={version_code}")
+          PY
+      - name: Audit generated Android manifest and SDK dependencies
         run: |
           cd android
           ./gradlew :app:processReleaseMainManifest
