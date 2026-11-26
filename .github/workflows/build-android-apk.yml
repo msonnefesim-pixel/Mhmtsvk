@@ -43,6 +43,41 @@ jobs:
         run: npx cap add android
       - name: Sync Android project
         run: npx cap sync android
+      - name: Audit generated Android manifest and SDK dependencies
+        run: |
+          python3 - <<'PY'
+          import re
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+
+          manifest = Path("android/app/src/main/AndroidManifest.xml")
+          assert manifest.is_file(), "AndroidManifest.xml was not generated"
+          root = ET.parse(manifest).getroot()
+          android_ns = "{http://schemas.android.com/apk/res/android}"
+          permissions = sorted({
+              node.attrib.get(android_ns + "name", "")
+              for node in root.findall("uses-permission")
+          } - {""})
+          print("Android permissions:", permissions or "none")
+          blocked = ("READ_CONTACTS", "WRITE_CONTACTS", "ACCESS_FINE_LOCATION",
+                     "ACCESS_COARSE_LOCATION", "READ_SMS", "SEND_SMS",
+                     "READ_CALL_LOG", "READ_PHONE_STATE", "READ_EXTERNAL_STORAGE",
+                     "MANAGE_EXTERNAL_STORAGE", "CAMERA", "RECORD_AUDIO")
+          unexpected = [p for p in permissions if any(p.endswith(x) for x in blocked)]
+          if unexpected:
+              raise SystemExit("Unexpected sensitive Android permissions: " + ", ".join(unexpected))
+
+          gradle_files = [Path("android/app/build.gradle"), Path("android/app/build.gradle.kts")]
+          gradle = next((p.read_text() for p in gradle_files if p.is_file()), "")
+          if not re.search(r'applicationId\\s*[= ]\\s*["\\']com\\.mehmetsavk\\.kuranikerim["\\']', gradle):
+              raise SystemExit("Android applicationId does not match Capacitor appId")
+          print("Android applicationId: com.mehmetsavk.kuranikerim")
+          PY
+          cd android
+          ./gradlew :app:dependencies --configuration releaseRuntimeClasspath > ../android-release-dependencies.txt
+          test -s ../android-release-dependencies.txt
+          cd ..
+          echo "Release dependency report generated for publication review."
       - name: Build debug APK
         run: cd android && ./gradlew assembleDebug
       - name: Upload installable APK
