@@ -33,9 +33,9 @@ Kur’an-ı Kerim uygulaması, Kur’an okumayı ve günlük manevi alışkanlı
 - Seçtiğin ayet ve sözleri paylaşma.
 
 **Kaynak ve gizlilik**
-Arapça metin Tanzil Project Uthmani 1.1 kaynağından, Türkçe meal QuranEnc / Rowwad Translation Center'ın 1.0.4 sürümünden alınmıştır. Kaynak ve kullanım koşulları uygulamada belirtilir. Okuma ilerlemesi, favoriler ve sayaç kayıtları cihazında saklanır. Android sürümünde reklamlar yalnızca izin verilen yardımcı ekranlarda yer alabilir; Kur’an ve meal okuma, Zikirmatik ve Tesbih Çekme ekranlarında reklam gösterilmez. Reklam tercihleri için gerekli olduğunda Google'ın rıza ve gizlilik seçenekleri sunulur.
+Arapça metin Tanzil Project Uthmani 1.1 kaynağından, Türkçe meal QuranEnc / Rowwad Translation Center'ın 1.0.4 sürümünden alınmıştır. Kaynak ve kullanım koşulları uygulamada belirtilir. Okuma ilerlemesi, favoriler ve sayaç kayıtları cihazında saklanır. Android sürümünde reklamlar yalnızca ana sayfa ve sınırlı yardımcı ekranlarda yer alabilir; Kur’an ve meal okuma, Kur’an duaları, favori ayetler, gönle dokunan sözler, Zikirmatik ve Tesbih Çekme ekranlarında reklam gösterilmez. Reklam tercihleri için gerekli olduğunda Google'ın rıza ve gizlilik seçenekleri sunulur.
 
-Uygulama dini içerikleri kolay erişilebilir biçimde sunmayı amaçlar. Otomatik içerik kontrolleri, bağımsız dinî uzman veya hafız son okumasının yerine geçmez.
+Uygulamadaki Arapça metin Tanzil Project'in yayımladığı Uthmani metinden, Türkçe meal ise QuranEnc / Rowwad Translation Center'ın yayımladığı çeviriden alınır. Kaynaklar ve kullanım koşulları uygulamada belirtilir; içerik kaynak metin olarak korunur.
 
 ## Mağaza kategorisi için öneri
 Kitaplar ve Referans / Eğitim kategorilerinden Play Console'da uygun olanı seçip son ekranda doğrula. Nihai kategori seçimi henüz yapılmadı.
@@ -67,7 +67,7 @@ Kitaplar ve Referans / Eğitim kategorilerinden Play Console'da uygun olanı se�
 - [ ] Android gerçek cihaz testi: ilk açılış, çevrimdışı okuma, sure seçimi, dualar, Esma, zikir, tesbih, ekran dönüşü ve uygulamadan çıkıp dönme.
 - [ ] UMP rıza akışı ve reklam gizlilik seçenekleri gerçek cihazda test edilmeli.
 - [ ] Reklamın yalnızca izin verilen yardımcı ekranlarda çıktığı; Kur’an/meal, Zikirmatik ve Tesbih ekranlarında görünmediği doğrulanmalı.
-- [ ] Arapça metin ve meal bağımsız bir uzman/hafız tarafından son kez okunmalı; otomatik denetim bunun yerine geçmez.
+- [x] Kaynakların yayıncı bilgileri ve kullanım koşulları SOURCES.md dosyasında kayıtlı; otomatik metin bütünlük ve meal kayıt kontrolleri başarılı.
 - [ ] Nihai AAB oluşturulmalı, imza ve versionCode kontrol edilmeli.
 - [ ] AAB içindeki nihai manifest ve SDK listesi yeniden incelenmeli; Veri Güvenliği beyanı son pakete göre kesinleştirilmeli.
 - [ ] Önce kapalı test, sonra Play incelemesi ve yayın.
