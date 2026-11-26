@@ -1,8 +1,8 @@
 const INSPIRATION_ITEMS=[
-{id:"h1",type:"hadith",title:"Ameller niyetlere göredir",text:"Ameller niyetlere göredir. Herkese ancak niyet ettiğinin karşılığı vardır.",source:"Buhârî, Bed’ü’l-vahy, 1 · Müslim, İmâre, 155"},
-{id:"h2",type:"hadith",title:"Kolaylaştırın",text:"Kolaylaştırınız, zorlaştırmayınız; müjdeleyiniz, nefret ettirmeyiniz.",source:"Buhârî, İlim, 11 · Müslim, Cihâd, 6"},
-{id:"h3",type:"hadith",title:"Kur’an’ı öğrenmek",text:"Sizin en hayırlınız, Kur’an’ı öğrenen ve öğretendir.",source:"Buhârî, Fedâilü’l-Kur’ân, 21"},
-{id:"h4",type:"hadith",title:"Güzel söz",text:"Güzel söz sadakadır.",source:"Buhârî, Edeb, 34 · Müslim, Zekât, 56"},
+{id:"h1",type:"hadith",title:"Ameller niyetlere göredir",text:"Ameller niyetlere göredir. Herkese ancak niyet ettiğinin karşılığı vardır.",source:"Buhârî, 1 · Müslim, 1907"},
+{id:"h2",type:"hadith",title:"Kolaylaştırın",text:"Kolaylaştırınız, zorlaştırmayınız; müjdeleyiniz, nefret ettirmeyiniz.",source:"Buhârî, 69 · Müslim, 1734"},
+{id:"h3",type:"hadith",title:"Kur’an’ı öğrenmek",text:"Sizin en hayırlınız, Kur’an’ı öğrenen ve öğretendir.",source:"Buhârî, 5027"},
+{id:"h4",type:"hadith",title:"Güzel söz",text:"Güzel söz sadakadır.",source:"Buhârî, 2989 · Müslim, 1009"},
 {id:"a1",type:"ayah",title:"İnşirah Suresi · 5-6",text:"Şüphesiz güçlükle beraber bir kolaylık vardır. Gerçekten, güçlükle beraber bir kolaylık vardır.",source:"Kur’an-ı Kerim · İnşirah Suresi, 5-6. ayetler"},
 {id:"a2",type:"ayah",title:"Ra’d Suresi · 28",text:"Bilesiniz ki kalpler ancak Allah’ı anmakla huzur bulur.",source:"Kur’an-ı Kerim · Ra’d Suresi, 28. ayet"},
 {id:"a3",type:"ayah",title:"Bakara Suresi · 286",text:"Allah hiçbir kimseyi gücünün yetmediği bir şeyle yükümlü kılmaz.",source:"Kur’an-ı Kerim · Bakara Suresi, 286. ayet"},
