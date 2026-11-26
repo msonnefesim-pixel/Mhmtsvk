@@ -1,4 +1,5 @@
 const MEAL_VERSION="1.0.4";
+const INSPIRATION_DATA_VERSION="2.0";
 const INSPIRATION_ITEMS=[
 {id:"h1",type:"hadith",title:"Ameller niyetlere göredir",text:"Ameller niyetlere göredir. Herkes ancak niyet ettiğinin karşılığını alır.",source:"Buhârî 1 · Müslim 1907a"},
 {id:"h2",type:"hadith",title:"Kolaylaştırın",text:"Kolaylaştırınız, zorlaştırmayınız; müjdeleyiniz, nefret ettirmeyiniz.",source:"Buhârî, İlim, 69 · Müslim, Cihâd, 1732"},
@@ -8,15 +9,40 @@ const INSPIRATION_ITEMS=[
 {id:"a2",type:"ayah",title:"Ra’d Suresi · 28",text:"",source:"Kur’an-ı Kerim · Ra’d Suresi, 28. ayet",ayahRef:{surah:13,ayahs:[28]}},
 {id:"a3",type:"ayah",title:"Bakara Suresi · 286",text:"",source:"Kur’an-ı Kerim · Bakara Suresi, 286. ayet",ayahRef:{surah:2,ayahs:[286]}},
 {id:"a4",type:"ayah",title:"Zümer Suresi · 53",text:"",source:"Kur’an-ı Kerim · Zümer Suresi, 53. ayet",ayahRef:{surah:39,ayahs:[53]}}
+,{id:"h5",type:"hadith",title:"Güzel konuşmak",text:"Allah’a ve ahiret gününe iman eden ya hayır söylesin ya da sussun.",source:"Buhârî, Edeb, 31 · Müslim, Îmân, 47"}
+,{id:"h6",type:"hadith",title:"Merhamet",text:"Merhamet etmeyene merhamet olunmaz.",source:"Buhârî, Edeb, 18 · Müslim, Fedâil, 66"}
+,{id:"h7",type:"hadith",title:"Güzel ahlak",text:"Müminlerin iman bakımından en olgunu, ahlakı en güzel olanıdır.",source:"Tirmizî, Radâ, 11"}
+,{id:"h8",type:"hadith",title:"Kardeşlik",text:"Sizden biri, kendisi için istediğini kardeşi için de istemedikçe gerçek anlamda iman etmiş olmaz.",source:"Buhârî, Îmân, 7 · Müslim, Îmân, 71"}
+,{id:"h9",type:"hadith",title:"Kolaylık ve temizlik",text:"Temizlik imanın yarısıdır.",source:"Müslim, Tahâret, 1"}
+,{id:"h10",type:"hadith",title:"Gülümsemek",text:"Kardeşine tebessüm etmen senin için sadakadır.",source:"Tirmizî, Birr, 36"}
+,{id:"h11",type:"hadith",title:"Yardımlaşmak",text:"Kim bir müminin dünya sıkıntılarından birini giderirse Allah da onun kıyamet sıkıntılarından birini giderir.",source:"Müslim, Zikir, 38"}
+,{id:"h12",type:"hadith",title:"Güçlü olmak",text:"Güçlü kimse, güreşte rakibini yenen değil; öfkelendiğinde kendisine hâkim olandır.",source:"Buhârî, Edeb, 76 · Müslim, Birr, 107"}
+,{id:"h13",type:"hadith",title:"İyiliğe vesile olmak",text:"Kim bir hayra vesile olursa, o hayrı yapanın sevabı gibi sevap alır.",source:"Müslim, İmâre, 133"}
+,{id:"h14",type:"hadith",title:"Dinde nasihat",text:"Din nasihattir.",source:"Müslim, Îmân, 95"}
+,{id:"h15",type:"hadith",title:"Güzellik",text:"Allah güzeldir, güzelliği sever.",source:"Müslim, Îmân, 147"}
+,{id:"h16",type:"hadith",title:"Allah’ın yardımı",text:"Kul, kardeşinin yardımında olduğu sürece Allah da onun yardımındadır.",source:"Müslim, Zikir, 38"}
+,{id:"a5",type:"ayah",title:"Bakara Suresi · 153",text:"",source:"Kur’an-ı Kerim · Bakara Suresi, 153. ayet",ayahRef:{surah:2,ayahs:[153]}}
+,{id:"a6",type:"ayah",title:"Bakara Suresi · 186",text:"",source:"Kur’an-ı Kerim · Bakara Suresi, 186. ayet",ayahRef:{surah:2,ayahs:[186]}}
+,{id:"a7",type:"ayah",title:"Âl-i İmrân Suresi · 139",text:"",source:"Kur’an-ı Kerim · Âl-i İmrân Suresi, 139. ayet",ayahRef:{surah:3,ayahs:[139]}}
+,{id:"a8",type:"ayah",title:"Âl-i İmrân Suresi · 173",text:"",source:"Kur’an-ı Kerim · Âl-i İmrân Suresi, 173. ayet",ayahRef:{surah:3,ayahs:[173]}}
+,{id:"a9",type:"ayah",title:"İbrâhîm Suresi · 7",text:"",source:"Kur’an-ı Kerim · İbrâhîm Suresi, 7. ayet",ayahRef:{surah:14,ayahs:[7]}}
+,{id:"a10",type:"ayah",title:"Tevbe Suresi · 51",text:"",source:"Kur’an-ı Kerim · Tevbe Suresi, 51. ayet",ayahRef:{surah:9,ayahs:[51]}}
+,{id:"a11",type:"ayah",title:"Ankebût Suresi · 69",text:"",source:"Kur’an-ı Kerim · Ankebût Suresi, 69. ayet",ayahRef:{surah:29,ayahs:[69]}}
+,{id:"a12",type:"ayah",title:"Talâk Suresi · 2-3",text:"",source:"Kur’an-ı Kerim · Talâk Suresi, 2-3. ayetler",ayahRef:{surah:65,ayahs:[2,3]}}
+,{id:"a13",type:"ayah",title:"Zümer Suresi · 10",text:"",source:"Kur’an-ı Kerim · Zümer Suresi, 10. ayet",ayahRef:{surah:39,ayahs:[10]}}
+,{id:"a14",type:"ayah",title:"Hadîd Suresi · 4",text:"",source:"Kur’an-ı Kerim · Hadîd Suresi, 4. ayet",ayahRef:{surah:57,ayahs:[4]}}
+,{id:"a15",type:"ayah",title:"İnşirâh Suresi · 7-8",text:"",source:"Kur’an-ı Kerim · İnşirâh Suresi, 7-8. ayetler",ayahRef:{surah:94,ayahs:[7,8]}}
+,{id:"a16",type:"ayah",title:"Bakara Suresi · 152",text:"",source:"Kur’an-ı Kerim · Bakara Suresi, 152. ayet",ayahRef:{surah:2,ayahs:[152]}}
+
 ];
 (()=>{
 const root=document.getElementById("inspirationPage");
-if(!root)return;
+if(!root){console.error("Gönle Dokunan Sözler bölümü bulunamadı.");return;}
 const select=root.querySelector("#inspirationSelect"),preview=root.querySelector("#inspirationPreview"),listRoot=root.querySelector("#inspirationList");
 const theme=root.querySelector("#inspirationTheme"),size=root.querySelector("#inspirationSize"),format=root.querySelector("#inspirationFormat");
 const shareButton=root.querySelector("#inspirationShare"),downloadButton=root.querySelector("#inspirationDownload");
 const textNode=preview?.querySelector(".inspiration-preview-text"),attribution=preview?.querySelector(".inspiration-preview-attribution"),reference=root.querySelector("#inspirationReference");
-if(!select||!preview||!listRoot||!theme||!size||!format||!shareButton||!downloadButton||!textNode||!attribution||!reference)return;
+if(!select||!preview||!listRoot||!theme||!size||!format||!shareButton||!downloadButton||!textNode||!attribution||!reference){console.error("Gönle Dokunan Sözler: gerekli ekran öğeleri eksik.");return;}
 let filter="all",current=INSPIRATION_ITEMS[0],selectionToken=0;
 const mealCache=new Map();
 const attributionFor=item=>item.type==="hadith"?"Hz. Muhammed (s.a.v.)":"Kur’an-ı Kerim ayeti";
@@ -29,7 +55,7 @@ function setButtons(){
   const kind=document.createElement("small");kind.textContent=item.type==="hadith"?"HADİS":"AYET";
   const title=document.createElement("strong");title.textContent=item.title;
   button.append(kind,title);
-  button.addEventListener("click",()=>{current=item;fillSelect();setButtons();render();});
+  button.addEventListener("click",event=>{event.preventDefault();current=item;fillSelect();setButtons();render();});
   listRoot.append(button);
  });
 }
@@ -62,7 +88,7 @@ async function render(){
 }
 function updateList(){fillSelect();setButtons();render();}
 document.querySelectorAll("[data-inspiration-filter]").forEach(button=>button.addEventListener("click",()=>{filter=button.dataset.inspirationFilter;document.querySelectorAll("[data-inspiration-filter]").forEach(tab=>tab.classList.toggle("active",tab===button));updateList();}));
-select.addEventListener("change",()=>{current=INSPIRATION_ITEMS.find(item=>item.id===select.value)||current;setButtons();render();});
+select.addEventListener("change",()=>{const chosen=INSPIRATION_ITEMS.find(item=>item.id===select.value);if(!chosen)return;current=chosen;setButtons();render();});
 [theme,size,format].forEach(control=>control.addEventListener("change",render));
 function wrapText(ctx,text,maxWidth,fontSize){
  let font=fontSize,lines=[];
@@ -95,4 +121,5 @@ async function share(){
 shareButton.addEventListener("click",share);
 downloadButton.addEventListener("click",async()=>{try{const blob=await makeImage();if(blob)download(blob);}catch(error){alert(error.message||"Görsel hazırlanamadı.");}});
 updateList();
+console.info("Gönle Dokunan Sözler hazır:",INSPIRATION_ITEMS.length,"içerik");
 })();
