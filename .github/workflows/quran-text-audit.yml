@@ -12,6 +12,7 @@ on:
       - "index.html"
       - "esma.js"
       - "zikirmatik.js"
+      - "tesbih.js"
       - "inspiration.js"
       - "styles.css"
       - "sw.js"
@@ -37,6 +38,7 @@ jobs:
           node --check app.js
           node --check esma.js
           node --check zikirmatik.js
+          node --check tesbih.js
           node --check inspiration.js
           node --check scripts/audit-quran-text.mjs
           node --check scripts/audit-remote-content.mjs
