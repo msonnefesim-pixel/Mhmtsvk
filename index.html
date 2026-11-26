@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#123c32">
   <meta name="description" content="Kur'an-ı Kerim, Türkçe meal, sure dinleme ve Esma-ül Hüsna.">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css?v=52">
+  <link rel="stylesheet" href="styles.css?v=53">
   <title>Kur'an-ı Kerim</title>
 </head>
 <body>
@@ -118,8 +118,20 @@
         </div>
         <div class="daily-reading-track"><span id="dailyReadingProgress"></span></div>
         <p id="dailyReadingProgressText" class="daily-reading-progress-text">0 / 20 ayet · %0</p>
+        <div class="period-reading-block">
+          <div class="period-reading-heading"><strong>📅 Haftalık Okuma Hedefi</strong><span><b id="weeklyAyahCount">0</b> ayet</span></div>
+          <div class="daily-reading-target"><label for="weeklyReadingTarget">Haftalık ayet hedefin</label><div><input id="weeklyReadingTarget" type="number" min="1" max="604" value="100"><span>ayet</span></div></div>
+          <div class="daily-reading-track"><span id="weeklyReadingProgress"></span></div>
+          <p id="weeklyReadingProgressText" class="daily-reading-progress-text">0 / 100 ayet · %0</p>
+        </div>
+        <div class="period-reading-block">
+          <div class="period-reading-heading"><strong>🗓️ Aylık Okuma Hedefi</strong><span><b id="monthlyAyahCount">0</b> ayet</span></div>
+          <div class="daily-reading-target"><label for="monthlyReadingTarget">Aylık ayet hedefin</label><div><input id="monthlyReadingTarget" type="number" min="1" max="604" value="400"><span>ayet</span></div></div>
+          <div class="daily-reading-track"><span id="monthlyReadingProgress"></span></div>
+          <p id="monthlyReadingProgressText" class="daily-reading-progress-text">0 / 400 ayet · %0</p>
+        </div>
       </div>
-      <p class="source-note">Aynı ayet bugün birden fazla kez görüntülense de bir kez sayılır. Günlük sayım gece yarısı yeni günle birlikte sıfırlanır.</p>
+      <p class="source-note">Aynı ayet ilgili dönemde bir kez sayılır. Günlük hedef her gün, haftalık hedef her pazartesi ve aylık hedef her ayın ilk günü otomatik yenilenir.</p>
     </section>
     <section class="page" id="continuePage">
       <div class="page-heading"><span class="eyebrow">OKUMAYA DEVAM ET</span><h1>Kaldığım Yer</h1></div>
@@ -148,7 +160,7 @@
     <button class="nav-item" data-go="listen"><span>♫</span><small>Dinle</small></button>
     <button class="nav-item" data-go="names"><span>99</span><small>Esma</small></button>
   </nav>
-  <script src="app.js?v=52"></script>
+  <script src="app.js?v=53"></script>
   <script src="listen.js?v=2"></script>
   <script src="esma.js?v=7"></script>
   <script src="zikirmatik.js?v=9"></script>
