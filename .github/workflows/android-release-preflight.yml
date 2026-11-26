@@ -103,6 +103,11 @@ jobs:
           root = ET.parse(manifests[0]).getroot()
           Path("android-release-merged-manifest.xml").write_bytes(manifests[0].read_bytes())
           ns = "{http://schemas.android.com/apk/res/android}"
+          sdk = root.find("uses-sdk")
+          if sdk is None or sdk.attrib.get(ns + "targetSdkVersion") != "36":
+              raise SystemExit("New Google Play app must target Android 16 / API 36")
+          if sdk.attrib.get(ns + "minSdkVersion") != "24":
+              raise SystemExit("Capacitor 8 Android minimum SDK should be API 24")
           tags = ("uses-permission", "uses-permission-sdk-23")
           perms = sorted({n.attrib.get(ns+"name","") for t in tags for n in root.findall(t)}-{""})
           print("Merged Android permissions:", perms or "none")
@@ -120,7 +125,7 @@ jobs:
           expected_code = parts[0]*10000 + parts[1]*100 + parts[2]
           if f'versionName "{package["version"]}"' not in g or f"versionCode {expected_code}" not in g:
               raise SystemExit("Android version does not match package.json")
-          print("Package ID and Android version verified.")
+          print("Package ID, Android version, and API 36 target verified.")
           PY
           test -s android-release-dependencies.txt
           echo "Preflight passed. No APK or AAB was built."
