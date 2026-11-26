@@ -38,6 +38,9 @@
 - v78'de 99 ismin kısa Türkçe anlamları, TDV İslâm Ansiklopedisi'nin Tirmizî tertibine ait alfabetik anlam tablosuyla satır satır karşılaştırılarak TDV'nin kısa açıklamaları esas alınacak biçimde hizalandı: https://islamansiklopedisi.org.tr/esma-i-husna (özellikle alfabetik tablo). Bu, uzman/hoca onayı veya bütün Arapça harekelerin bağımsız Mushaf kontrolü değildir. Türkçe okunuşların akademik transkripsiyonla tek tek uzman denetimi ayrıca sürmektedir.
 - Zikir hedefleri, kullanıcının seçtiği İslamiyet.gen.tr sayfasındaki “Günde Zikir Sayısı” değerlerinden aktarılmıştır: https://islamiyet.gen.tr/allah-c-c/allah-azze-ve-cellenin-99-ismi-esma-ul-husna-sir-ve-faziletleri-kac-kere-zikir-edilmeli.html (22.04.2015). Bu, geleneksel uygulama derlemesidir; kaynaklar arasında sayılar değişebilir ve her değer doğrudan ebced değeri değildir. Sayılar Diyanet tarafından belirlenmiş, farz/sünnet veya sahih hadisle sabit hedefler değildir. Allah ismi için sayfada günlük hedef bulunmaz; uygulamadaki 66, sayfada anlatılan özel uygulama adedidir ve zorunlu günlük hedef değildir. Sayfa içindeki fazilet/sonuç iddiaları uygulamaya aktarılmamıştır.
 
+
+- V94 arayüz güncellemesi: mevcut zikirmatikten ayrı, 33 boncuklu animasyonlu tesbih ekranı eklendi. Sayaç 33, 66 ve 99'da cihaz titreşimini destekler; toplam sayaç değeri yalnızca cihazın yerel depolamasında saklanır. Bu özellik yeni bir hesap veya geliştirici sunucusuna veri aktarımı oluşturmaz.
+
 ## Sesli sureler
 - Sesli sureler bölümü v84 sürümünde, kayıtların Google Play/ticari dağıtımı için okuyucu veya hak sahibinden açık yazılı izin doğrulanamadığı için uygulamadan ve dağıtım paketinden çıkarıldı.
 - İzin ve lisans kapsamı yazılı olarak doğrulanırsa bölüm yeniden değerlendirilebilir. Önceki teknik erişim taraması, kullanım hakkı vermez.
