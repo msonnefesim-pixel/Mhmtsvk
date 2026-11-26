@@ -32,7 +32,7 @@
 - Hadislerin Türkçe ifadeleri anlamı koruyan kısa aktarımlardır; paylaşım kartlarında kaynak künyesi görünür. Kaynak numaraları birincil hadis koleksiyonlarındaki güncel numaralandırmayla eşleştirildi.
 
 ## Esma-ül Hüsna
-- Uygulamadaki liste, Tirmizî 3507'deki yaygın 99 isim tertibidir: https://sunnah.com/tirmidhi:3507. TDV İslâm Ansiklopedisi, bu liste ekinin Tirmizî ve İbn Mâce rivayetlerinde bulunduğunu, rivayetlerdeki isim listelerinin farklılık gösterdiğini açıklar. 99 isim hadisinin ana metni ile isimlerin tek tek sıralandığı liste aynı şey değildir; TDV İslâm Ansiklopedisi, liste ekinin Tirmizî ve İbn Mâce rivayetlerinde yer aldığını, diğer bazı temel hadis kaynaklarında bulunmadığını ve listeler arasında farklılıklar olduğunu açıklar: https://islamansiklopedisi.org.tr/esma-i-husna
+- Uygulamadaki liste, Tirmizî 3507'de yer alan ve yaygınlaşan 99 isim tertibidir: https://sunnah.com/tirmidhi:3507. TDV İslâm Ansiklopedisi, 99 isim hadisinin ana metni ile tek tek isimleri sıralayan listenin aynı şey olmadığını; liste ekinin Tirmizî ve İbn Mâce rivayetlerinde bulunduğunu, diğer temel hadis kaynaklarında yer almadığını ve listeler arasında farklılıklar olduğunu açıklar: https://islamansiklopedisi.org.tr/esma-i-husna
 - Bu nedenle uygulamadaki liste “Allah'ın yalnızca 99 ismi vardır” veya “bu sıralama tartışmasız biçimde Peygamberimizden aynen nakledilmiştir” anlamında sunulmamalıdır.
 - Arapça yazılış, okunuş ve kısa Türkçe anlamların tek tek uzman kontrolü henüz tamamlanmadı.
 - Zikir hedefleri, kaynakta aktarılan ebced temelli uygulama adetleridir; dinen zorunlu veya sahih hadisle sabit sayılar değildir. Allah ismi için gösterilen 66 da farz, sünnet veya zorunlu günlük hedef değildir.
