@@ -5,7 +5,7 @@ Son kod incelemesi: 26 Kasım 2026 · Uygulama: V94
 ## İncelenen uygulama davranışı
 - Hesap oluşturma veya oturum açma yok.
 - Android platformu, yeni Google Play uygulamalarının API 36 hedef şartı nedeniyle Capacitor 8.5.3 sürüm ailesine yükseltildi; bu hat Android 16 / API 36 ve minimum API 24 hedefler.
-- Android uygulama bağımlılıklarına Google Mobile Ads (AdMob) SDK eklendi. İlk Android test yapılandırması yalnızca Google'ın resmî test uygulama ve banner reklam kimliklerini kullanır; gerçek reklam kimlikleri henüz eklenmedi.
+- Android uygulama bağımlılıklarına Google Mobile Ads (AdMob) SDK eklendi. Android manifestine geliştiricinin gerçek AdMob uygulama kimliği eklenmiştir. Banner istekleri hâlâ yalnızca Google'ın resmî test banner birimini `isTesting: true` ile kullanır; gerçek banner birimi etkinleştirilmemiştir.
 - Native reklam köprüsü yalnızca Android platformunda çalışır. Web/PWA sürümünde AdMob SDK başlatılmaz.
 - Reklam rızası UMP üzerinden sorgulanır; yalnızca SDK'nın canRequestAds değeri true olduğunda reklam isteği yapılır.
 - Banner yalnızca izin verilen yardımcı ekranlarda görünür; Kur'an metni/meal okuma ekranı ve Tesbih Çekme ekranında gizlenir.
@@ -30,8 +30,8 @@ Bu nedenle nihai Play Console formunda “hiç veri toplanmıyor” veya “hiç
 
 ## Mevcut sınırlama
 - Android proje dizini repoda saklanmıyor; GitHub Actions içinde Capacitor ile yeniden oluşturuluyor.
-- Google test reklam kimlikleri yalnızca test içindir; bunlarla gerçek gelir elde edilmez.
-- Kullanıcının AdMob hesabından gerçek uygulama kimliği ve banner birimi kimliği alınmadı.
+- Google test banner kimliği yalnızca test içindir; bununla gerçek gelir elde edilmez. Gerçek banner birimi ancak cihaz, rıza ve politika testleri tamamlandıktan sonra etkinleştirilecektir.
+- Gerçek AdMob uygulama kimliği yapılandırılmıştır. Gerçek banner birimi kimliği geliştirici tarafından sağlanmıştır ancak uygulama kodunda etkinleştirilmemiştir; test banner'ı korunmaktadır.
 - Google AdMob/UMP panelinde gerekli bölgesel rıza mesajlarının yapılandırıldığı henüz doğrulanmadı.
 - Kullanıcı isteği doğrultusunda şu aşamada APK/AAB oluşturulmamıştır; test reklam kimlikleri dışında gerçek reklam kimliği de kullanılmamaktadır.
 
