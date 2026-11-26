@@ -1,12 +1,11 @@
 # Kur'an-ı Kerim
 
-Arapça Kur'an metni, Türkçe meal, sure dinleme ve Esma-ül Hüsna bölümlerinden oluşan sade bir Android uygulaması.
+Arapça Kur'an metni, Türkçe meal, Kur'an duaları, Esma-ül Hüsna, zikir ve okuma takibi bölümlerinden oluşan mobil öncelikli uygulama.
 
 ## Geliştirme planı
 - [x] İlk mobil arayüz iskeleti
-- [ ] Güvenilir Kur'an metni ve Türkçe meal kaynağını belirleme
+- [x] Güvenilir Kur'an metni ve Türkçe meal kaynağını belirleme
 - [ ] 114 sure ve ayet ekranı
-- [ ] Sure ses oynatıcısı
 - [ ] Esma-ül Hüsna içerikleri
 - [ ] Çevrimdışı kullanım ve erişilebilirlik testleri
 - [ ] Android paketleme (AAB) ve Google Play hazırlığı
