@@ -85,7 +85,7 @@ if (!html.includes("Uygulama Sahibi:") || !html.includes("Mehmet Şavk") || !htm
 if (!zikirmatik.includes("const PRESETS=[")) throw new Error("Zikirmatik presets were not found");
 if (!html.includes('tesbih.js?v=1') || !sw.includes("./tesbih.js?v=1")) throw new Error("Tesbih script/cache version mismatch");
 for (const id of ["tesbihCount","tesbihBeads","tesbihHand","tesbihTap","tesbihReset","tesbihProgress","tesbihRounds","tesbihProgressBar","tesbihNext"]) {
-  if (!ids.has(id) || !tesbih.includes('$("' + id + '")')) throw new Error("Tesbih control is missing or not wired: " + id);
+  if (!ids.has(id) || !(tesbih.includes('$("' + id + '")') || tesbih.includes('getElementById("' + id + '")'))) throw new Error("Tesbih control is missing or not wired: " + id);
 }
 if (!tesbih.includes('navigator.vibrate([120,55,120])') || !tesbih.includes('count>=99')) throw new Error("Tesbih milestone vibration or 99-count limit is missing");
 
