@@ -391,3 +391,5 @@ body.dark .inspiration-picker-toggle small{color:#c4cbbf}
 body.dark .tesbih-art-wrap{background:radial-gradient(ellipse at center,#263d32 0%,#1b2d24 72%,transparent 100%)}
 body.dark .tesbih-count{color:#e4eddf}
 @media(prefers-reduced-motion:reduce){.tesbih-hand.is-moving,.tesbih-bead.is-current{animation:none}.tesbih-progress span{transition:none}}
+
+.ad-privacy-options{border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--green);padding:8px 12px;font:700 11px system-ui,sans-serif}
