@@ -155,10 +155,10 @@ const quranDuas=[
 {ref:"3:8",name:"Kalplerin Sapmaması Duası",meaning:"Rabbimiz! Bizi doğru yola ilettikten sonra kalplerimizi eğriltme. Bize katından rahmet bağışla. Şüphesiz Sen çok bağışlayansın."},
 {ref:"3:16",name:"Bağışlanma ve Korunma Duası",meaning:"Rabbimiz! Biz iman ettik; günahlarımızı bağışla ve bizi ateş azabından koru."},
 {ref:"7:23",name:"Hz. Âdem'in Tövbe Duası",meaning:"Rabbimiz! Biz kendimize zulmettik. Eğer bizi bağışlamaz ve bize merhamet etmezsen mutlaka ziyana uğrayanlardan oluruz."},
-{ref:"10:85",name:"Allah'a Sığınma ve Dayanma Duası",meaning:"Allah'a tevekkül ettik. Rabbimiz! Bizi zalimler topluluğu için bir sınama konusu yapma."},
+{ref:"10:85-86",name:"Allah'a Sığınma ve Dayanma Duası",meaning:"Allah'a tevekkül ettik. Rabbimiz! Bizi zalimler topluluğu için bir sınama konusu yapma."},
 {ref:"14:40",name:"Namaz ve Nesil İçin Dua",meaning:"Rabbim! Beni namazı dosdoğru kılanlardan eyle; soyumdan da böyle kimseler yetiştir. Rabbimiz, duamı kabul et."},
 {ref:"17:24",name:"Anne Babaya Merhamet Duası",meaning:"Rabbim! Küçüklüğümde onlar beni nasıl yetiştirdilerse Sen de onlara öyle merhamet et."},
-{ref:"20:25",name:"Hz. Musa'nın Kolaylık Duası",meaning:"Rabbim! Gönlüme ferahlık ver; işimi kolaylaştır."},
+{ref:"20:25-28",name:"Hz. Musa'nın Kolaylık Duası",meaning:"Rabbim! Gönlüme ferahlık ver; işimi kolaylaştır."},
 {ref:"23:109",name:"Bağışlanma ve Merhamet Duası",meaning:"Rabbimiz! İman ettik; bizi bağışla ve bize merhamet et. Sen merhametlilerin en hayırlısısın."},
 {ref:"25:74",name:"Hayırlı Aile Duası",meaning:"Rabbimiz! Eşlerimizi ve çocuklarımızı bize göz aydınlığı kıl; bizi Allah'a karşı gelmekten sakınanlara önder eyle."},
 {ref:"40:7",name:"Müminler İçin Bağışlanma Duası",meaning:"Rabbimiz! Rahmetin ve ilmin her şeyi kuşatmıştır. Tövbe edenleri ve yoluna uyanları bağışla; onları cehennem azabından koru."},
@@ -183,33 +183,45 @@ async function showDua(index){
  duaReading.replaceChildren();
  const loading=document.createElement("p");loading.className="loading-state";loading.textContent="Arapça metin ve meal yükleniyor…";duaReading.append(loading);
  try{
-  const [arabicResponse,mealResponse]=await Promise.all([
-   fetch(API+"/ayah/"+dua.ref+"/quran-uthmani"),
-   fetch(MEAL_API+"/translation/sura/"+MEAL_KEY+"/"+dua.ref.split(":")[0])
+  const match=/^(\d+):(\d+)(?:-(\d+))?$/.exec(dua.ref);
+  if(!match)throw new Error("Dua ayet aralığı tanınamadı");
+  const surahNo=Number(match[1]),firstAyah=Number(match[2]),lastAyah=Number(match[3]||match[2]);
+  if(firstAyah<1||lastAyah<firstAyah||lastAyah-firstAyah>9)throw new Error("Dua ayet aralığı geçersiz");
+  const ayahNumbers=Array.from({length:lastAyah-firstAyah+1},(_,i)=>firstAyah+i);
+  const [mealResponse,...arabicResponses]=await Promise.all([
+   fetch(MEAL_API+"/translation/sura/"+MEAL_KEY+"/"+surahNo),
+   ...ayahNumbers.map(n=>fetch(API+"/ayah/"+surahNo+":"+n+"/quran-uthmani"))
   ]);
-  if(!arabicResponse.ok||!mealResponse.ok)throw new Error("Ayet veya meal kaynağına ulaşılamadı");
-  const [arabicJson,mealJson]=await Promise.all([arabicResponse.json(),mealResponse.json()]);
-  if(arabicJson.code!==200||!arabicJson.data||!Array.isArray(mealJson.result))throw new Error("Ayet veya meal verisi eksik");
-  const data=arabicJson.data;
-  const ayahNumber=Number(dua.ref.split(":")[1]);
-  const translated=mealJson.result.find(item=>Number(item.aya)===ayahNumber);
-  if(!translated||!translated.translation)throw new Error("Seçilen ayetin Türkçe meali kaynakta bulunamadı");
+  if(!mealResponse.ok||arabicResponses.some(r=>!r.ok))throw new Error("Ayet veya meal kaynağına ulaşılamadı");
+  const [mealJson,...arabicJsons]=await Promise.all([mealResponse.json(),...arabicResponses.map(r=>r.json())]);
+  if(!Array.isArray(mealJson.result)||arabicJsons.some(j=>j.code!==200||!j.data))throw new Error("Ayet veya meal verisi eksik");
+  const meals=new Map(mealJson.result.map(item=>[Number(item.aya),item]));
+  const verses=ayahNumbers.map((n,i)=>{
+   const data=arabicJsons[i].data,translated=meals.get(n);
+   if(Number(data.numberInSurah)!==n||Number(data.surah?.number)!==surahNo||!data.text||!translated||typeof translated.translation!=="string"||!translated.translation.trim())throw new Error("Dua ayetlerinden biri tam olarak doğrulanamadı");
+   return {number:n,arabic:data.text,translation:translated.translation,footnotes:translated.footnotes||""};
+  });
   duaReading.replaceChildren();
   const title=document.createElement("h2");title.className="dua-title";title.textContent=dua.name;
-  const arabicLabel=document.createElement("div");arabicLabel.className="dua-section-label";arabicLabel.textContent="ARAPÇA · TAM AYET";
-  const arabic=document.createElement("p");arabic.className="dua-arabic";arabic.dir="rtl";arabic.lang="ar";arabic.textContent=data.text;
-  const divider=document.createElement("div");divider.className="dua-divider";
-  const mealLabel=document.createElement("div");mealLabel.className="dua-section-label";mealLabel.textContent="TÜRKÇE MEALİ";
-  const meal=document.createElement("p");meal.className="dua-meaning";meal.textContent=translated.translation;
-  const surahNo=Number(dua.ref.split(":")[0]);
-  const source=document.createElement("small");source.className="dua-reference";source.textContent=(TURKISH_SURAH_NAMES[surahNo-1]||data.surah?.englishName||"Kur'an")+" Suresi · "+ayahNumber+". ayet · Arapça: AlQuran Cloud · Meal: QuranEnc / Rowwad Translation Center";
-  duaReading.append(title,arabicLabel,arabic,divider,mealLabel,meal,source);
-  if(translated.footnotes){
-   const details=document.createElement("details");details.className="ayah-footnotes";
-   const summary=document.createElement("summary");summary.textContent="Açıklama ve dipnotlar";
-   const note=document.createElement("p");note.textContent=translated.footnotes;
-   details.append(summary,note);duaReading.append(details);
-  }
+  duaReading.append(title);
+  verses.forEach(verse=>{
+   const block=document.createElement("section");block.className="dua-verse";
+   const arabicLabel=document.createElement("div");arabicLabel.className="dua-section-label";arabicLabel.textContent="ARAPÇA · "+verse.number+". AYET";
+   const arabic=document.createElement("p");arabic.className="dua-arabic";arabic.dir="rtl";arabic.lang="ar";arabic.textContent=verse.arabic;
+   const mealLabel=document.createElement("div");mealLabel.className="dua-section-label";mealLabel.textContent="TÜRKÇE MEALİ";
+   const meal=document.createElement("p");meal.className="dua-meaning";meal.textContent=verse.translation;
+   block.append(arabicLabel,arabic,mealLabel,meal);
+   if(verse.footnotes){
+    const details=document.createElement("details");details.className="ayah-footnotes";
+    const summary=document.createElement("summary");summary.textContent="Açıklama ve dipnotlar";
+    const note=document.createElement("p");note.textContent=verse.footnotes;
+    details.append(summary,note);block.append(details);
+   }
+   duaReading.append(block);
+  });
+  const range=firstAyah===lastAyah?firstAyah+". ayet":firstAyah+"-"+lastAyah+". ayetler";
+  const source=document.createElement("small");source.className="dua-reference";source.textContent=(TURKISH_SURAH_NAMES[surahNo-1]||"Kur'an")+" Suresi · "+range+" · Arapça: AlQuran Cloud · Meal: QuranEnc / Rowwad Translation Center";
+  duaReading.append(source);
  }catch(error){
   duaReading.replaceChildren();
   const msg=document.createElement("p");msg.className="error-note";msg.textContent="Ayetin Arapça metni veya tam Türkçe meali kaynaktan doğrulanamadı. Bu nedenle eksik ya da tahminî bir meal gösterilmiyor. İnternet bağlantını kontrol edip tekrar dene.";
