@@ -25,17 +25,17 @@
 - Paylaşım kartlarındaki ayetler: İnşirah 94:5-6, Ra'd 13:28, Bakara 2:286, Zümer 39:53. Kur'an dualarında Hz. Musa'nın duası Tâhâ 20:25-28; Allah'a sığınma ve dayanma duası Yûnus 10:85-86 aralığıyla tam gösterilir.
 
 ## Hadisler
-- Ameller niyetlere göredir: Buhârî, Bed'ü'l-Vahy, 1; Müslim, İmâre, 155. Diyanet kaynağı: https://www.diyanet.gov.tr/icerik/10217
-- Kolaylaştırınız, zorlaştırmayınız: Buhârî, İlim, 11; Müslim, Cihâd, 6-7. Diyanet kaynakları: https://www.diyanet.gov.tr/icerik/10004 ve https://webdosya.diyanet.gov.tr/mevlidinebi/UserFiles/00000000-0000-0000-0000-000000000000/2023/9/20/0375dfba-0e2d-4dd5-881d-9824954288ac.pdf
-- Sizin en hayırlınız Kur'an'ı öğrenen ve öğretendir: Tirmizî, Fedâilü'l-Kur'ân, 15 (hadis no: 2907). Diyanet kaynağı: https://hadislerleislam.diyanet.gov.tr/sayfa.php?CILT=1&SAYFA=553
-- Güzel söz sadakadır: Buhârî, Edeb, 34; Müslim, Zekât, 56. Diyanet kaynağı: https://webdosyasp.diyanet.gov.tr/muftuluk/UserFiles/eskisehir/Ilceler/odunpazari/UserFiles/Files/20%20hadis_d748cd13-d9de-4b6c-8e8d-b1747d8a5b62.pdf
-- Hadislerin Türkçe ifadeleri anlamı koruyan kısa aktarımlardır; paylaşım kartlarında kaynak künyesi görünür.
+- Ameller niyetlere göredir: Buhârî 1; Müslim 1907a. Birinci rivayetin metni ve numarası: https://sunnah.com/bukhari:1 ve https://sunnah.com/muslim:1907
+- Kolaylaştırınız, zorlaştırmayınız; müjdeleyiniz, nefret ettirmeyiniz: Buhârî 69; Müslim 1732. Kaynaklar: https://sunnah.com/bukhari/3/11 ve https://sunnah.com/muslim/32/6
+- Sizin en hayırlınız, Kur'an'ı öğrenen ve öğretendir: Buhârî 5027. Kaynak: https://sunnah.com/bukhari/66/49
+- Güzel söz sadakadır: Bu ifade daha kapsamlı bir sadaka hadisinin parçasıdır; Buhârî 2989 ve Müslim 1009. Kaynaklar: https://sunnah.com/bukhari:2989 ve https://sunnah.com/muslim:1009
+- Hadislerin Türkçe ifadeleri anlamı koruyan kısa aktarımlardır; paylaşım kartlarında kaynak künyesi görünür. Kaynak numaraları birincil hadis koleksiyonlarındaki güncel numaralandırmayla eşleştirildi.
 
 ## Esma-ül Hüsna
 - Uygulamadaki liste, yaygın olarak aktarılan 99 isimlik geleneksel listedir. 99 isim hadisinin ana metni ile isimlerin tek tek sıralandığı liste aynı şey değildir; TDV İslâm Ansiklopedisi, liste ekinin Tirmizî ve İbn Mâce rivayetlerinde yer aldığını, diğer bazı temel hadis kaynaklarında bulunmadığını ve listeler arasında farklılıklar olduğunu açıklar: https://islamansiklopedisi.org.tr/esma-i-husna
 - Bu nedenle uygulamadaki liste “Allah'ın yalnızca 99 ismi vardır” veya “bu sıralama tartışmasız biçimde Peygamberimizden aynen nakledilmiştir” anlamında sunulmamalıdır.
 - Arapça yazılış, okunuş ve kısa Türkçe anlamların tek tek uzman kontrolü henüz tamamlanmadı.
-- Zikir hedefleri, ekrandaki açıklamada belirtildiği gibi geleneksel/ebced temelli uygulama adetleridir; dinen zorunlu veya sahih hadisle sabit sayılar değildir. Allah ismi için gösterilen 66 da farz, sünnet veya zorunlu günlük hedef değildir.
+- Zikir hedefleri, kaynakta aktarılan ebced temelli uygulama adetleridir; dinen zorunlu veya sahih hadisle sabit sayılar değildir. Allah ismi için gösterilen 66 da farz, sünnet veya zorunlu günlük hedef değildir.
 
 ## Sesli sureler
 - Kodda kullanılan akış adresi: `https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/{sure_no}.mp3` (Islamic Network ses CDN'si; Alafasy okuyucu koleksiyonu).
