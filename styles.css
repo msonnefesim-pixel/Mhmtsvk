@@ -243,3 +243,5 @@ body.dark .dhikr-progress{background:#405647}
 body.dark .dhikr-progress-text,body.dark .dhikr-note{color:#c0cbbf}
 body.dark .dhikr-actions button{background:#344b3c;border-color:#506653;color:#e5ebe2}
 body.dark .dhikr-complete{color:#c7e2c7}
+
+.dhikr-selected{margin:8px 0 3px;text-align:center;color:#174638;font-family:Georgia,serif;font-size:17px;font-weight:700}body.dark .dhikr-selected{color:#e8d9b5}
