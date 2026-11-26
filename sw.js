@@ -1,6 +1,7 @@
 // v70 includes corrected hadith references and clearer Esma list attribution.
-const CACHE="quran-shell-v70";
-const FILES=["./","./index.html","./styles.css?v=70","./app.js?v=70","./esma.js?v=8","./zikirmatik.js?v=10","./inspiration.js?v=6","./listen.js?v=2","./manifest.webmanifest","./icon-v2.svg"];
+// v71 preserves QuranEnc publisher and translation-version attribution in every meal view.
+const CACHE="quran-shell-v71";
+const FILES=["./","./index.html","./styles.css?v=71","./app.js?v=71","./esma.js?v=8","./zikirmatik.js?v=10","./inspiration.js?v=7","./listen.js?v=2","./manifest.webmanifest","./icon-v2.svg"];
 self.addEventListener("install",event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES)).then(()=>self.skipWaiting())));
 self.addEventListener("activate",event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
 self.addEventListener("fetch",event=>{
