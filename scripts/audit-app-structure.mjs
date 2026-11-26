@@ -79,8 +79,10 @@ for (const match of duaRefs) {
   }
 }
 
-if (!html.includes('ads.bundle.js?v=94') || !sw.includes('./ads.bundle.js?v=94')) {
-  throw new Error("Native ad bridge script or offline cache entry is missing");
+const htmlAdsVersion = html.match(/ads\.bundle\.js\?v=(\d+)/)?.[1];
+const swAdsVersion = sw.match(/\.\/ads\.bundle\.js\?v=(\d+)/)?.[1];
+if (!htmlAdsVersion || htmlAdsVersion !== swAdsVersion) {
+  throw new Error("Native ad bridge script or offline cache version is missing or mismatched");
 }
 const adPagesMatch = ads.match(/const AD_ALLOWED_PAGES = new Set\(\[([\s\S]*?)\]\);/);
 if (!adPagesMatch) throw new Error("Ad screen allowlist is missing");
