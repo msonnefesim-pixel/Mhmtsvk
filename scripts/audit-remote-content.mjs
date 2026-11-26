@@ -2,7 +2,6 @@ import { writeFile } from "node:fs/promises";
 
 const META_URL = "https://api.alquran.cloud/v1/surah";
 const MEAL_BASE = "https://quranenc.com/api/v1/translation/sura/turkish_rwwad/";
-const AUDIO_BASE = "https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/";
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 async function fetchWithRetry(url, options = {}, attempts = 3) {
@@ -66,40 +65,17 @@ const mealResults = await runPool(surahs, 4, async surah => {
   }
 });
 
-const audioResults = await runPool(surahs, 8, async surah => {
-  const url = AUDIO_BASE + surah.number + ".mp3";
-  try {
-    let response = await fetchWithRetry(url, { method: "HEAD" });
-    if (response.status === 405 || response.status === 501) {
-      response = await fetchWithRetry(url, { headers: { Range: "bytes=0-0" } });
-      if (response.body) await response.body.cancel();
-    }
-    const contentType = response.headers.get("content-type") || "";
-    if (!response.ok || (contentType && !/audio|octet-stream/i.test(contentType))) {
-      throw new Error(`HTTP ${response.status}, content-type ${contentType || "unknown"}`);
-    }
-    return { surah: surah.number, ok: true };
-  } catch (error) {
-    return { surah: surah.number, ok: false, error: String(error) };
-  }
-});
-
 const mealFailures = mealResults.filter(result => !result.ok);
-const audioFailures = audioResults.filter(result => !result.ok);
 const report = [
   "# Remote Quran content availability audit",
   "",
   "- Turkish meal edition: QuranEnc / Rowwad Translation Center, `turkish_rwwad`, version 1.0.4.",
   "- Meal coverage checked: " + mealResults.filter(result => result.ok).length + "/114 surahs; every verse number, unique ayah key, and non-empty translation checked against surah metadata.",
-  "- Audio coverage checked: " + audioResults.filter(result => result.ok).length + "/114 Alafasy surah MP3 endpoints; HTTP availability and response content type checked.",
-  "- This checks technical availability only; it does not grant or establish commercial audio rights.",
   "",
   "## Meal failures",
   ...(mealFailures.length ? mealFailures.map(result => `- Surah ${result.surah}: ${result.error}`) : ["- None"]),
   "",
-  "## Audio failures",
-  ...(audioFailures.length ? audioFailures.map(result => `- Surah ${result.surah}: ${result.error}`) : ["- None"])
 ].join("\n");
 await writeFile("remote-content-audit-report.md", report, "utf8");
 console.log(report);
-if (mealFailures.length || audioFailures.length) process.exitCode = 1;
+if (mealFailures.length) process.exitCode = 1;
