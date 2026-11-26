@@ -1,5 +1,5 @@
 const INSPIRATION_ITEMS=[
-{id:"h1",type:"hadith",title:"Ameller niyetlere göredir",text:"Ameller niyetlere göredir. Herkes ancak niyet ettiğinin karşılığını alır.",source:"Buhârî, Bed’ü’l-Vahy, 1 · Müslim, İmâre, 155"},
+{id:"h1",type:"hadith",title:"Ameller niyetlere göredir",text:"Ameller niyetlere göredir. Herkes ancak niyet ettiğinin karşılığını alır.",source:"Buhârî 1 · Müslim 1907a"},
 {id:"h2",type:"hadith",title:"Kolaylaştırın",text:"Kolaylaştırınız, zorlaştırmayınız; müjdeleyiniz, nefret ettirmeyiniz.",source:"Buhârî, İlim, 69 · Müslim, Cihâd, 1732"},
 {id:"h3",type:"hadith",title:"Kur’an’ı öğrenmek",text:"Sizin en hayırlınız, Kur’an’ı öğrenen ve öğretendir.",source:"Buhârî, Fedâilü’l-Kur’ân, 5027"},
 {id:"h4",type:"hadith",title:"Güzel söz",text:"Güzel söz sadakadır.",source:"Buhârî, 2989 · Müslim, 1009"},
