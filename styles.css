@@ -304,3 +304,23 @@ body.dark .favorite-ayah-card .ayah-meaning{color:#e0e7df}
 .listen-restart{padding:9px 13px;border:1px solid #d8bd79;border-radius:10px;background:#f7f0dc;color:#806a3d;font-size:12px;font-weight:800}
 body.dark .listen-extra-controls label{color:#c0cbbf}
 body.dark .listen-speed,body.dark .listen-restart{background:#293b30;border-color:#8d794a;color:#f0dfb2}
+
+/* Günlük okuma takibi */
+.daily-reading-card{padding:21px 18px;border:1px solid #e4d7b6;border-radius:20px;background:linear-gradient(155deg,#fffefa,#f0eee2);box-shadow:0 10px 26px rgba(18,60,50,.06)}
+.daily-reading-date{text-align:center;color:#a88743;font-size:10px;font-weight:850;letter-spacing:1.6px}
+.daily-reading-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
+.daily-reading-stats>div{display:flex;flex-direction:column;align-items:center;gap:5px;padding:16px 8px;border:1px solid #e8dfc9;border-radius:14px;background:#fffefa}
+.daily-reading-stats strong{color:#174638;font:800 34px Georgia,serif;font-variant-numeric:tabular-nums}
+.daily-reading-stats span{color:#68796b;font-size:11px;font-weight:750}
+.daily-reading-target{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:4px 0 12px;color:#405648;font-size:12px;font-weight:800}
+.daily-reading-target>div{display:flex;align-items:center;gap:7px}
+.daily-reading-target input{width:76px;padding:9px;border:1px solid #b8c9b7;border-radius:9px;background:#fffefa;color:#174638;text-align:center;font:800 15px system-ui}
+.daily-reading-track{height:11px;overflow:hidden;border-radius:20px;background:#e2e8dc}
+.daily-reading-track span{display:block;width:0;height:100%;border-radius:20px;background:linear-gradient(90deg,#174638,#c9a85c);transition:width .25s ease}
+.daily-reading-progress-text{text-align:center;margin:10px 0 0;color:#68796b;font-size:11px;font-weight:800}
+body.dark .daily-reading-card{background:linear-gradient(155deg,#1b3027,#172720);border-color:#5b5136}
+body.dark .daily-reading-stats>div{background:#20362b;border-color:#405647}
+body.dark .daily-reading-stats strong{color:#e8d9b5}
+body.dark .daily-reading-stats span,body.dark .daily-reading-target,body.dark .daily-reading-progress-text{color:#c0cbbf}
+body.dark .daily-reading-target input{background:#172720;border-color:#405647;color:#e8d9b5}
+body.dark .daily-reading-track{background:#405647}
