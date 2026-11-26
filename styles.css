@@ -324,3 +324,12 @@ body.dark .daily-reading-stats strong{color:#e8d9b5}
 body.dark .daily-reading-stats span,body.dark .daily-reading-target,body.dark .daily-reading-progress-text{color:#c0cbbf}
 body.dark .daily-reading-target input{background:#172720;border-color:#405647;color:#e8d9b5}
 body.dark .daily-reading-track{background:#405647}
+
+.period-reading-block{margin-top:22px;padding-top:18px;border-top:1px solid #e8dfc9}
+.period-reading-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:13px;color:#174638;font-size:13px}
+.period-reading-heading span{color:#9a7b3e;font-size:12px;white-space:nowrap}
+.period-reading-heading b{font-size:17px}
+.period-reading-block .daily-reading-target{margin-bottom:10px}
+body.dark .period-reading-block{border-top-color:#405647}
+body.dark .period-reading-heading{color:#e8d9b5}
+body.dark .period-reading-heading span{color:#d8bd79}
