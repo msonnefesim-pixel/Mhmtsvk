@@ -16,7 +16,7 @@
 - Sürüm: 1.0.4 (28.09.2025)
 - API: https://quranenc.com/api/v1/translation/sura/turkish_rwwad/{sure_no}
 - Uygulamada mealler kaynak metinden değiştirilmeden alınır; dipnotlar varsa gösterilir. Sure yüklenirken bütün ayet numaralarının tekil ve eksiksiz olduğu kontrol edilir.
-- Ticari yeniden yayımlama/lisans koşulları Google Play yayını öncesinde sağlayıcıdan ayrıca teyit edilmelidir.
+- QuranEnc yayın koşulları indirme ve yeniden yayımlamaya; metnin değiştirilmemesi, QuranEnc.com ve yayıncının belirtilmesi, sürüm numarasının yazılması, transcript bilgilerinin korunması, güncel sürüme geçilmesi ve uygunsuz reklam gösterilmemesi şartlarıyla izin verir: https://quranenc.com/en/home/about/conditions. Uygulama meal metnini değiştirmeden gösterir; sure, dua ve paylaşım kartlarında kaynak/sürüm bilgisi görünür. Ticari yayın öncesi reklam yerleşimi ve kullanım senaryosu ayrıca kontrol edilmelidir.
 
 ## Kur'an duaları ve paylaşım kartlarındaki ayetler
 - Arapça ayet: AlQuran Cloud `quran-uthmani`.
