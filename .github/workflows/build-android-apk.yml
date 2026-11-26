@@ -25,6 +25,7 @@ jobs:
       - name: Check JavaScript syntax and app structure
         run: |
           node --check app.js
+          node --check ads.js
           node --check esma.js
           node --check zikirmatik.js
           node --check tesbih.js
@@ -40,6 +41,7 @@ jobs:
           test -s www/quran-uthmani.txt
           test -s www/quran-offline-data.json
           test -s www/tesbih.js
+          test -s www/ads.bundle.js
           test -s www/sw.js
       - name: Generate Android project
         run: npx cap add android
