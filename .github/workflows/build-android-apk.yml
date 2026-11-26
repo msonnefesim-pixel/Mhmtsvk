@@ -45,13 +45,19 @@ jobs:
         run: npx cap sync android
       - name: Audit generated Android manifest and SDK dependencies
         run: |
+          cd android
+          ./gradlew :app:processReleaseMainManifest
+          ./gradlew :app:dependencies --configuration releaseRuntimeClasspath > ../android-release-dependencies.txt
+          cd ..
           python3 - <<'PY'
           import re
           import xml.etree.ElementTree as ET
           from pathlib import Path
 
-          manifest = Path("android/app/src/main/AndroidManifest.xml")
-          assert manifest.is_file(), "AndroidManifest.xml was not generated"
+          manifests = [p for p in Path("android/app/build/intermediates").rglob("AndroidManifest.xml")
+                       if "merged_manifest" in str(p) and "release" in str(p)]
+          assert manifests, "Merged release AndroidManifest.xml was not generated"
+          manifest = manifests[0]
           root = ET.parse(manifest).getroot()
           android_ns = "{http://schemas.android.com/apk/res/android}"
           permissions = sorted({
@@ -73,11 +79,8 @@ jobs:
               raise SystemExit("Android applicationId does not match Capacitor appId")
           print("Android applicationId: com.mehmetsavk.kuranikerim")
           PY
-          cd android
-          ./gradlew :app:dependencies --configuration releaseRuntimeClasspath > ../android-release-dependencies.txt
-          test -s ../android-release-dependencies.txt
-          cd ..
-          echo "Release dependency report generated for publication review."
+          test -s android-release-dependencies.txt
+          echo "Merged release manifest audited; release dependency report generated."
       - name: Build debug APK
         run: cd android && ./gradlew assembleDebug
       - name: Upload installable APK
