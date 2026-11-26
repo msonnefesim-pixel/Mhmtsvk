@@ -15,8 +15,7 @@ const AD_ALLOWED_PAGES = new Set([
   'continue',
   'favorites',
   'readingStats',
-  'inspiration',
-  'zikirmatik'
+  'inspiration'
 ]);
 
 let sdkReady = false;
