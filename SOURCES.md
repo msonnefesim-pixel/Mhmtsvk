@@ -1,14 +1,14 @@
 # İçerik kaynakları ve doğrulama durumu
 
 ## Arapça Kur'an metni
-- Sağlayıcı: AlQuran Cloud — https://alquran.cloud/
-- API: https://api.alquran.cloud/v1
-- Kullanılan edisyon: `quran-uthmani`
-- Kaynak koşulları: https://alquran.cloud/terms-and-conditions
-- 13.11.2026 tarihli koşullara göre Kur'an metni kullanılabilir; metin hareke ve yazımı korunarak aynen gösterilmeli ve kaynak belirtilmelidir. Metin üzerinde düzeltme veya yeniden yazım yapılmamalıdır.
-- Uygulama sure/ayet sayısı, her ayetin sure içi sıra numarası, sure numarası ve boş olmayan Arapça metin kontrolleri yapar; meal ayetlerinin tekil ve eksiksiz olmasını da denetler. Bu kontroller, bütün harf ve harekelerin bağımsız Mushaf karşılaştırmasıyla tek tek doğrulandığı anlamına gelmez. Tanzil, Medine Mushafı'nın Uthmani Unicode aktarımını sunduğunu ve metin sürümünü 1.1 olarak yayımladığını belirtir: https://tanzil.net/docs/uthmani · https://tanzil.net/docs/download.
-- Durum: Yapısal bütünlük kontrolü var; bağımsız tam Mushaf karşılaştırması henüz tamamlanmadı.
-
+- Asıl kaynak: Tanzil Project — Uthmani 1.1: https://tanzil.net/download/
+- Uygulamadaki dosya: `quran-uthmani.txt` (Tanzil'in özgün metni ve gömülü telif bildirimi değiştirilmeden korunmuştur).
+- SHA-256: `ac0724796cbbda0f4801470fbbd11d0f3c5802067bae0493466d0128b0c667af` · dosya boyutu: 1.334.737 bayt.
+- Tanzil kullanım şartları: metin aynen korunarak çoğaltılabilir; değiştirilemez; Tanzil Project kaynağı belirtilmeli, `tanzil.net` bağlantısı ve özgün telif bildirimi korunmalıdır: https://tanzil.net/docs/Text_License.
+- Uygulama, 6.236 ayet satırını yerel dosyadan okur. Sure adları ve ayet sayıları için AlQuran Cloud'un yalnızca sure metadata uç noktası kullanılır; Arapça ayet metni artık AlQuran Cloud API'sinden alınmaz.
+- Sure başındaki besmele, Fâtiha'da 1. ayetin kendisidir; Tevbe'nin başında besmele yoktur. Diğer surelerde Tanzil dosyasındaki besmele ilk satırın başında yer alır ve uygulamada ilk ayetten ayrı bir açılış satırı olarak gösterilir; metindeki harfler ve harekeler değiştirilmez.
+- Otomatik denetim, uygulamadaki dosyanın sabitlenmiş Tanzil kopyasıyla bayt bayt aynı olduğunu, 6.236 ayet satırını, 114 sure sınırını ve besmele durumlarını kontrol eder. Bu, kaynağın kendisinden bağımsız ikinci bir Mushaf veya uzman/hafız onayı değildir.
+- Durum: Tanzil'in yayınladığı Uthmani 1.1 metni birebir kopya olarak uygulamaya alındı; tam dosya bütünlük denetimi CI üzerinden yürütülüyor.
 ## Türkçe meal
 - Sağlayıcı: QuranEnc.com API — https://quranenc.com/
 - Çeviri: Türkçe Tercüme - Rowwad Translation Center
