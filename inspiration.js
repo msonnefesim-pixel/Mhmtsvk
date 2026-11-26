@@ -45,7 +45,7 @@ const theme=root.querySelector("#inspirationTheme"),size=root.querySelector("#in
 const shareButton=root.querySelector("#inspirationShare"),downloadButton=root.querySelector("#inspirationDownload");
 const textNode=preview?.querySelector(".inspiration-preview-text"),attribution=preview?.querySelector(".inspiration-preview-attribution"),reference=root.querySelector("#inspirationReference");
 if(!search||!preview||!listRoot||!theme||!size||!format||!shareButton||!downloadButton||!textNode||!attribution||!reference){console.error("Gönle Dokunan Sözler: gerekli ekran öğeleri eksik.");return;}
-let filter="all",current=INSPIRATION_ITEMS[0],selectionToken=0;
+let filter="all",searchTerm="",current=INSPIRATION_ITEMS[0],selectionToken=0;
 const mealCache=new Map();
 const attributionFor=item=>item.type==="hadith"?"Hz. Muhammed (s.a.v.)":"Kur’an-ı Kerim ayeti";
 function visibleItems(){return INSPIRATION_ITEMS.filter(item=>(filter==="all"||item.type===filter)&&(!searchTerm||(item.title+" "+item.text).toLocaleLowerCase("tr").includes(searchTerm)));}
