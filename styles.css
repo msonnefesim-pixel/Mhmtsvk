@@ -281,3 +281,18 @@ body.dark .esma-counter-label{color:#d8bd79}
 .esma-counter{margin:0;}
 .esma-counter-label{margin-top:2px;}
 body.dark .dhikr-rounds,body.dark .esma-rounds{background:#293b30;border-color:#8d794a;color:#f0dfb2;}
+
+/* Favori ayetler */
+.ayah-topline,.favorite-ayah-heading{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.ayah-favorite,.favorite-remove{width:36px;height:34px;border:1px solid #d8bd79;border-radius:10px;background:#f7f0dc;color:#a88743;font-size:22px;line-height:1}
+.ayah-favorite[aria-pressed="true"],.favorite-remove{color:#b18e45}
+.favorites-shortcut{display:block;margin:0 auto 10px;padding:8px 13px;border:1px solid #d8bd79;border-radius:10px;background:#f7f0dc;color:#806a3d;font-size:12px;font-weight:800}
+.favorites-list{display:grid;gap:12px}
+.favorite-ayah-card{padding:16px;border:1px solid #b8c9b7;border-radius:16px;background:#d3dfd1;color:#29372f}
+.favorite-ayah-heading strong{color:#8b7138;font-size:13px}
+.favorite-ayah-card .ayah-arabic{margin:14px 0}
+.favorite-ayah-card .ayah-meaning{color:#37463d}
+.favorite-open{margin-top:12px}
+body.dark .ayah-favorite,body.dark .favorite-remove,body.dark .favorites-shortcut{background:#293b30;border-color:#8d794a;color:#f0dfb2}
+body.dark .favorite-ayah-card{background:#26392f;border-color:#405647;color:#e5ebe2}
+body.dark .favorite-ayah-card .ayah-meaning{color:#e0e7df}
