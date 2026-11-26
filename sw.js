@@ -1,5 +1,5 @@
-const CACHE="quran-shell-v41";
-const FILES=["./","./index.html","./styles.css?v=41","./app.js?v=41","./esma.js?v=2","./zikirmatik.js?v=5","./listen.js?v=1","./manifest.webmanifest","./icon-v2.svg"];
+const CACHE="quran-shell-v42";
+const FILES=["./","./index.html","./styles.css?v=42","./app.js?v=42","./esma.js?v=3","./zikirmatik.js?v=6","./listen.js?v=1","./manifest.webmanifest","./icon-v2.svg"];
 self.addEventListener("install",event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES)).then(()=>self.skipWaiting())));
 self.addEventListener("activate",event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
 self.addEventListener("fetch",event=>{
