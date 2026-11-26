@@ -1,8 +1,9 @@
 import { readFile } from "node:fs/promises";
 
 const read = path => readFile(new URL("../" + path, import.meta.url), "utf8");
-const [html, app, esma, zikirmatik, inspiration] = await Promise.all([
-  read("index.html"), read("app.js"), read("esma.js"), read("zikirmatik.js"), read("inspiration.js")
+const [html, app, esma, zikirmatik, inspiration, sw, packageText, buildWorkflow] = await Promise.all([
+  read("index.html"), read("app.js"), read("esma.js"), read("zikirmatik.js"), read("inspiration.js"),
+  read("sw.js"), read("package.json"), read(".github/workflows/build-android-apk.yml")
 ]);
 
 function extractArray(source, pattern, label) {
@@ -50,6 +51,21 @@ if (!html.includes("Uygulama Sahibi:") || !html.includes("Mehmet Şavk") || !htm
   throw new Error("App owner/version footer is missing");
 }
 if (!zikirmatik.includes("const PRESETS=[")) throw new Error("Zikirmatik presets were not found");
+
+const packageVersion = JSON.parse(packageText).version;
+const appVersion = app.match(/register\("\.\/sw\.js\?v=(\d+)"/)?.[1];
+const cacheVersion = sw.match(/const CACHE="quran-shell-v(\d+)"/)?.[1];
+const htmlAppVersion = html.match(/app\.js\?v=(\d+)/)?.[1];
+const htmlStyleVersion = html.match(/styles\.css\?v=(\d+)/)?.[1];
+if (!appVersion || appVersion !== cacheVersion || appVersion !== htmlAppVersion || appVersion !== htmlStyleVersion) {
+  throw new Error("App, stylesheet and service-worker cache versions do not match");
+}
+if (packageVersion !== "0." + appVersion + ".0" || !buildWorkflow.includes("kuran-i-kerim-v" + appVersion + "-debug-apk")) {
+  throw new Error("Package version or Android artifact name does not match app version " + appVersion);
+}
+if (!sw.includes("./app.js?v=" + appVersion) || !sw.includes("./styles.css?v=" + appVersion)) {
+  throw new Error("Service worker pre-cache does not use the current app assets");
+}
 
 console.log([
   "App structure audit passed",
