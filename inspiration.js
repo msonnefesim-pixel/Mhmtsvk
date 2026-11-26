@@ -39,17 +39,16 @@ const INSPIRATION_ITEMS=[
 const root=document.getElementById("inspirationPage");
 if(!root){console.error("Gönle Dokunan Sözler bölümü bulunamadı.");return;}
 if(root.dataset.inspirationInitialized==="true")return;
-root.dataset.inspirationInitialized="true";
 root.style.pointerEvents="auto";
-const select=root.querySelector("#inspirationSelect"),preview=root.querySelector("#inspirationPreview"),listRoot=root.querySelector("#inspirationList");
+const search=root.querySelector("#inspirationSearch"),preview=root.querySelector("#inspirationPreview"),listRoot=root.querySelector("#inspirationList");
 const theme=root.querySelector("#inspirationTheme"),size=root.querySelector("#inspirationSize"),format=root.querySelector("#inspirationFormat");
 const shareButton=root.querySelector("#inspirationShare"),downloadButton=root.querySelector("#inspirationDownload");
 const textNode=preview?.querySelector(".inspiration-preview-text"),attribution=preview?.querySelector(".inspiration-preview-attribution"),reference=root.querySelector("#inspirationReference");
-if(!select||!preview||!listRoot||!theme||!size||!format||!shareButton||!downloadButton||!textNode||!attribution||!reference){console.error("Gönle Dokunan Sözler: gerekli ekran öğeleri eksik.");return;}
+if(!search||!preview||!listRoot||!theme||!size||!format||!shareButton||!downloadButton||!textNode||!attribution||!reference){console.error("Gönle Dokunan Sözler: gerekli ekran öğeleri eksik.");return;}
 let filter="all",current=INSPIRATION_ITEMS[0],selectionToken=0;
 const mealCache=new Map();
 const attributionFor=item=>item.type==="hadith"?"Hz. Muhammed (s.a.v.)":"Kur’an-ı Kerim ayeti";
-function visibleItems(){return INSPIRATION_ITEMS.filter(item=>filter==="all"||item.type===filter);}
+function visibleItems(){return INSPIRATION_ITEMS.filter(item=>(filter==="all"||item.type===filter)&&(!searchTerm||(item.title+" "+item.text).toLocaleLowerCase("tr").includes(searchTerm)));}
 function setButtons(){
  listRoot.replaceChildren();
  visibleItems().forEach(item=>{
@@ -62,12 +61,7 @@ function setButtons(){
   listRoot.append(button);
  });
 }
-function fillSelect(){
- select.replaceChildren();
- visibleItems().forEach(item=>{const option=document.createElement("option");option.value=item.id;option.textContent=(item.type==="hadith"?"Hadis · ":"Ayet · ")+item.title;select.append(option);});
- if(current&&!visibleItems().some(item=>item.id===current.id))current=visibleItems()[0]||null;
- if(current)select.value=current.id;
-}
+
 async function loadAyahMeal(item){
  if(mealCache.has(item.id))return mealCache.get(item.id);
  if(typeof window.getQuranMealForSurah!=="function")throw new Error("Çevrimdışı meal verisi hazır değil");
@@ -89,7 +83,7 @@ async function render(){
  try{const text=await loadAyahMeal(item);if(token!==selectionToken)return;item.displayText=text;textNode.textContent=text;shareButton.disabled=false;downloadButton.disabled=false;}
  catch(error){if(token!==selectionToken)return;item.displayText="";textNode.textContent="Ayet meali yüklenemedi. İnternet bağlantısını kontrol edip tekrar dene.";}
 }
-function updateList(){fillSelect();setButtons();render();}
+function updateList(){setButtons();render();}
 root.addEventListener("click",event=>{
  const tab=event.target.closest(".inspiration-tab[data-inspiration-filter]");
  if(tab&&root.contains(tab)){
@@ -100,10 +94,10 @@ root.addEventListener("click",event=>{
  const choice=event.target.closest(".inspiration-choice[data-inspiration-item]");
  if(choice&&root.contains(choice)){
   event.preventDefault();const chosen=INSPIRATION_ITEMS.find(item=>item.id===choice.dataset.inspirationItem);
-  if(chosen){current=chosen;fillSelect();setButtons();render();}
+  if(chosen){current=chosen;setButtons();render();}
  }
 });
-select.addEventListener("change",()=>{const chosen=INSPIRATION_ITEMS.find(item=>item.id===select.value);if(!chosen)return;current=chosen;setButtons();render();});
+search.addEventListener("input",()=>{searchTerm=search.value.trim().toLocaleLowerCase("tr");setButtons();});
 [theme,size,format].forEach(control=>control.addEventListener("change",render));
 function wrapText(ctx,text,maxWidth,fontSize){
  let font=fontSize,lines=[];
