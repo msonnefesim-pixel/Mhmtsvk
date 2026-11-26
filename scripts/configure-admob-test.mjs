@@ -3,7 +3,7 @@ import path from 'node:path';
 
 const manifestPath = path.join('android', 'app', 'src', 'main', 'AndroidManifest.xml');
 const stringsPath = path.join('android', 'app', 'src', 'main', 'res', 'values', 'strings.xml');
-const testApplicationId = 'ca-app-pub-3940256099942544~3347511713';
+const applicationId = 'ca-app-pub-6907269049535125~3909679513';
 
 if (!fs.existsSync(manifestPath) || !fs.existsSync(stringsPath)) {
   throw new Error('Generated Android manifest or strings.xml is missing');
@@ -22,11 +22,11 @@ if (!manifest.includes('com.google.android.gms.ads.APPLICATION_ID')) {
 fs.writeFileSync(manifestPath, manifest);
 
 let strings = fs.readFileSync(stringsPath, 'utf8');
-const entry = '<string name="admob_app_id">' + testApplicationId + '</string>';
+const entry = '<string name="admob_app_id">' + applicationId + '</string>';
 if (strings.includes('name="admob_app_id"')) {
   strings = strings.replace(/<string name="admob_app_id">[^<]*<\/string>/, entry);
 } else {
   strings = strings.replace('</resources>', '    ' + entry + '\n</resources>');
 }
 fs.writeFileSync(stringsPath, strings);
-console.log('Google demo AdMob application ID configured. Production IDs are not used.');
+console.log('User AdMob application ID configured. Google official test banner ID remains active.');
