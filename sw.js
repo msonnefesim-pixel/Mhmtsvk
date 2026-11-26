@@ -5,8 +5,9 @@
 // v74 refines the El-Mukit meaning against the TDV Islam Ansiklopedisi entry.
 // v75 refines El-Muheymiin, El-Latif, El-Vasi and Er-Reshid meanings against TDV entries.
 // v76 aligns El-Vasi meaning exactly with the TDV entry.
-const CACHE="quran-shell-v76";
-const FILES=["./","./index.html","./styles.css?v=76","./app.js?v=76","./esma.js?v=13","./zikirmatik.js?v=10","./inspiration.js?v=7","./listen.js?v=2","./manifest.webmanifest","./icon-v2.svg"];
+// v77 refines selected Esma meanings against the TDV Islam Ansiklopedisi table.
+const CACHE="quran-shell-v77";
+const FILES=["./","./index.html","./styles.css?v=77","./app.js?v=77","./esma.js?v=14","./zikirmatik.js?v=10","./inspiration.js?v=7","./listen.js?v=2","./manifest.webmanifest","./icon-v2.svg"];
 self.addEventListener("install",event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES)).then(()=>self.skipWaiting())));
 self.addEventListener("activate",event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
 self.addEventListener("fetch",event=>{
