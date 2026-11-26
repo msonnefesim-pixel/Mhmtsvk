@@ -12,8 +12,9 @@
 // v81 adds meal attribution to saved ayah cards and Esma meaning source credit.
 // v82 bundles verbatim Tanzil Uthmani 1.1 text for all Quran Arabic display.
 // v86 links Tanzil at all Arabic display points and migrates saved first-ayah favorites.
-const CACHE="quran-shell-v86";
-const FILES=["./","./index.html","./styles.css?v=86","./app.js?v=86","./esma.js?v=15","./zikirmatik.js?v=10","./inspiration.js?v=7","./manifest.webmanifest","./icon-v2.svg","./quran-uthmani.txt","./quran-offline-data.json"];
+// v87 makes quote cards visible and strips share images to quote plus concise attribution.
+const CACHE="quran-shell-v87";
+const FILES=["./","./index.html","./styles.css?v=87","./app.js?v=87","./esma.js?v=15","./zikirmatik.js?v=10","./inspiration.js?v=8","./manifest.webmanifest","./icon-v2.svg","./quran-uthmani.txt","./quran-offline-data.json"];
 self.addEventListener("install",event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES)).then(()=>self.skipWaiting())));
 self.addEventListener("activate",event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
 self.addEventListener("fetch",event=>{
