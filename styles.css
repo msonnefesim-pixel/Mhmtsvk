@@ -296,3 +296,11 @@ body.dark .dhikr-rounds,body.dark .esma-rounds{background:#293b30;border-color:#
 body.dark .ayah-favorite,body.dark .favorite-remove,body.dark .favorites-shortcut{background:#293b30;border-color:#8d794a;color:#f0dfb2}
 body.dark .favorite-ayah-card{background:#26392f;border-color:#405647;color:#e5ebe2}
 body.dark .favorite-ayah-card .ayah-meaning{color:#e0e7df}
+
+/* Sesli Kur'an: hız ve tekrar kontrolleri */
+.listen-extra-controls{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:9px;margin:14px 0 8px}
+.listen-extra-controls label{color:#68796b;font-size:11px;font-weight:800}
+.listen-speed{min-width:105px;padding:9px 11px;border:1px solid #b8c9b7;border-radius:10px;background:#f7f0dc;color:#174638;font-size:12px;font-weight:800}
+.listen-restart{padding:9px 13px;border:1px solid #d8bd79;border-radius:10px;background:#f7f0dc;color:#806a3d;font-size:12px;font-weight:800}
+body.dark .listen-extra-controls label{color:#c0cbbf}
+body.dark .listen-speed,body.dark .listen-restart{background:#293b30;border-color:#8d794a;color:#f0dfb2}
