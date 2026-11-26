@@ -14,11 +14,11 @@ function extractArray(source, pattern, label) {
 const esmaList = extractArray(esma, /const esmaList=(\[[\s\S]*?\]);\s*const esmaTargets=/, "Esma names");
 const esmaTargets = extractArray(esma, /const esmaTargets=(\[[\s\S]*?\]);\s*const namesGrid=/, "Esma targets");
 if (esmaList.length !== 99 || esmaTargets.length !== 99) {
-  throw new Error(`Esma list/target counts are ${esmaList.length}/${esmaTargets.length}, expected 99/99`);
+  throw new Error("Esma list/target counts are " + esmaList.length + "/" + esmaTargets.length + ", expected 99/99");
 }
 for (const [index, item] of esmaList.entries()) {
   if (!Array.isArray(item) || item.length !== 3 || item.some(value => typeof value !== "string" || !value.trim())) {
-    throw new Error(`Invalid Esma entry at position ${index + 1}`);
+    throw new Error("Invalid Esma entry at position " + (index + 1));
   }
 }
 if (new Set(esmaList.map(item => item[0])).size !== 99) throw new Error("Duplicate Arabic Esma spelling");
@@ -46,10 +46,10 @@ for (const match of duaRefs) {
   }
 }
 
-if (!html.includes("Uygulama sahibi: Mehmet Şavk") || !html.includes('id="appVersion"')) {
+if (!html.includes("Uygulama Sahibi:") || !html.includes("Mehmet Şavk") || !html.includes('id="appVersion"')) {
   throw new Error("App owner/version footer is missing");
 }
-if (!zikirmatik.includes('const PRESETS=[')) throw new Error("Zikirmatik presets were not found");
+if (!zikirmatik.includes("const PRESETS=[")) throw new Error("Zikirmatik presets were not found");
 
 console.log([
   "App structure audit passed",
