@@ -27,4 +27,4 @@ GitHub Actions şu kontrolleri çalıştırır:
 Otomatik kontroller, mealin anlam bakımından uzman denetimi veya bağımsız hafız/Mushaf son okuması yerine geçmez. Bu yayın öncesi kontroller ayrıca tamamlanmalıdır.
 
 ## Android derlemesi
-GitHub Actions şu anda test ve kurulum için imzalanmamış debug APK üretir. Google Play yayını için imzalı Android App Bundle (AAB), sürümleme, mağaza görselleri ve Veri Güvenliği beyanı ayrıca hazırlanmalıdır.
+APK iş akışı, son kalite kontrolleri tamamlanana kadar otomatik push derlemesi yapmayacak şekilde geçici olarak manuel tetiklemeye alınmıştır. Son aşamada imzalanmamış debug APK üretilecektir. Google Play yayını için ayrıca imzalı Android App Bundle (AAB), sürümleme, mağaza görselleri ve Veri Güvenliği beyanı hazırlanmalıdır.
