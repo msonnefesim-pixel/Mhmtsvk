@@ -14,6 +14,9 @@ Son kod incelemesi: 26 Kasım 2026 · Web uygulaması: V93
 ## Play Console için geçici değerlendirme
 Nihai Android paketi aynı davranışı ve yalnızca mevcut bağımlılıkları koruyorsa, Veri Güvenliği formunda “veri toplanmıyor” ve “veri paylaşılmıyor” yanıtları uygun olabilir. Bu bir taslak değerlendirmedir; Play Console'a henüz nihai cevap olarak girilmemelidir.
 
+## Mevcut sınırlama
+Bu incelemede varsayılan dalda `android/app/src/main/AndroidManifest.xml` veya bir Android proje dizini bulunamadı; `package.json` yalnızca Capacitor Android/Core bağımlılıklarını ve `cap sync android` komutunu tanımlıyor. Bu nedenle henüz üretilmiş Android paketi, birleştirilmiş manifest veya gerçek paket SDK listesi incelenmiş değildir. Kullanıcı isteği doğrultusunda şu aşamada APK/AAB oluşturulmamıştır.
+
 ## Yayın öncesi zorunlu Android kontrolü
 1. Üretilecek AAB/APK içindeki birleştirilmiş AndroidManifest.xml dosyasını incele.
 2. İzinleri ve bunların hangi özellik tarafından kullanıldığını kontrol et.
