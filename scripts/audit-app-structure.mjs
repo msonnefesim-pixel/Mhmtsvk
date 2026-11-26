@@ -88,6 +88,8 @@ if (!sw.includes("./app.js?v=" + appVersion) || !sw.includes("./styles.css?v=" +
   throw new Error("Service worker pre-cache does not use the current app assets");
 }
 
+if (!html.includes("inspiration.js?v=8") || !sw.includes("./inspiration.js?v=8")) throw new Error("Gönle Dokunan Sözler script/cache version mismatch");
+if (!inspiration.includes("inspiration-preview-attribution") || inspiration.includes("inspiration-preview-kicker") || inspiration.includes("inspiration-preview-brand")) throw new Error("Share-card image must contain only quote and short attribution");
 console.log([
   "App structure audit passed",
   "- Esma: 99 complete entries, 99 unique Arabic spellings, 99 unique Turkish names, 99 positive repetition targets",
