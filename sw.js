@@ -10,8 +10,9 @@
 // v79 strengthens per-ayah Quran integrity checks and updates privacy disclosures.
 // v80 displays each surah-opening basmala separately from ayah 1.
 // v81 adds meal attribution to saved ayah cards and Esma meaning source credit.
-const CACHE="quran-shell-v81";
-const FILES=["./","./index.html","./styles.css?v=81","./app.js?v=81","./esma.js?v=15","./zikirmatik.js?v=10","./inspiration.js?v=7","./listen.js?v=2","./manifest.webmanifest","./icon-v2.svg","./quran-uthmani.txt"];
+// v82 bundles verbatim Tanzil Uthmani 1.1 text for all Quran Arabic display.
+const CACHE="quran-shell-v82";
+const FILES=["./","./index.html","./styles.css?v=82","./app.js?v=82","./esma.js?v=15","./zikirmatik.js?v=10","./inspiration.js?v=7","./listen.js?v=2","./manifest.webmanifest","./icon-v2.svg","./quran-uthmani.txt"];
 self.addEventListener("install",event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES)).then(()=>self.skipWaiting())));
 self.addEventListener("activate",event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
 self.addEventListener("fetch",event=>{
