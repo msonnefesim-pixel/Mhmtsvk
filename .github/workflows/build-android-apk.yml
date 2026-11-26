@@ -69,7 +69,7 @@ jobs:
 
           gradle_files = [Path("android/app/build.gradle"), Path("android/app/build.gradle.kts")]
           gradle = next((p.read_text() for p in gradle_files if p.is_file()), "")
-          if not re.search(r'applicationId\\s*[= ]\\s*["\\']com\\.mehmetsavk\\.kuranikerim["\\']', gradle):
+          if not re.search(r'applicationId\s*[= ]\s*["\']com\.mehmetsavk\.kuranikerim["\']', gradle):
               raise SystemExit("Android applicationId does not match Capacitor appId")
           print("Android applicationId: com.mehmetsavk.kuranikerim")
           PY
