@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#123c32">
   <meta name="description" content="Kur'an-ı Kerim, Türkçe meal, sure dinleme ve Esma-ül Hüsna.">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css?v=57">
+  <link rel="stylesheet" href="styles.css?v=58">
   <title>Kur'an-ı Kerim</title>
 </head>
 <body>
@@ -30,6 +30,7 @@
         <button class="feature-card" data-go="duas"><span class="feature-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 35c4-7 7-11 11-13 2-1 4 1 3 3l-3 5 8-11c2-3 6-1 4 2l-6 10 7-8c2-2 5 1 3 3l-8 12H15z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 12c1-3 3-5 5-5s4 2 5 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span><strong>Kur'an Duaları</strong><small>Kur'an'daki duaları oku</small><span class="card-arrow">↗</span></button>
         <button class="feature-card" data-go="listen"><span class="feature-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 26v-3a16 16 0 0 1 32 0v3M8 25h7v13H11a3 3 0 0 1-3-3zM40 25h-7v13h4a3 3 0 0 0 3-3z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><strong>Sure Dinle</strong><small>Kur'an-ı Kerim tilaveti</small><span class="card-arrow">↗</span></button>
         <button class="feature-card" data-go="names"><span class="feature-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="16" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="24" cy="24" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M24 3v5M24 40v5M3 24h5M40 24h5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span><strong>Esma-ül Hüsna</strong><small>99 güzel isim</small><span class="card-arrow">↗</span></button><button class="feature-card" data-go="continue"><span class="feature-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M13 7h22v34L24 33 13 41z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/></svg></span><strong>Kaldığım Yer</strong><small>Son okunan ayet</small><span class="card-arrow">↗</span></button><button class="feature-card" data-go="zikirmatik"><span class="feature-icon"><span class="dhikr-card-icon">📿</span></span><strong>Zikirmatik</strong><small>Zikirlerini say ve kaydet</small><span class="card-arrow">↗</span></button>
+        <button class="feature-card" data-go="inspiration"><span class="feature-icon">✦</span><strong>Gönle Dokunan Sözler</strong><small>Hadisler ve seçilmiş ayetler</small><span class="card-arrow">↗</span></button>
         <button class="feature-card" data-go="readingStats"><span class="feature-icon">🌙</span><strong>Günlük Okuma Takibi</strong><small>Bugünkü okuma hedefin</small><span class="card-arrow">↗</span></button>
         <button class="feature-card" data-go="favorites"><span class="feature-icon">♡</span><strong>Favori Ayetlerim</strong><small>Kaydettiğin ayetler</small><span class="card-arrow">↗</span></button>
         
@@ -156,6 +157,19 @@
         <div id="dhikrHistoryLog" class="dhikr-history-log"><p class="dhikr-history-empty">Henüz zikir kaydı yok.</p></div>
       </section>
     </section>
+    <section class="page" id="inspirationPage">
+      <div class="page-heading"><span class="eyebrow">GÖNLE DOKUNAN SÖZLER</span><h1>Gönle Dokunan Sözler</h1><p>Peygamber Efendimizin hadisleri ve Kur’an’dan seçilmiş ayetler.</p></div>
+      <div class="inspiration-tabs" role="group" aria-label="İçerik türü"><button type="button" class="inspiration-tab active" data-inspiration-filter="all">Tümü</button><button type="button" class="inspiration-tab" data-inspiration-filter="hadith">Hadisler</button><button type="button" class="inspiration-tab" data-inspiration-filter="ayah">Ayetler</button></div>
+      <div class="inspiration-picker"><label for="inspirationSelect">Söz veya ayet seç</label><select id="inspirationSelect" class="surah-select"></select></div>
+      <div class="inspiration-preview" id="inspirationPreview"><div class="inspiration-preview-kicker">KUR'AN-I KERİM</div><div class="inspiration-preview-type">GÖNLE DOKUNAN SÖZLER</div><p class="inspiration-preview-text">Bir söz seçerek paylaşım kartını hazırla.</p><div class="inspiration-preview-source"></div><div class="inspiration-preview-brand">☾ · KUR'AN-I KERİM</div></div>
+      <div class="inspiration-customize">
+        <div><label for="inspirationTheme">Kart arka planı</label><select id="inspirationTheme" class="surah-select"><option value="green">Zümrüt yeşili</option><option value="cream">Krem ve altın</option><option value="night">Gece mavisi</option><option value="sage">Adaçayı</option></select></div>
+        <div><label for="inspirationSize">Yazı boyutu</label><select id="inspirationSize" class="surah-select"><option value="normal">Normal</option><option value="large">Büyük</option><option value="xlarge">Çok büyük</option></select></div>
+        <div><label for="inspirationFormat">Görsel boyutu</label><select id="inspirationFormat" class="surah-select"><option value="portrait">Instagram / Facebook (4:5)</option><option value="square">Kare (1:1)</option><option value="story">Hikâye (9:16)</option></select></div>
+      </div>
+      <div class="inspiration-actions"><button type="button" class="gold-button" id="inspirationShare">Görseli paylaş</button><button type="button" class="inspiration-secondary" id="inspirationDownload">Görseli kaydet</button></div>
+      <p class="source-note">Paylaş butonu telefonunun paylaşım menüsünü açar. Buradan Instagram, Facebook veya X'i seçebilirsin. Paylaşım seçenekleri telefondaki uygulamalara göre değişebilir. Hadis ve ayet kaynakları kartın üzerinde belirtilir.</p>
+    </section>
     <footer class="app-footer"><span>Uygulama Sahibi: <strong>Mehmet Şavk</strong></span><span>Sürüm: <strong id="appVersion">...</strong></span></footer>
   </main>
   <nav class="bottom-nav" aria-label="Ana gezinme">
@@ -165,9 +179,10 @@
     <button class="nav-item" data-go="listen"><span>♫</span><small>Dinle</small></button>
     <button class="nav-item" data-go="names"><span>99</span><small>Esma</small></button>
   </nav>
-  <script src="app.js?v=57"></script>
+  <script src="app.js?v=58"></script>
   <script src="listen.js?v=2"></script>
   <script src="esma.js?v=7"></script>
   <script src="zikirmatik.js?v=10"></script>
+  <script src="inspiration.js?v=1"></script>
 </body>
 </html>
