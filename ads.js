@@ -22,6 +22,7 @@ const AD_ALLOWED_PAGES = new Set([
 let sdkReady = false;
 let consentAllowsAds = false;
 let bannerVisible = false;
+let desiredVisibility = false;
 let startPromise = null;
 
 function setBannerInset(height) {
@@ -81,6 +82,7 @@ window.setNativeAdVisibility = async (page, view = 'list') => {
   const shouldShow = Capacitor.isNativePlatform() &&
     view !== 'reader' &&
     AD_ALLOWED_PAGES.has(page);
+  desiredVisibility = shouldShow;
 
   if (!shouldShow) {
     await hideNativeBanner();
@@ -88,7 +90,7 @@ window.setNativeAdVisibility = async (page, view = 'list') => {
   }
 
   const ready = await prepareAdMob();
-  if (!ready || bannerVisible) return;
+  if (!ready || !desiredVisibility || bannerVisible) return;
 
   try {
     await AdMob.showBanner({
@@ -100,6 +102,7 @@ window.setNativeAdVisibility = async (page, view = 'list') => {
       npa: true
     });
     bannerVisible = true;
+    if (!desiredVisibility) await hideNativeBanner();
   } catch (error) {
     bannerVisible = false;
     setBannerInset(0);
