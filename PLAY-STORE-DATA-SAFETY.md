@@ -8,7 +8,7 @@ Son kod incelemesi: 26 Kasım 2026 · Uygulama: V94
 - Android uygulama bağımlılıklarına Google Mobile Ads (AdMob) SDK eklendi. Android manifestine geliştiricinin gerçek AdMob uygulama kimliği eklenmiştir. Banner istekleri hâlâ yalnızca Google'ın resmî test banner birimini `isTesting: true` ile kullanır; gerçek banner birimi etkinleştirilmemiştir.
 - Native reklam köprüsü yalnızca Android platformunda çalışır. Web/PWA sürümünde AdMob SDK başlatılmaz.
 - Reklam rızası UMP üzerinden sorgulanır; yalnızca SDK'nın canRequestAds değeri true olduğunda reklam isteği yapılır.
-- Banner yalnızca izin verilen yardımcı ekranlarda görünür; Kur'an metni/meal okuma ekranı ve Tesbih Çekme ekranında gizlenir.
+- Banner yalnızca ana sayfa, Esma-ül Hüsna, kaldığım yer ve okuma istatistikleri ekranlarında gösterilebilir. Kur'an metni/meal okuma, Kur'an duaları, favori ayetler, gönle dokunan sözler, Zikirmatik ve Tesbih Çekme ekranlarında gizlenir.
 - Uygulama kodunda kullanıcı verisini geliştirici sunucusuna gönderen bir akış görünmüyor.
 - Son okunan sure/ayet, favoriler, zikir sayaçları ve geçmişi, okuma hedefleri, tema ve yazı boyutu cihazın yerel depolamasında tutuluyor.
 - Arapça metin ve Türkçe meal uygulamayla gelen yerel veri dosyalarından okunuyor. Okuma sırasında AlQuran Cloud veya QuranEnc API isteği yapılmıyor.
