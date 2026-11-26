@@ -20,12 +20,25 @@ jobs:
           java-version: "21"
       - name: Install Capacitor
         run: npm install --no-audit --no-fund
+      - name: Check JavaScript syntax and app structure
+        run: |
+          node --check app.js
+          node --check esma.js
+          node --check zikirmatik.js
+          node --check tesbih.js
+          node --check inspiration.js
+          node scripts/audit-app-structure.mjs
       - name: Build bundled offline Quran and Turkish meal data
         run: node scripts/build-offline-quran-data.mjs
       - name: Prepare app assets
         run: |
           mkdir -p www
           cp index.html app.js esma.js zikirmatik.js inspiration.js tesbih.js styles.css manifest.webmanifest icon-v2.svg quran-uthmani.txt quran-offline-data.json privacy.html SOURCES.md sw.js www/
+          test -s www/index.html
+          test -s www/quran-uthmani.txt
+          test -s www/quran-offline-data.json
+          test -s www/tesbih.js
+          test -s www/sw.js
       - name: Generate Android project
         run: npx cap add android
       - name: Sync Android project
