@@ -4,6 +4,15 @@ const esmaList=[["اللّٰهُ","Allah","Tek ilah, bütün güzel isimlerin sa
 const namesGrid=document.getElementById("namesGrid");
 const namesSearch=document.getElementById("namesSearch");
 const namesResultCount=document.getElementById("namesResultCount");
+const namesTarget=document.getElementById("namesTarget");
+const namesCountsKey="esma-counts-v1";
+const namesTargetKey="esma-target-v1";
+let namesCounts={};
+try{namesCounts=JSON.parse(localStorage.getItem(namesCountsKey)||"{}")||{};}catch{namesCounts={};}
+namesTarget.value=localStorage.getItem(namesTargetKey)||"33";
+function saveNamesCounts(){localStorage.setItem(namesCountsKey,JSON.stringify(namesCounts));}
+function getNamesTarget(){return Math.max(1,Math.min(100000,Number(namesTarget.value)||33));}
+namesTarget.addEventListener("change",()=>{namesTarget.value=String(getNamesTarget());localStorage.setItem(namesTargetKey,namesTarget.value);});
 function renderEsma(query=""){
  const q=query.trim().toLocaleLowerCase("tr");
  const filtered=esmaList.filter(item=>!q||item[1].toLocaleLowerCase("tr").includes(q)||item[2].toLocaleLowerCase("tr").includes(q));
@@ -14,7 +23,13 @@ function renderEsma(query=""){
   const arabic=document.createElement("div");arabic.className="esma-arabic";arabic.dir="rtl";arabic.lang="ar";arabic.textContent=item[0];
   const name=document.createElement("h2");name.className="esma-name";name.textContent=item[1];
   const meaning=document.createElement("p");meaning.className="esma-meaning";meaning.textContent=item[2];
-  card.append(number,arabic,name,meaning);namesGrid.append(card);
+  const counter=document.createElement("div");counter.className="esma-counter";counter.textContent=String(Number(namesCounts[item[1]]||0));
+  const counterLabel=document.createElement("small");counterLabel.className="esma-counter-label";counterLabel.textContent="ÇEKİLEN";
+  const tap=document.createElement("button");tap.type="button";tap.className="esma-tap";tap.textContent="ZİKİR ÇEK";
+  tap.addEventListener("click",()=>{const count=Number(namesCounts[item[1]]||0)+1;namesCounts[item[1]]=count;saveNamesCounts();counter.textContent=String(count);if(count===getNamesTarget()&&navigator.vibrate)navigator.vibrate([180,90,180,90,320]);});
+  const reset=document.createElement("button");reset.type="button";reset.className="esma-reset";reset.textContent="Sıfırla";
+  reset.addEventListener("click",()=>{if(!confirm(item[1]+" sayacı sıfırlansın mı?"))return;namesCounts[item[1]]=0;saveNamesCounts();counter.textContent="0";});
+  card.append(number,arabic,name,meaning,counter,counterLabel,tap,reset);namesGrid.append(card);
  });
  namesResultCount.textContent=filtered.length+" isim listeleniyor";
  if(!filtered.length){const empty=document.createElement("p");empty.className="names-empty";empty.textContent="Bu aramayla eşleşen isim bulunamadı.";namesGrid.append(empty);}
