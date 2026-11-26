@@ -38,6 +38,9 @@ const INSPIRATION_ITEMS=[
 (()=>{
 const root=document.getElementById("inspirationPage");
 if(!root){console.error("Gönle Dokunan Sözler bölümü bulunamadı.");return;}
+if(root.dataset.inspirationInitialized==="true")return;
+root.dataset.inspirationInitialized="true";
+root.style.pointerEvents="auto";
 const select=root.querySelector("#inspirationSelect"),preview=root.querySelector("#inspirationPreview"),listRoot=root.querySelector("#inspirationList");
 const theme=root.querySelector("#inspirationTheme"),size=root.querySelector("#inspirationSize"),format=root.querySelector("#inspirationFormat");
 const shareButton=root.querySelector("#inspirationShare"),downloadButton=root.querySelector("#inspirationDownload");
@@ -52,10 +55,10 @@ function setButtons(){
  visibleItems().forEach(item=>{
   const button=document.createElement("button");button.type="button";button.className="inspiration-choice"+(current?.id===item.id?" active":"");
   button.setAttribute("aria-pressed",current?.id===item.id?"true":"false");
+  button.dataset.inspirationItem=item.id;
   const kind=document.createElement("small");kind.textContent=item.type==="hadith"?"HADİS":"AYET";
   const title=document.createElement("strong");title.textContent=item.title;
   button.append(kind,title);
-  button.addEventListener("click",event=>{event.preventDefault();current=item;fillSelect();setButtons();render();});
   listRoot.append(button);
  });
 }
@@ -87,7 +90,19 @@ async function render(){
  catch(error){if(token!==selectionToken)return;item.displayText="";textNode.textContent="Ayet meali yüklenemedi. İnternet bağlantısını kontrol edip tekrar dene.";}
 }
 function updateList(){fillSelect();setButtons();render();}
-document.querySelectorAll("[data-inspiration-filter]").forEach(button=>button.addEventListener("click",()=>{filter=button.dataset.inspirationFilter;document.querySelectorAll("[data-inspiration-filter]").forEach(tab=>tab.classList.toggle("active",tab===button));updateList();}));
+root.addEventListener("click",event=>{
+ const tab=event.target.closest(".inspiration-tab[data-inspiration-filter]");
+ if(tab&&root.contains(tab)){
+  event.preventDefault();filter=tab.dataset.inspirationFilter;
+  root.querySelectorAll(".inspiration-tab").forEach(node=>node.classList.toggle("active",node===tab));
+  updateList();return;
+ }
+ const choice=event.target.closest(".inspiration-choice[data-inspiration-item]");
+ if(choice&&root.contains(choice)){
+  event.preventDefault();const chosen=INSPIRATION_ITEMS.find(item=>item.id===choice.dataset.inspirationItem);
+  if(chosen){current=chosen;fillSelect();setButtons();render();}
+ }
+});
 select.addEventListener("change",()=>{const chosen=INSPIRATION_ITEMS.find(item=>item.id===select.value);if(!chosen)return;current=chosen;setButtons();render();});
 [theme,size,format].forEach(control=>control.addEventListener("change",render));
 function wrapText(ctx,text,maxWidth,fontSize){
@@ -121,5 +136,5 @@ async function share(){
 shareButton.addEventListener("click",share);
 downloadButton.addEventListener("click",async()=>{try{const blob=await makeImage();if(blob)download(blob);}catch(error){alert(error.message||"Görsel hazırlanamadı.");}});
 updateList();
-console.info("Gönle Dokunan Sözler hazır:",INSPIRATION_ITEMS.length,"içerik");
+console.info("Gönle Dokunan Sözler hazır:",INSPIRATION_ITEMS.length,"içerik; sekme ve liste olayları bölüm üzerinden yönetiliyor.");
 })();
