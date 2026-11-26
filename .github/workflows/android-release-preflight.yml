@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - "app.js"
+      - "ads.js"
       - "esma.js"
       - "zikirmatik.js"
       - "tesbih.js"
@@ -97,6 +98,7 @@ jobs:
           if not manifests:
               raise SystemExit("Release merged manifest missing")
           root = ET.parse(manifests[0]).getroot()
+          Path("android-release-merged-manifest.xml").write_bytes(manifests[0].read_bytes())
           ns = "{http://schemas.android.com/apk/res/android}"
           tags = ("uses-permission", "uses-permission-sdk-23")
           perms = sorted({n.attrib.get(ns+"name","") for t in tags for n in root.findall(t)}-{""})
@@ -119,3 +121,12 @@ jobs:
           PY
           test -s android-release-dependencies.txt
           echo "Preflight passed. No APK or AAB was built."
+      - name: Upload Android audit reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-release-audit-v94
+          path: |
+            android-release-dependencies.txt
+            android-release-merged-manifest.xml
+          if-no-files-found: error
+          retention-days: 7
