@@ -39,6 +39,17 @@ if (surahNames.length !== 114 || new Set(surahNames).size !== 114) {
   throw new Error("Turkish surah names must contain 114 unique entries");
 }
 
+const scriptGlobals = new Map();
+for (const [file, source] of [["app.js", app], ["esma.js", esma], ["zikirmatik.js", zikirmatik], ["inspiration.js", inspiration]]) {
+  for (const match of source.matchAll(/^(?:const|let|var|function|class)\s+([A-Za-z_$][\w$]*)/gm)) {
+    const name = match[1];
+    if (scriptGlobals.has(name)) {
+      throw new Error("Duplicate classic-script global '" + name + "' in " + scriptGlobals.get(name) + " and " + file);
+    }
+    scriptGlobals.set(name, file);
+  }
+}
+
 const ids = new Set([...html.matchAll(/\bid=["']([^"']+)["']/g)].map(match => match[1]));
 for (const [file, source] of [["app.js", app], ["esma.js", esma], ["inspiration.js", inspiration]]) {
   const refs = [...source.matchAll(/getElementById\(["']([^"']+)["']\)/g)].map(match => match[1]);
