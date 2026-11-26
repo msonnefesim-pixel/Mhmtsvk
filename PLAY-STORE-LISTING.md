@@ -59,10 +59,10 @@ Kitaplar ve Referans / Eğitim kategorilerinden Play Console'da uygun olanı se�
 - [ ] Play Console'un hesap/kimlik doğrulama ve test şartları tamamlanmalı.
 
 ## Teknik yayın kapıları — henüz tamamlanmadı
-- [x] V94 JavaScript ve uygulama yapısı ön kontrolü.
+- [x] V95 JavaScript ve uygulama yapısı ön kontrolü (GitHub Actions başarılı).
 - [x] Tanzil Uthmani 1.1 yerel metin bütünlük kontrolü.
 - [x] 114 surenin Türkçe meal uç noktası, ayet sırası ve boş olmayan kayıt kontrolü.
-- [x] Android release preflight: API 36, paket kimliği, sürüm numarası, birleştirilmiş manifest ve SDK bağımlılık grafiği.
+- [x] V95 Android release preflight: API 36 hedefi, paket kimliği, sürüm numarası, birleştirilmiş manifest ve SDK bağımlılık grafiği (GitHub Actions başarılı).
 - [x] AdMob uygulama kimliği yapılandırıldı; Google'ın test banner kimliği etkin, gerçek banner kimliği devre dışı.
 - [ ] Android gerçek cihaz testi: ilk açılış, çevrimdışı okuma, sure seçimi, dualar, Esma, zikir, tesbih, ekran dönüşü ve uygulamadan çıkıp dönme.
 - [ ] UMP rıza akışı ve reklam gizlilik seçenekleri gerçek cihazda test edilmeli.
@@ -70,7 +70,7 @@ Kitaplar ve Referans / Eğitim kategorilerinden Play Console'da uygun olanı se�
 - [x] Kaynakların yayıncı bilgileri ve kullanım koşulları SOURCES.md dosyasında kayıtlı; otomatik metin bütünlük ve meal kayıt kontrolleri başarılı.
 - [ ] Nihai AAB oluşturulmalı, imza ve versionCode kontrol edilmeli.
 - [ ] AAB içindeki nihai manifest ve SDK listesi yeniden incelenmeli; Veri Güvenliği beyanı son pakete göre kesinleştirilmeli.
-- [ ] Önce kapalı test, sonra Play incelemesi ve yayın.
+- [ ] Play Console hesap türü ve oluşturulma tarihine göre test/üretim erişimi şartı doğrulanmalı; uygunluk varsa üretim sürümü, aksi durumda gerekli kapalı test tamamlanmalı.
 
 ## Bilinçli olarak henüz yapılmayanlar
 - Gerçek AdMob banner birimi etkinleştirilmedi; kullanıcı tarafından sağlanan üretim reklam birimi kimliği kodda kullanılmıyor.
