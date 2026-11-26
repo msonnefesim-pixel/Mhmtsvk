@@ -8,6 +8,9 @@ const MEAL_VERSION="1.0.4";
 let ayahObserver=null;
 const pages={home:"homePage",quran:"quranPage",duas:"duasPage",listen:"listenPage",names:"namesPage",continue:"continuePage",favorites:"favoritesPage",readingStats:"readingStatsPage",zikirmatik:"zikirmatikPage",inspiration:"inspirationPage"};
 let surahs=[];
+let surahListPromise=null;
+let quranTextPromise=null;
+let quranTextLines=null;
 let appCurrentPage="home";
 let appCurrentView="list";
 const appNavStack=[{page:"home",view:"list"}];
@@ -67,8 +70,120 @@ const quranHeading=document.querySelector("#quranPage .page-heading");
 function renderSurahList(items){const current=surahSelect.value;surahSelect.replaceChildren();const first=document.createElement("option");first.value="";first.textContent=items.length===114?"Bir sure seçiniz":"Arama sonucundan sure seçiniz";surahSelect.append(first);items.forEach(s=>{const option=document.createElement("option");option.value=String(s.number);option.textContent=s.number+". "+(s.turkishName||s.englishName)+" · "+s.numberOfAyahs+" ayet";surahSelect.append(option);});surahSelect.disabled=!items.length;if(current&&items.some(s=>String(s.number)===current))surahSelect.value=current;}
 const TURKISH_SURAH_NAMES=["Fâtiha","Bakara","Âl-i İmrân","Nisâ","Mâide","En'âm","A'râf","Enfâl","Tevbe","Yûnus","Hûd","Yûsuf","Ra'd","İbrâhim","Hicr","Nahl","İsrâ","Kehf","Meryem","Tâhâ","Enbiyâ","Hac","Mü'minûn","Nûr","Furkân","Şuarâ","Neml","Kasas","Ankebût","Rûm","Lokmân","Secde","Ahzâb","Sebe","Fâtır","Yâsîn","Sâffât","Sâd","Zümer","Mü'min (Gâfir)","Fussilet","Şûrâ","Zuhruf","Duhân","Câsiye","Ahkâf","Muhammed","Fetih","Hucurât","Kâf","Zâriyât","Tûr","Necm","Kamer","Rahmân","Vâkıa","Hadîd","Mücâdele","Haşr","Mümtehine","Saff","Cuma","Münâfikûn","Tegâbün","Talâk","Tahrîm","Mülk","Kalem","Hâkka","Meâric","Nûh","Cin","Müzzemmil","Müddessir","Kıyâmet","İnsan","Mürselât","Nebe","Nâziât","Abese","Tekvîr","İnfitâr","Mutaffifîn","İnşikâk","Bürûc","Târık","A'lâ","Gâşiye","Fecr","Beled","Şems","Leyl","Duhâ","İnşirâh","Tîn","Alak","Kadr","Beyyine","Zilzâl","Âdiyât","Kâria","Tekâsür","Asr","Hümeze","Fîl","Kureyş","Mâûn","Kevser","Kâfirûn","Nasr","Tebbet (Mesed)","İhlâs","Felak","Nâs"];
 async function loadSurahList(){try{const response=await fetch(API+"/surah");if(!response.ok)throw new Error("HTTP "+response.status);const json=await response.json();if(json.code!==200||!Array.isArray(json.data)||json.data.length!==114||json.data.some((s,i)=>Number(s.number)!==i+1)||TURKISH_SURAH_NAMES.length!==114)throw new Error("Sure listesi 114 sure ve doğru sıra kontrolünden geçemedi");surahs=json.data.map(s=>({...s,turkishName:TURKISH_SURAH_NAMES[s.number-1]||s.englishName}));renderSurahList(surahs);}catch(error){surahSelect.replaceChildren();const option=document.createElement("option");option.value="";option.textContent="Sure listesi yüklenemedi";surahSelect.append(option);surahSelect.disabled=true;}}
-async function loadSurah(number,restoreAyah=null,addHistory=true){if(addHistory)pushAppState("quran","reader");else{appCurrentPage="quran";appCurrentView="reader";}pickerEl.hidden=true;quranHeading.hidden=true;readingPanel.hidden=false;window.scrollTo({top:0,behavior:"instant"});document.getElementById("surahTitle").textContent="Sure yükleniyor…";const ayahList=document.getElementById("ayahList");ayahList.replaceChildren();if(ayahObserver)ayahObserver.disconnect();try{const [ar,me]=await Promise.all([fetch(API+"/surah/"+number+"/quran-uthmani"),fetch(MEAL_API+"/translation/sura/"+MEAL_KEY+"/"+number)]);if(!ar.ok||!me.ok)throw new Error("Sure içeriği yüklenemedi");const [aj,mj]=await Promise.all([ar.json(),me.json()]);if(aj.code!==200||!aj.data||!Array.isArray(mj.result))throw new Error("Sure verisi eksik");const s=aj.data;if(Number(s.number)!==number||!Array.isArray(s.ayahs)||s.ayahs.length!==Number(s.numberOfAyahs)||s.ayahs.some((a,i)=>Number(a.numberInSurah)!==i+1||Number(a.surah?.number)!==number||typeof a.text!=="string"||!a.text.trim()))throw new Error("Arapça sure metni ayet sırası, sure numarası veya metin bütünlüğü kontrolünden geçemedi");const basmalaPattern=/^(ب[ِّ]{1,2}سْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ )/u;const firstArabicText=s.ayahs[0].text.replace(/^\uFEFF/,"");let openingBasmala="";let firstAyahArabic=firstArabicText;if(number!==1&&number!==9){const match=firstArabicText.match(basmalaPattern);if(!match)throw new Error("Sure başındaki besmele ayet metninden güvenle ayrılamadı");openingBasmala=match[1].trim();firstAyahArabic=firstArabicText.slice(match[1].length).trimStart();}if(!firstAyahArabic)throw new Error("İlk ayet metni boş kaldı");const meals=new Map(mj.result.map(x=>[Number(x.aya),x]));if(meals.size!==Number(s.numberOfAyahs)||Array.from({length:Number(s.numberOfAyahs)},(_,i)=>i+1).some(n=>!meals.has(n)||!meals.get(n).translation))throw new Error("Türkçe mealde eksik veya tekrarlı ayet bulundu");const selected=surahs.find(x=>x.number===number);if(openingBasmala){const basmala=document.createElement("p");basmala.className="surah-basmala";basmala.dir="rtl";basmala.lang="ar";basmala.textContent=openingBasmala;ayahList.append(basmala);}const title=document.createElement("h2");title.textContent=selected?.turkishName||s.englishName;const sub=document.createElement("p");sub.textContent=s.numberOfAyahs+" ayet";document.getElementById("surahTitle").replaceChildren(title,sub);s.ayahs.forEach(a=>{const card=document.createElement("article");card.className="ayah-card";card.id="ayah-"+a.numberInSurah;card.dataset.ayah=a.numberInSurah;const meal=meals.get(a.numberInSurah);const top=document.createElement("div");top.className="ayah-topline";const numberLabel=document.createElement("div");numberLabel.className="ayah-number";numberLabel.textContent="۞  "+a.numberInSurah+". Ayet";const favoriteButton=document.createElement("button");favoriteButton.type="button";favoriteButton.className="ayah-favorite";const favoriteKey=s.number+":"+a.numberInSurah;const displayedArabic=a.numberInSurah===1?firstAyahArabic:a.text.replace(/^\uFEFF/,"");const currentFavorites=getFavoriteAyahs();const alreadyFavorite=currentFavorites.some(x=>x.key===favoriteKey);favoriteButton.textContent=alreadyFavorite?"★":"☆";favoriteButton.setAttribute("aria-label",alreadyFavorite?"Favorilerden çıkar":"Favorilere ekle");favoriteButton.setAttribute("aria-pressed",String(alreadyFavorite));favoriteButton.addEventListener("click",()=>toggleFavoriteAyah({key:favoriteKey,surahNumber:s.number,surahName:selected?.turkishName||s.englishName,ayahNumber:a.numberInSurah,arabic:displayedArabic,meaning:meal?.translation||"Bu ayetin meali şu anda yüklenemedi."},favoriteButton));top.append(numberLabel,favoriteButton);const arabic=document.createElement("p");arabic.className="ayah-arabic";arabic.dir="rtl";arabic.lang="ar";arabic.textContent=displayedArabic;const meaning=document.createElement("p");meaning.className="ayah-meaning";meaning.textContent=meal?.translation||"Bu ayetin meali şu anda yüklenemedi.";card.append(top,arabic,meaning);if(meal?.footnotes){const details=document.createElement("details");details.className="ayah-footnotes";const summary=document.createElement("summary");summary.textContent="Açıklama ve dipnotlar";const note=document.createElement("p");note.textContent=meal.footnotes;details.append(summary,note);card.append(details);}ayahList.append(card);});const credit=document.createElement("p");credit.className="source-note";credit.textContent="Arapça: AlQuran Cloud · Türkçe meal: Rowwad Translation Center / QuranEnc.com · Sürüm "+MEAL_VERSION+" · Türkçe meal, Kur’an’ın Arapça aslının yerine geçmeyen bir anlam aktarımıdır.";ayahList.append(credit);localStorage.setItem("quran-last-read",JSON.stringify({number:s.number,name:selected?.turkishName||s.englishName,arabicName:s.name,ayah:restoreAyah||1}));ayahObserver=new IntersectionObserver(entries=>{const v=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];if(v){const ayah=Number(v.target.dataset.ayah);localStorage.setItem("quran-last-read",JSON.stringify({number:s.number,name:selected?.turkishName||s.englishName,arabicName:s.name,ayah}));}
-entries.forEach(entry=>{if(entry.isIntersecting&&entry.intersectionRatio>=.25)recordDailyReading(s.number,Number(entry.target.dataset.ayah));});},{rootMargin:"-20% 0px -55% 0px",threshold:[0,.25,.5]});ayahList.querySelectorAll(".ayah-card").forEach(card=>ayahObserver.observe(card));if(restoreAyah)setTimeout(()=>document.getElementById("ayah-"+restoreAyah)?.scrollIntoView({behavior:"instant",block:"start"}),120);else window.scrollTo({top:0,behavior:"instant"});}catch(error){document.getElementById("surahTitle").textContent="Sure yüklenemedi";const msg=document.createElement("p");msg.className="error-note";msg.textContent="Arapça metin veya meal yüklenemedi. İnternet bağlantını kontrol edip yeniden dene.";ayahList.append(msg);}}
+async function loadQuranText(){
+ if(quranTextLines)return quranTextLines;
+ if(!quranTextPromise){
+  quranTextPromise=(async()=>{
+   const response=await fetch("./quran-uthmani.txt");
+   if(!response.ok)throw new Error("Tanzil Kur’an metni yüklenemedi");
+   const raw=await response.text();
+   const lines=raw.replace(/^\uFEFF/,"").split(/\r?\n/).filter(line=>line.trim()&&!line.startsWith("#"));
+   if(lines.length!==6236)throw new Error("Tanzil metninde 6.236 ayet kontrolü başarısız");
+   quranTextLines=lines;
+   return lines;
+  })().catch(error=>{quranTextPromise=null;throw error;});
+ }
+ return quranTextPromise;
+}
+async function getSurahAyahTexts(number){
+ if(!surahs.length){
+  if(surahListPromise)await surahListPromise;
+  else surahListPromise=loadSurahList();
+ }
+ if(!surahs.length)throw new Error("Sure bilgileri yüklenemedi");
+ const meta=surahs.find(item=>Number(item.number)===Number(number));
+ if(!meta)throw new Error("Sure numarası bulunamadı");
+ if(surahs.reduce((sum,item)=>sum+Number(item.numberOfAyahs),0)!==6236)throw new Error("Sure ayet sayıları 6.236 kontrolünden geçemedi");
+ const start=surahs.filter(item=>Number(item.number)<Number(number)).reduce((sum,item)=>sum+Number(item.numberOfAyahs),0);
+ const lines=await loadQuranText();
+ const texts=lines.slice(start,start+Number(meta.numberOfAyahs));
+ if(texts.length!==Number(meta.numberOfAyahs)||texts.some(text=>!text.trim()))throw new Error("Sure metni eksik veya boş");
+ return {meta,texts};
+}
+async function getQuranAyahText(surahNumber,ayahNumber){
+ const {texts}=await getSurahAyahTexts(surahNumber);
+ const text=texts[Number(ayahNumber)-1];
+ if(!text)throw new Error("Ayet metni bulunamadı");
+ let result=text.replace(/^\uFEFF/,"");
+ if(Number(ayahNumber)===1&&Number(surahNumber)!==1&&Number(surahNumber)!==9){
+  const match=result.match(/^(ب[ِّ]{1,2}سْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ )/u);
+  if(!match)throw new Error("Sure başındaki besmele ayet metninden ayrılamadı");
+  result=result.slice(match[1].length).trimStart();
+ }
+ return result;
+}
+async function loadSurah(number,restoreAyah=null,addHistory=true){
+ if(addHistory)pushAppState("quran","reader");else{appCurrentPage="quran";appCurrentView="reader";}
+ pickerEl.hidden=true;quranHeading.hidden=true;readingPanel.hidden=false;window.scrollTo({top:0,behavior:"instant"});
+ document.getElementById("surahTitle").textContent="Sure yükleniyor…";
+ const ayahList=document.getElementById("ayahList");ayahList.replaceChildren();if(ayahObserver)ayahObserver.disconnect();
+ try{
+  const [{meta:s,texts:ayahTexts},mealResponse]=await Promise.all([
+   getSurahAyahTexts(number),
+   fetch(MEAL_API+"/translation/sura/"+MEAL_KEY+"/"+number)
+  ]);
+  if(!mealResponse.ok)throw new Error("Türkçe meal kaynağına ulaşılamadı");
+  const mealJson=await mealResponse.json();
+  if(!Array.isArray(mealJson.result))throw new Error("Türkçe meal verisi eksik");
+  if(Number(s.number)!==Number(number)||ayahTexts.length!==Number(s.numberOfAyahs)||ayahTexts.some(text=>typeof text!=="string"||!text.trim()))throw new Error("Tanzil sure metni ayet sayısı veya bütünlük kontrolünden geçemedi");
+  const meals=new Map(mealJson.result.map(item=>[Number(item.aya),item]));
+  if(meals.size!==Number(s.numberOfAyahs)||Array.from({length:Number(s.numberOfAyahs)},(_,i)=>i+1).some(n=>!meals.has(n)||typeof meals.get(n).translation!=="string"||!meals.get(n).translation.trim()))throw new Error("Türkçe mealde eksik veya tekrarlı ayet bulundu");
+  const basmalaPattern=/^(ب[ِّ]{1,2}سْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ )/u;
+  const firstArabicText=ayahTexts[0].replace(/^\uFEFF/,"");
+  let openingBasmala="",firstAyahArabic=firstArabicText;
+  if(number!==1&&number!==9){
+   const match=firstArabicText.match(basmalaPattern);
+   if(!match)throw new Error("Sure başındaki besmele ayet metninden güvenle ayrılamadı");
+   openingBasmala=match[1].trim();
+   firstAyahArabic=firstArabicText.slice(match[1].length).trimStart();
+  }
+  if(!firstAyahArabic)throw new Error("İlk ayet metni boş kaldı");
+  const selected=s;
+  if(openingBasmala){
+   const basmala=document.createElement("p");basmala.className="surah-basmala";basmala.dir="rtl";basmala.lang="ar";basmala.textContent=openingBasmala;ayahList.append(basmala);
+  }
+  const title=document.createElement("h2");title.textContent=selected?.turkishName||s.englishName;
+  const sub=document.createElement("p");sub.textContent=s.numberOfAyahs+" ayet";
+  document.getElementById("surahTitle").replaceChildren(title,sub);
+  ayahTexts.forEach((ayahText,index)=>{
+   const ayahNumber=index+1;
+   const card=document.createElement("article");card.className="ayah-card";card.id="ayah-"+ayahNumber;card.dataset.ayah=ayahNumber;
+   const meal=meals.get(ayahNumber);
+   const top=document.createElement("div");top.className="ayah-topline";
+   const numberLabel=document.createElement("div");numberLabel.className="ayah-number";numberLabel.textContent="۞  "+ayahNumber+". Ayet";
+   const favoriteButton=document.createElement("button");favoriteButton.type="button";favoriteButton.className="ayah-favorite";
+   const favoriteKey=s.number+":"+ayahNumber;
+   const displayedArabic=ayahNumber===1?firstAyahArabic:ayahText.replace(/^\uFEFF/,"");
+   const currentFavorites=getFavoriteAyahs();const alreadyFavorite=currentFavorites.some(item=>item.key===favoriteKey);
+   favoriteButton.textContent=alreadyFavorite?"★":"☆";favoriteButton.setAttribute("aria-label",alreadyFavorite?"Favorilerden çıkar":"Favorilere ekle");favoriteButton.setAttribute("aria-pressed",String(alreadyFavorite));
+   favoriteButton.addEventListener("click",()=>toggleFavoriteAyah({key:favoriteKey,surahNumber:s.number,surahName:selected?.turkishName||s.englishName,ayahNumber,arabic:displayedArabic,meaning:meal.translation},favoriteButton));
+   top.append(numberLabel,favoriteButton);
+   const arabic=document.createElement("p");arabic.className="ayah-arabic";arabic.dir="rtl";arabic.lang="ar";arabic.textContent=displayedArabic;
+   const meaning=document.createElement("p");meaning.className="ayah-meaning";meaning.textContent=meal.translation;
+   card.append(top,arabic,meaning);
+   if(meal.footnotes){const details=document.createElement("details");details.className="ayah-footnotes";const summary=document.createElement("summary");summary.textContent="Açıklama ve dipnotlar";const note=document.createElement("p");note.textContent=meal.footnotes;details.append(summary,note);card.append(details);}
+   ayahList.append(card);
+  });
+  const credit=document.createElement("p");credit.className="source-note";
+  const tanzilLink=document.createElement("a");tanzilLink.href="https://tanzil.net";tanzilLink.textContent="Tanzil Project";
+  const mealLink=document.createElement("a");mealLink.href="https://quranenc.com";mealLink.textContent="QuranEnc.com";
+  credit.append("Arapça: ",tanzilLink," · Uthmani 1.1 · Türkçe meal: Rowwad Translation Center / ",mealLink," · Sürüm "+MEAL_VERSION+" · Türkçe meal, Kur’an’ın Arapça aslının yerine geçmeyen bir anlam aktarımıdır.");
+  ayahList.append(credit);
+  localStorage.setItem("quran-last-read",JSON.stringify({number:s.number,name:selected?.turkishName||s.englishName,arabicName:s.name,ayah:restoreAyah||1}));
+  ayahObserver=new IntersectionObserver(entries=>{
+   const visible=entries.filter(entry=>entry.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
+   if(visible){const ayah=Number(visible.target.dataset.ayah);localStorage.setItem("quran-last-read",JSON.stringify({number:s.number,name:selected?.turkishName||s.englishName,arabicName:s.name,ayah}));}
+   entries.forEach(entry=>{if(entry.isIntersecting&&entry.intersectionRatio>=.25)recordDailyReading(s.number,Number(entry.target.dataset.ayah));});
+  },{rootMargin:"-20% 0px -55% 0px",threshold:[0,.25,.5]});
+  ayahList.querySelectorAll(".ayah-card").forEach(card=>ayahObserver.observe(card));
+  if(restoreAyah)setTimeout(()=>document.getElementById("ayah-"+restoreAyah)?.scrollIntoView({behavior:"instant",block:"start"}),120);
+  else window.scrollTo({top:0,behavior:"instant"});
+ }catch(error){
+  document.getElementById("surahTitle").textContent="Sure yüklenemedi";
+  const msg=document.createElement("p");msg.className="error-note";msg.textContent="Tanzil Arapça metni veya Türkçe meal yüklenemedi. İnternet bağlantını kontrol edip yeniden dene.";
+  ayahList.append(msg);
+ }
+}
 const FAVORITES_KEY="quran-favorite-ayahs";
 function getFavoriteAyahs(){try{const value=JSON.parse(localStorage.getItem(FAVORITES_KEY)||"[]");return Array.isArray(value)?value:[];}catch{return [];}}
 function toggleFavoriteAyah(item,button){let list=getFavoriteAyahs();const exists=list.some(x=>x.key===item.key);if(exists)list=list.filter(x=>x.key!==item.key);else list.push(item);localStorage.setItem(FAVORITES_KEY,JSON.stringify(list));const active=!exists;button.textContent=active?"★":"☆";button.setAttribute("aria-label",active?"Favorilerden çıkar":"Favorilere ekle");button.setAttribute("aria-pressed",String(active));if(appCurrentPage==="favorites")renderFavorites();}
@@ -177,10 +292,8 @@ quranDuas.forEach((dua,index)=>{
  duaOptions.append(option);
 });
 async function showDua(index){
- const dua=quranDuas[index];
- if(!dua)return;
- duaReading.className="dua-reading";
- duaReading.replaceChildren();
+ const dua=quranDuas[index];if(!dua)return;
+ duaReading.className="dua-reading";duaReading.replaceChildren();
  const loading=document.createElement("p");loading.className="loading-state";loading.textContent="Arapça metin ve meal yükleniyor…";duaReading.append(loading);
  try{
   const match=/^(\d+):(\d+)(?:-(\d+))?$/.exec(dua.ref);
@@ -188,22 +301,21 @@ async function showDua(index){
   const surahNo=Number(match[1]),firstAyah=Number(match[2]),lastAyah=Number(match[3]||match[2]);
   if(firstAyah<1||lastAyah<firstAyah||lastAyah-firstAyah>9)throw new Error("Dua ayet aralığı geçersiz");
   const ayahNumbers=Array.from({length:lastAyah-firstAyah+1},(_,i)=>firstAyah+i);
-  const [mealResponse,...arabicResponses]=await Promise.all([
+  const [mealResponse,...arabicTexts]=await Promise.all([
    fetch(MEAL_API+"/translation/sura/"+MEAL_KEY+"/"+surahNo),
-   ...ayahNumbers.map(n=>fetch(API+"/ayah/"+surahNo+":"+n+"/quran-uthmani"))
+   ...ayahNumbers.map(n=>getQuranAyahText(surahNo,n))
   ]);
-  if(!mealResponse.ok||arabicResponses.some(r=>!r.ok))throw new Error("Ayet veya meal kaynağına ulaşılamadı");
-  const [mealJson,...arabicJsons]=await Promise.all([mealResponse.json(),...arabicResponses.map(r=>r.json())]);
-  if(!Array.isArray(mealJson.result)||arabicJsons.some(j=>j.code!==200||!j.data))throw new Error("Ayet veya meal verisi eksik");
+  if(!mealResponse.ok)throw new Error("Türkçe meal kaynağına ulaşılamadı");
+  const mealJson=await mealResponse.json();
+  if(!Array.isArray(mealJson.result)||arabicTexts.some(text=>typeof text!=="string"||!text.trim()))throw new Error("Ayet veya meal verisi eksik");
   const meals=new Map(mealJson.result.map(item=>[Number(item.aya),item]));
   const verses=ayahNumbers.map((n,i)=>{
-   const data=arabicJsons[i].data,translated=meals.get(n);
-   if(Number(data.numberInSurah)!==n||Number(data.surah?.number)!==surahNo||!data.text||!translated||typeof translated.translation!=="string"||!translated.translation.trim())throw new Error("Dua ayetlerinden biri tam olarak doğrulanamadı");
-   return {number:n,arabic:data.text,translation:translated.translation,footnotes:translated.footnotes||""};
+   const translated=meals.get(n);
+   if(!arabicTexts[i]||!translated||typeof translated.translation!=="string"||!translated.translation.trim())throw new Error("Dua ayetlerinden biri tam olarak doğrulanamadı");
+   return {number:n,arabic:arabicTexts[i],translation:translated.translation,footnotes:translated.footnotes||""};
   });
   duaReading.replaceChildren();
-  const title=document.createElement("h2");title.className="dua-title";title.textContent=dua.name;
-  duaReading.append(title);
+  const title=document.createElement("h2");title.className="dua-title";title.textContent=dua.name;duaReading.append(title);
   verses.forEach(verse=>{
    const block=document.createElement("section");block.className="dua-verse";
    const arabicLabel=document.createElement("div");arabicLabel.className="dua-section-label";arabicLabel.textContent="ARAPÇA · "+verse.number+". AYET";
@@ -211,23 +323,18 @@ async function showDua(index){
    const mealLabel=document.createElement("div");mealLabel.className="dua-section-label";mealLabel.textContent="TÜRKÇE MEALİ";
    const meal=document.createElement("p");meal.className="dua-meaning";meal.textContent=verse.translation;
    block.append(arabicLabel,arabic,mealLabel,meal);
-   if(verse.footnotes){
-    const details=document.createElement("details");details.className="ayah-footnotes";
-    const summary=document.createElement("summary");summary.textContent="Açıklama ve dipnotlar";
-    const note=document.createElement("p");note.textContent=verse.footnotes;
-    details.append(summary,note);block.append(details);
-   }
+   if(verse.footnotes){const details=document.createElement("details");details.className="ayah-footnotes";const summary=document.createElement("summary");summary.textContent="Açıklama ve dipnotlar";const note=document.createElement("p");note.textContent=verse.footnotes;details.append(summary,note);block.append(details);}
    duaReading.append(block);
   });
   const range=firstAyah===lastAyah?firstAyah+". ayet":firstAyah+"-"+lastAyah+". ayetler";
-  const source=document.createElement("small");source.className="dua-reference";source.textContent=(TURKISH_SURAH_NAMES[surahNo-1]||"Kur'an")+" Suresi · "+range+" · Arapça: AlQuran Cloud · Meal: QuranEnc / Rowwad Translation Center · Sürüm "+MEAL_VERSION;
+  const source=document.createElement("small");source.className="dua-reference";source.textContent=(TURKISH_SURAH_NAMES[surahNo-1]||"Kur'an")+" Suresi · "+range+" · Arapça: Tanzil Project Uthmani 1.1 · Meal: QuranEnc / Rowwad Translation Center · Sürüm "+MEAL_VERSION;
   duaReading.append(source);
  }catch(error){
-  duaReading.replaceChildren();
-  const msg=document.createElement("p");msg.className="error-note";msg.textContent="Ayetin Arapça metni veya tam Türkçe meali kaynaktan doğrulanamadı. Bu nedenle eksik ya da tahminî bir meal gösterilmiyor. İnternet bağlantını kontrol edip tekrar dene.";
+  duaReading.replaceChildren();const msg=document.createElement("p");msg.className="error-note";
+  msg.textContent="Ayetin Arapça metni veya tam Türkçe meali kaynaktan doğrulanamadı. Bu nedenle eksik ya da tahminî bir meal gösterilmiyor. İnternet bağlantını kontrol edip tekrar dene.";
   duaReading.append(msg);
  }
 }
 
-loadSurahList();
+surahListPromise=loadSurahList();
 if("serviceWorker"in navigator&&location.protocol.startsWith("http"))window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=81",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{}));
