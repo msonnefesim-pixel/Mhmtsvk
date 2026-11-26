@@ -142,7 +142,7 @@ function renderReadingStats(){
     if(countNode)countNode.textContent=String(count);
     if(input){input.value=String(goal);if(!input.dataset.ready){input.addEventListener("change",()=>{const next=getPeriodReading();next[period].target=Math.max(1,Math.min(604,Number(input.value)||1));savePeriodReading(next);renderReadingStats();});input.dataset.ready="1";}}
     if(bar)bar.style.width=pct+"%";
-    if(label)label.textContent=count>=goal?period+" hedefin tamamlandı. Maşallah!":count+" / "+goal+" ayet · %"+pct;
+    if(label)label.textContent=count>=goal?(period==="week"?"Haftalık":"Aylık")+" hedefin tamamlandı. Maşallah!":count+" / "+goal+" ayet · %"+pct;
   });
 }
 function renderLastRead(){const panel=document.getElementById("lastReadPanel");let saved=null;try{saved=JSON.parse(localStorage.getItem("quran-last-read")||"null");}catch{}panel.replaceChildren();if(!saved){const h=document.createElement("h2");h.textContent="Henüz kayıt yok";const p=document.createElement("p");p.textContent="Bir sure açtığında son okuduğun sure burada görünür.";panel.append(h,p);return;}const h=document.createElement("h2");h.textContent=saved.name;const p=document.createElement("p");p.textContent=saved.ayah+". ayette kaldın";const b=document.createElement("button");b.className="gold-button";b.textContent="Okumaya devam et";b.addEventListener("click",()=>{showPage("quran");loadSurah(saved.number,saved.ayah||1);});panel.append(h,p,b);}
