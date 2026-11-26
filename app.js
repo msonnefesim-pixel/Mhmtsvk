@@ -81,21 +81,52 @@ document.getElementById("backToSurahs").addEventListener("click",()=>{if(appCurr
 surahSelect.addEventListener("change",()=>{const number=Number(surahSelect.value);if(number)loadSurah(number);});
 searchEl.addEventListener("input",()=>{const q=searchEl.value.trim().toLocaleLowerCase("tr");renderSurahList(surahs.filter(s=>(s.turkishName||s.englishName).toLocaleLowerCase("tr").includes(q)||s.englishName.toLocaleLowerCase("tr").includes(q)||s.name.includes(q)||String(s.number)===q));});
 const DAILY_READING_KEY="quran-daily-reading-v1";
+const PERIOD_READING_KEY="quran-period-reading-v1";
+function localDateParts(){
+  const now=new Date();
+  return {year:now.getFullYear(),month:now.getMonth()+1,day:now.getDate()};
+}
+function localDateKey(){
+  const d=localDateParts();
+  return d.year+"-"+String(d.month).padStart(2,"0")+"-"+String(d.day).padStart(2,"0");
+}
+function getWeekKey(){
+  const d=new Date();d.setHours(0,0,0,0);
+  const day=(d.getDay()+6)%7;d.setDate(d.getDate()-day);
+  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+function getMonthKey(){
+  const d=localDateParts();return d.year+"-"+String(d.month).padStart(2,"0");
+}
 function getDailyReading(){
-  const now=new Date();const today=now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0")+"-"+String(now.getDate()).padStart(2,"0");
+  const today=localDateKey();
   try{const saved=JSON.parse(localStorage.getItem(DAILY_READING_KEY)||"null");if(saved&&saved.date===today)return saved;}catch{}
   return {date:today,ayahs:[],surahs:[],target:20};
 }
 function saveDailyReading(data){localStorage.setItem(DAILY_READING_KEY,JSON.stringify(data));}
+function getPeriodReading(){
+  const week=getWeekKey(),month=getMonthKey();
+  let saved={};
+  try{saved=JSON.parse(localStorage.getItem(PERIOD_READING_KEY)||"{}")||{};}catch{}
+  if(!saved.week||saved.week.key!==week)saved.week={key:week,ayahs:[],target:100};
+  if(!saved.month||saved.month.key!==month)saved.month={key:month,ayahs:[],target:400};
+  return saved;
+}
+function savePeriodReading(data){localStorage.setItem(PERIOD_READING_KEY,JSON.stringify(data));}
 function recordDailyReading(surahNumber,ayahNumber){
-  const data=getDailyReading();const ayahKey=surahNumber+":"+ayahNumber;
-  if(!data.ayahs.includes(ayahKey))data.ayahs.push(ayahKey);
-  if(!data.surahs.includes(surahNumber))data.surahs.push(surahNumber);
-  saveDailyReading(data);
+  const ayahKey=surahNumber+":"+ayahNumber;
+  const daily=getDailyReading();
+  if(!daily.ayahs.includes(ayahKey))daily.ayahs.push(ayahKey);
+  if(!daily.surahs.includes(surahNumber))daily.surahs.push(surahNumber);
+  saveDailyReading(daily);
+  const periods=getPeriodReading();
+  if(!periods.week.ayahs.includes(ayahKey))periods.week.ayahs.push(ayahKey);
+  if(!periods.month.ayahs.includes(ayahKey))periods.month.ayahs.push(ayahKey);
+  savePeriodReading(periods);
   if(appCurrentPage==="readingStats")renderReadingStats();
 }
 function renderReadingStats(){
-  const data=getDailyReading();
+  const data=getDailyReading();const periods=getPeriodReading();
   const ayahCount=data.ayahs.length;const surahCount=data.surahs.length;
   const target=Math.max(1,Math.min(604,Number(data.target)||20));
   const percent=Math.min(100,Math.round(ayahCount/target*100));
@@ -105,6 +136,14 @@ function renderReadingStats(){
   if(targetInput){targetInput.value=String(target);if(!targetInput.dataset.ready){targetInput.addEventListener("change",()=>{const next=getDailyReading();next.target=Math.max(1,Math.min(604,Number(targetInput.value)||20));saveDailyReading(next);renderReadingStats();});targetInput.dataset.ready="1";}}
   if(progress)progress.style.width=percent+"%";
   if(progressText)progressText.textContent=ayahCount>=target?"Günlük hedefine ulaştın. Maşallah!":ayahCount+" / "+target+" ayet · %"+percent;
+  [["week","weeklyReadingTarget","weeklyAyahCount","weeklyReadingProgress","weeklyReadingProgressText",604,"Haftalık"],["month","monthlyReadingTarget","monthlyAyahCount","monthlyReadingProgress","monthlyReadingProgressText",604,"Aylık"]].forEach(([period,inputId,countId,barId,textId,max])=>{
+    const record=periods[period];const count=record.ayahs.length;const goal=Math.max(1,Math.min(max,Number(record.target)||1));const pct=Math.min(100,Math.round(count/goal*100));
+    const input=document.getElementById(inputId);const countNode=document.getElementById(countId);const bar=document.getElementById(barId);const label=document.getElementById(textId);
+    if(countNode)countNode.textContent=String(count);
+    if(input){input.value=String(goal);if(!input.dataset.ready){input.addEventListener("change",()=>{const next=getPeriodReading();next[period].target=Math.max(1,Math.min(604,Number(input.value)||1));savePeriodReading(next);renderReadingStats();});input.dataset.ready="1";}}
+    if(bar)bar.style.width=pct+"%";
+    if(label)label.textContent=count>=goal?period+" hedefin tamamlandı. Maşallah!":count+" / "+goal+" ayet · %"+pct;
+  });
 }
 function renderLastRead(){const panel=document.getElementById("lastReadPanel");let saved=null;try{saved=JSON.parse(localStorage.getItem("quran-last-read")||"null");}catch{}panel.replaceChildren();if(!saved){const h=document.createElement("h2");h.textContent="Henüz kayıt yok";const p=document.createElement("p");p.textContent="Bir sure açtığında son okuduğun sure burada görünür.";panel.append(h,p);return;}const h=document.createElement("h2");h.textContent=saved.name;const p=document.createElement("p");p.textContent=saved.ayah+". ayette kaldın";const b=document.createElement("button");b.className="gold-button";b.textContent="Okumaya devam et";b.addEventListener("click",()=>{showPage("quran");loadSurah(saved.number,saved.ayah||1);});panel.append(h,p,b);}
 
@@ -160,4 +199,4 @@ async function showDua(index){
 }
 
 loadSurahList();
-if("serviceWorker"in navigator&&location.protocol.startsWith("http"))window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=51",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{}));
+if("serviceWorker"in navigator&&location.protocol.startsWith("http"))window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=53",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{}));
