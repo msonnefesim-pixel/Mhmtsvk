@@ -133,6 +133,19 @@ jobs:
           strings_text = strings_path.read_text()
           if "ca-app-pub-6907269049535125~3909679513" not in strings_text:
               raise SystemExit("Registered AdMob application ID is missing")
+          ads = Path("ads.js").read_text()
+          if "ca-app-pub-3940256099942544/6300978111" not in ads or "isTesting: true" not in ads:
+              raise SystemExit("Google official test banner configuration is missing")
+          if "ca-app-pub-6907269049535125/1953987053" in ads:
+              raise SystemExit("Production banner ID must remain disabled before device and consent testing")
+          allowed_match = re.search(r"const AD_ALLOWED_PAGES = new Set\\(\\[(.*?)\\]\\);", ads, re.S)
+          if not allowed_match:
+              raise SystemExit("Ad page allowlist is missing")
+          allowed_pages = set(re.findall(r"['\\"]([^'\\"]+)['\\"]", allowed_match.group(1)))
+          protected_pages = {"quran", "reader", "tesbih", "zikirmatik"}
+          if allowed_pages & protected_pages:
+              raise SystemExit("Ads must remain disabled on Qur'an reading, Tesbih, and Zikirmatik screens")
+          print("Google test banner and protected-screen ad exclusions verified.")
           deps = Path("android-release-dependencies.txt").read_text()
           if "play-services-ads:" not in deps or "user-messaging-platform:" not in deps or "project :capacitor-community-admob" not in deps:
               raise SystemExit("AdMob SDK or UMP dependency is missing from release graph")
