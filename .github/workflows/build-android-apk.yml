@@ -1,0 +1,54 @@
+name: Build Android APK
+on:
+  push:
+    branches: [main]
+    paths:
+      - "capacitor.config.json"
+      - "package.json"
+      - ".github/workflows/build-android-apk.yml"
+      - "index.html"
+      - "app.js"
+      - "esma.js"
+      - "zikirmatik.js"
+      - "inspiration.js"
+      - "styles.css"
+      - "quran-uthmani.txt"
+      - "manifest.webmanifest"
+      - "icon-v2.svg"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build-debug-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - name: Install Capacitor
+        run: npm install --no-audit --no-fund
+      - name: Prepare app assets
+        run: |
+          mkdir -p www
+          cp index.html app.js esma.js zikirmatik.js inspiration.js styles.css manifest.webmanifest icon-v2.svg quran-uthmani.txt privacy.html www/
+      - name: Generate Android project
+        run: npx cap add android
+      - name: Sync Android project
+        run: npx cap sync android
+      - name: Build debug APK
+        run: cd android && ./gradlew assembleDebug
+      - name: Upload installable APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuran-i-kerim-v84-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 14
