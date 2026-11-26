@@ -3,8 +3,9 @@
 // v72 clarifies that Esma zikir amounts are traditional, not obligatory.
 // v73 corrects the El-Vacid gloss and clarifies the status of the appended 99-name list.
 // v74 refines the El-Mukit meaning against the TDV Islam Ansiklopedisi entry.
-const CACHE="quran-shell-v74";
-const FILES=["./","./index.html","./styles.css?v=74","./app.js?v=74","./esma.js?v=11","./zikirmatik.js?v=10","./inspiration.js?v=7","./listen.js?v=2","./manifest.webmanifest","./icon-v2.svg"];
+// v75 refines El-Muheymiin, El-Latif, El-Vasi and Er-Reshid meanings against TDV entries.
+const CACHE="quran-shell-v75";
+const FILES=["./","./index.html","./styles.css?v=75","./app.js?v=75","./esma.js?v=12","./zikirmatik.js?v=10","./inspiration.js?v=7","./listen.js?v=2","./manifest.webmanifest","./icon-v2.svg"];
 self.addEventListener("install",event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES)).then(()=>self.skipWaiting())));
 self.addEventListener("activate",event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
 self.addEventListener("fetch",event=>{
