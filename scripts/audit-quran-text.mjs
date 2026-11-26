@@ -49,6 +49,7 @@ for (let s = 0; s < payload.data.surahs.length; s++) {
     if (typeof referenceLine !== "string") throw new Error("Tanzil reference ended before the API ayah list");
     let expectedText = referenceLine;
     let actualText = ayah.text.replace(/^\uFEFF/, "");
+    if (a === 0 && s === 94) console.log("SURAH95 opening comparison:", JSON.stringify({ expectedText, actualText }));
     if (a === 0 && s !== 0 && s !== 8) {
       const expectedPrefix = expectedText.match(/^(ب[ِّ]{1,2}سْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ )/u);
       const actualPrefix = actualText.match(/^(بِّ?سْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ )/u);
