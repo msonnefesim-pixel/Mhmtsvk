@@ -48,6 +48,13 @@ for (const [file, source] of [["app.js", app], ["esma.js", esma], ["inspiration.
 const zikirmatikRefs = [...zikirmatik.matchAll(/\$\(["']([^"']+)["']\)/g)].map(match => match[1]);
 const missingZikirmatik = [...new Set(zikirmatikRefs.filter(id => !ids.has(id)))];
 if (missingZikirmatik.length) throw new Error("zikirmatik.js references missing HTML ids: " + missingZikirmatik.join(", "));
+const presets = extractArray(zikirmatik, /const PRESETS=(\[[\s\S]*?\]);/, "Zikirmatik presets");
+if (new Set(presets.map(item => item.id)).size !== presets.length) throw new Error("Duplicate zikirmatik preset id");
+if (presets.some(item => !Number.isInteger(item.target) || item.target < 1)) throw new Error("Invalid zikirmatik preset target");
+const oneCountPresets = presets.filter(item => item.target === 1);
+if (oneCountPresets.length !== 1 || oneCountPresets[0].id !== "preset-ente-selam") {
+  throw new Error("The only one-count preset should be the post-prayer 'Allahümme ente's-selam' dhikr");
+}
 
 const duaRefs = [...app.matchAll(/\{ref:"(\d+):(\d+)(?:-(\d+))?",name:"([^"]+)"\}/g)];
 if (duaRefs.length !== 15) throw new Error("Expected 15 Quran dua references, found " + duaRefs.length);
