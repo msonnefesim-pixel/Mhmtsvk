@@ -50,7 +50,7 @@ for (let s = 0; s < payload.data.surahs.length; s++) {
     let expectedText = referenceLine;
     let actualText = ayah.text.replace(/^\uFEFF/, "");
     if (a === 0 && s !== 0 && s !== 8) {
-      const expectedPrefix = expectedText.match(/^(بِّ?سْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ )/u);
+      const expectedPrefix = expectedText.match(/^(ب[ِّ]{1,2}سْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ )/u);
       const actualPrefix = actualText.match(/^(بِّ?سْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ )/u);
       if (!expectedPrefix || !actualPrefix) throw new Error(`Opening basmala missing or unrecognized at surah ${s + 1}`);
       if (expectedPrefix[1].normalize("NFC") !== actualPrefix[1].normalize("NFC")) {
