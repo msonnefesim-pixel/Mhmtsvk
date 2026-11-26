@@ -55,6 +55,9 @@ const oneCountPresets = presets.filter(item => item.target === 1);
 if (oneCountPresets.length !== 1 || oneCountPresets[0].id !== "preset-ente-selam") {
   throw new Error("The only one-count preset should be the post-prayer 'Allahümme ente's-selam' dhikr");
 }
+if (oneCountPresets[0].name !== "Allahümme ente's-selâmü ve minke's-selâm, tebârekte zâ'l-celâli ve'l-ikrâm") {
+  throw new Error("The post-prayer Allahumma Antas-Salam wording is incomplete");
+}
 
 const duaRefs = [...app.matchAll(/\{ref:"(\d+):(\d+)(?:-(\d+))?",name:"([^"]+)"\}/g)];
 if (duaRefs.length !== 15) throw new Error("Expected 15 Quran dua references, found " + duaRefs.length);
