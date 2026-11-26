@@ -2,7 +2,6 @@ import { Capacitor } from '@capacitor/core';
 import {
   AdMob,
   AdmobConsentStatus,
-  PrivacyOptionsRequirementStatus,
   BannerAdPluginEvents,
   BannerAdPosition,
   BannerAdSize
@@ -34,7 +33,7 @@ function setBannerInset(height) {
 function updatePrivacyOptionsEntryPoint(consent) {
   const button = document.getElementById('adPrivacyOptions');
   if (!button) return;
-  button.hidden = consent.privacyOptionsRequirementStatus !== PrivacyOptionsRequirementStatus.REQUIRED;
+  button.hidden = consent.privacyOptionsRequirementStatus !== 'REQUIRED';
 }
 
 async function hideNativeBanner() {
