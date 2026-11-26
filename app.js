@@ -178,25 +178,44 @@ quranDuas.forEach((dua,index)=>{
 });
 async function showDua(index){
  const dua=quranDuas[index];
+ if(!dua)return;
  duaReading.className="dua-reading";
  duaReading.replaceChildren();
- const loading=document.createElement("p");loading.className="loading-state";loading.textContent="Dua yükleniyor…";duaReading.append(loading);
+ const loading=document.createElement("p");loading.className="loading-state";loading.textContent="Arapça metin ve meal yükleniyor…";duaReading.append(loading);
  try{
-  const response=await fetch(API+"/ayah/"+dua.ref+"/quran-uthmani");
-  if(!response.ok)throw new Error("HTTP "+response.status);
-  const json=await response.json();if(json.code!==200||!json.data)throw new Error("Dua bulunamadı");
-  const data=json.data;
+  const [arabicResponse,mealResponse]=await Promise.all([
+   fetch(API+"/ayah/"+dua.ref+"/quran-uthmani"),
+   fetch(MEAL_API+"/translation/sura/"+MEAL_KEY+"/"+dua.ref.split(":")[0])
+  ]);
+  if(!arabicResponse.ok||!mealResponse.ok)throw new Error("Ayet veya meal kaynağına ulaşılamadı");
+  const [arabicJson,mealJson]=await Promise.all([arabicResponse.json(),mealResponse.json()]);
+  if(arabicJson.code!==200||!arabicJson.data||!Array.isArray(mealJson.result))throw new Error("Ayet veya meal verisi eksik");
+  const data=arabicJson.data;
+  const ayahNumber=Number(dua.ref.split(":")[1]);
+  const translated=mealJson.result.find(item=>Number(item.aya)===ayahNumber);
+  if(!translated||!translated.translation)throw new Error("Seçilen ayetin Türkçe meali kaynakta bulunamadı");
   duaReading.replaceChildren();
   const title=document.createElement("h2");title.className="dua-title";title.textContent=dua.name;
-  const arabicLabel=document.createElement("div");arabicLabel.className="dua-section-label";arabicLabel.textContent="ARAPÇA";
+  const arabicLabel=document.createElement("div");arabicLabel.className="dua-section-label";arabicLabel.textContent="ARAPÇA · TAM AYET";
   const arabic=document.createElement("p");arabic.className="dua-arabic";arabic.dir="rtl";arabic.lang="ar";arabic.textContent=data.text;
   const divider=document.createElement("div");divider.className="dua-divider";
   const mealLabel=document.createElement("div");mealLabel.className="dua-section-label";mealLabel.textContent="TÜRKÇE MEALİ";
-  const meal=document.createElement("p");meal.className="dua-meaning";meal.textContent=dua.meaning;
-  const source=document.createElement("small");source.className="dua-reference";source.textContent=(data.surah?.englishName||"Kur'an")+" · "+dua.ref.replace(":"," / ")+" · "+(data.numberInSurah||"")+" . ayet";
+  const meal=document.createElement("p");meal.className="dua-meaning";meal.textContent=translated.translation;
+  const surahNo=Number(dua.ref.split(":")[0]);
+  const source=document.createElement("small");source.className="dua-reference";source.textContent=(TURKISH_SURAH_NAMES[surahNo-1]||data.surah?.englishName||"Kur'an")+" Suresi · "+ayahNumber+". ayet · Arapça: AlQuran Cloud · Meal: QuranEnc / Rowwad Translation Center";
   duaReading.append(title,arabicLabel,arabic,divider,mealLabel,meal,source);
- }catch(error){duaReading.replaceChildren();const msg=document.createElement("p");msg.className="error-note";msg.textContent="Dua şu anda yüklenemedi. İnternet bağlantını kontrol edip tekrar dene.";duaReading.append(msg);}
+  if(translated.footnotes){
+   const details=document.createElement("details");details.className="ayah-footnotes";
+   const summary=document.createElement("summary");summary.textContent="Açıklama ve dipnotlar";
+   const note=document.createElement("p");note.textContent=translated.footnotes;
+   details.append(summary,note);duaReading.append(details);
+  }
+ }catch(error){
+  duaReading.replaceChildren();
+  const msg=document.createElement("p");msg.className="error-note";msg.textContent="Ayetin Arapça metni veya tam Türkçe meali kaynaktan doğrulanamadı. Bu nedenle eksik ya da tahminî bir meal gösterilmiyor. İnternet bağlantını kontrol edip tekrar dene.";
+  duaReading.append(msg);
+ }
 }
 
 loadSurahList();
-if("serviceWorker"in navigator&&location.protocol.startsWith("http"))window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=59",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{}));
+if("serviceWorker"in navigator&&location.protocol.startsWith("http"))window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=60",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{}));
