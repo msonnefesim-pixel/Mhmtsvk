@@ -64,8 +64,8 @@ Kitaplar ve Referans / Eğitim kategorilerinden Play Console'da uygun olanı se�
 - [x] 114 surenin Türkçe meal uç noktası, ayet sırası ve boş olmayan kayıt kontrolü.
 - [x] V95 Android release preflight: API 36 hedefi, paket kimliği, sürüm numarası, birleştirilmiş manifest ve SDK bağımlılık grafiği (GitHub Actions başarılı).
 - [x] AdMob uygulama kimliği yapılandırıldı; Google'ın test banner kimliği etkin, gerçek banner kimliği devre dışı.
-- [ ] Android gerçek cihaz testi: ilk açılış, çevrimdışı okuma, sure seçimi, dualar, Esma, zikir, tesbih, ekran dönüşü ve uygulamadan çıkıp dönme.
-- [ ] UMP rıza akışı ve reklam gizlilik seçenekleri gerçek cihazda test edilmeli.
+- [x] Kullanıcı tarafından Android telefonda temel kullanım doğrulandı: ilk açılış, sure seçimi, okuma, dualar, Esma, zikir ve tesbih bölümleri çalışıyor.\n- [ ] Yerel Android APK/AAB üzerinde UMP rıza akışı ve reklam görünürlüğü ayrıca test edilmeli.
+- [ ] UMP rıza akışı ve reklam gizlilik seçenekleri yerel Android paketi üzerinde test edilmeli.
 - [ ] Reklamın yalnızca izin verilen yardımcı ekranlarda çıktığı; Kur’an/meal, Zikirmatik ve Tesbih ekranlarında görünmediği doğrulanmalı.
 - [x] Kaynakların yayıncı bilgileri ve kullanım koşulları SOURCES.md dosyasında kayıtlı; otomatik metin bütünlük ve meal kayıt kontrolleri başarılı.
 - [ ] Nihai AAB oluşturulmalı, imza ve versionCode kontrol edilmeli.
