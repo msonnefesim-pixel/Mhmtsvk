@@ -19,7 +19,7 @@ function renderEsma(query=""){
   const arabic=document.createElement("div");arabic.className="esma-arabic";arabic.dir="rtl";arabic.lang="ar";arabic.textContent=item[0];
   const name=document.createElement("h2");name.className="esma-name";name.textContent=item[1];
   const meaning=document.createElement("p");meaning.className="esma-meaning";meaning.textContent=item[2];
-  const targetLabel=document.createElement("small");targetLabel.className="esma-target";targetLabel.textContent=index===0?"KAYNAKTA BELİRTİLEN · 66":"KAYNAKTA BELİRTİLEN HEDEF · "+target;
+  const targetLabel=document.createElement("small");targetLabel.className="esma-target";targetLabel.textContent=index===0?"GELENEKSEL ADET · 66":"GELENEKSEL ADET · "+target;
   const counterRow=document.createElement("div");counterRow.className="esma-counter-row";
   const counter=document.createElement("div");counter.className="esma-counter";counter.textContent=String(Number(namesCounts[item[1]]||0));
   const rounds=document.createElement("span");rounds.className="esma-rounds";rounds.textContent=String(Math.floor(Number(namesCounts[item[1]]||0)/target));
