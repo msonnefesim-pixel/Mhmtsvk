@@ -32,7 +32,7 @@ function render(){
 }
 $("dhikrHistory").addEventListener("change",e=>{state.active=e.target.value;save();render();});
 $("dhikrTarget").addEventListener("change",e=>{active().target=Math.max(1,Math.min(100000,Number(e.target.value)||33));save();render();});
-$("dhikrTap").addEventListener("click",()=>{active().count++;save();if(state.vibrate&&navigator.vibrate)navigator.vibrate(25);render();});
+$("dhikrTap").addEventListener("click",()=>{const item=active();item.count++;save();if(navigator.vibrate){if(item.count===item.target)navigator.vibrate([180,90,180,90,320]);else if(state.vibrate)navigator.vibrate(25);}render();});
 $("dhikrUndo").addEventListener("click",()=>{active().count=Math.max(0,active().count-1);save();render();});
 $("dhikrReset").addEventListener("click",()=>{active().count=0;save();render();});
 $("vibrationToggle").addEventListener("change",e=>{state.vibrate=e.target.checked;save();});
