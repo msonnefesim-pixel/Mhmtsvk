@@ -1,0 +1,9 @@
+{
+  "appId": "com.mehmetsavk.kuranikerim",
+  "appName": "Kur'an-ı Kerim",
+  "webDir": "www",
+  "backgroundColor": "#dce7dc",
+  "android": {
+    "allowMixedContent": false
+  }
+}
