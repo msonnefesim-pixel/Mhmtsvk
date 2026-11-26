@@ -5,7 +5,7 @@
 - Uygulamadaki dosya: `quran-uthmani.txt` (Tanzil'in özgün metni ve gömülü telif bildirimi değiştirilmeden korunmuştur).
 - SHA-256: `ac0724796cbbda0f4801470fbbd11d0f3c5802067bae0493466d0128b0c667af` · dosya boyutu: 1.334.737 bayt.
 - Tanzil kullanım şartları: metin aynen korunarak çoğaltılabilir; değiştirilemez; Tanzil Project kaynağı belirtilmeli, `tanzil.net` bağlantısı ve özgün telif bildirimi korunmalıdır: https://tanzil.net/docs/Text_License.
-- Uygulama, 6.236 ayet satırını yerel dosyadan okur. Sure adları ve ayet sayıları için AlQuran Cloud'un yalnızca sure metadata uç noktası kullanılır; Arapça ayet metni artık AlQuran Cloud API'sinden alınmaz.
+- Uygulama, 6.236 ayet satırını yerel Tanzil dosyasından okur. Sure metadata bilgileri AlQuran Cloud API'sinden, Türkçe meal kayıtları QuranEnc API'sinden yayın/dağıtım derlemesi sırasında alınarak `quran-offline-data.json` dosyasına paketlenir. V93 uygulama çalışma zamanında bu yerel JSON dosyasını kullanır; okuma sırasında AlQuran Cloud veya QuranEnc API'sine istek göndermez.
 - Sure başındaki besmele, Fâtiha'da 1. ayetin kendisidir; Tevbe'nin başında besmele yoktur. Diğer surelerde Tanzil dosyasındaki besmele ilk satırın başında yer alır ve uygulamada ilk ayetten ayrı bir açılış satırı olarak gösterilir; metindeki harfler ve harekeler değiştirilmez.
 - Otomatik denetim, uygulamadaki dosyanın sabitlenmiş Tanzil kopyasıyla bayt bayt aynı olduğunu, 6.236 ayet satırını, 114 sure sınırını ve besmele durumlarını kontrol eder. Bu, kaynağın kendisinden bağımsız ikinci bir Mushaf veya uzman/hafız onayı değildir.
 - Durum: Tanzil'in yayınladığı Uthmani 1.1 metni birebir kopya olarak uygulamaya alındı; tam dosya bütünlük denetimi CI üzerinden yürütülüyor.
