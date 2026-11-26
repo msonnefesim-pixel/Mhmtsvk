@@ -271,3 +271,7 @@ body.dark .esma-target{color:#d8bd79}
 .esma-counter-label{display:block;margin-bottom:3px;color:#8a7548;font-size:9px;font-weight:850;letter-spacing:.8px}
 body.dark .esma-counter{background:#293b30;border-color:#8d794a;color:#f0dfb2}
 body.dark .esma-counter-label{color:#d8bd79}
+
+/* Zikirmatik toplam tekrar sayısı */
+.dhikr-counter{font-size:48px;white-space:nowrap;}
+.dhikr-caption{margin-top:3px;letter-spacing:1.2px;}
