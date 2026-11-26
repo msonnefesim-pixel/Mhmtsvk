@@ -39,11 +39,12 @@ const root=document.getElementById("inspirationPage");
 if(!root){console.error("Gönle Dokunan Sözler bölümü bulunamadı.");return;}
 if(root.dataset.inspirationInitialized==="true")return;
 root.style.pointerEvents="auto";
+const pickerToggle=root.querySelector("#inspirationPickerToggle"),pickerPanel=root.querySelector("#inspirationPickerPanel"),pickerCurrent=root.querySelector("#inspirationPickerCurrent");
 const search=root.querySelector("#inspirationSearch"),preview=root.querySelector("#inspirationPreview"),listRoot=root.querySelector("#inspirationList");
 const theme=root.querySelector("#inspirationTheme"),size=root.querySelector("#inspirationSize"),format=root.querySelector("#inspirationFormat");
 const shareButton=root.querySelector("#inspirationShare"),downloadButton=root.querySelector("#inspirationDownload");
 const textNode=preview?.querySelector(".inspiration-preview-text"),attribution=preview?.querySelector(".inspiration-preview-attribution"),reference=root.querySelector("#inspirationReference");
-if(!search||!preview||!listRoot||!theme||!size||!format||!shareButton||!downloadButton||!textNode||!attribution||!reference){console.error("Gönle Dokunan Sözler: gerekli ekran öğeleri eksik.");return;}
+if(!pickerToggle||!pickerPanel||!pickerCurrent||!search||!preview||!listRoot||!theme||!size||!format||!shareButton||!downloadButton||!textNode||!attribution||!reference){console.error("Gönle Dokunan Sözler: gerekli ekran öğeleri eksik.");return;}
 let filter="all",searchTerm="",current=INSPIRATION_ITEMS[0],selectionToken=0;
 const mealCache=new Map();
 const attributionFor=item=>item.type==="hadith"?"Hz. Muhammed (s.a.v.)":"Kur’an-ı Kerim ayeti";
@@ -83,6 +84,7 @@ async function render(){
  catch(error){if(token!==selectionToken)return;item.displayText="";textNode.textContent="Ayet meali yüklenemedi. İnternet bağlantısını kontrol edip tekrar dene.";}
 }
 function updateList(){setButtons();render();}
+pickerToggle.addEventListener("click",()=>{const open=pickerToggle.getAttribute("aria-expanded")!=="true";pickerToggle.setAttribute("aria-expanded",String(open));pickerPanel.hidden=!open;if(open)search.focus();});
 root.addEventListener("click",event=>{
  const tab=event.target.closest(".inspiration-tab[data-inspiration-filter]");
  if(tab&&root.contains(tab)){
@@ -93,7 +95,7 @@ root.addEventListener("click",event=>{
  const choice=event.target.closest(".inspiration-choice[data-inspiration-item]");
  if(choice&&root.contains(choice)){
   event.preventDefault();const chosen=INSPIRATION_ITEMS.find(item=>item.id===choice.dataset.inspirationItem);
-  if(chosen){current=chosen;setButtons();render();}
+  if(chosen){current=chosen;pickerCurrent.textContent=chosen.title;pickerToggle.setAttribute("aria-expanded","false");pickerPanel.hidden=true;setButtons();render();}
  }
 });
 search.addEventListener("input",()=>{searchTerm=search.value.trim().toLocaleLowerCase("tr");setButtons();});
@@ -128,6 +130,9 @@ async function share(){
 }
 shareButton.addEventListener("click",share);
 downloadButton.addEventListener("click",async()=>{try{const blob=await makeImage();if(blob)download(blob);}catch(error){alert(error.message||"Görsel hazırlanamadı.");}});
+pickerPanel.hidden=true;
+pickerToggle.setAttribute("aria-expanded","false");
+pickerCurrent.textContent=current.title;
 updateList();
 console.info("Gönle Dokunan Sözler hazır:",INSPIRATION_ITEMS.length,"içerik; sekme ve liste olayları bölüm üzerinden yönetiliyor.");
 })();
