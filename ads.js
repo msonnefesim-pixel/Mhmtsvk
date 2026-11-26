@@ -8,14 +8,12 @@ import {
 } from '@capacitor-community/admob';
 
 const TEST_BANNER_ID = 'ca-app-pub-3940256099942544/6300978111';
+// Keep ads away from every screen that displays Qur'an verses or their translations.
 const AD_ALLOWED_PAGES = new Set([
   'home',
-  'duas',
   'names',
   'continue',
-  'favorites',
-  'readingStats',
-  'inspiration'
+  'readingStats'
 ]);
 
 let sdkReady = false;
