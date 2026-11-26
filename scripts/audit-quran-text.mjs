@@ -54,9 +54,9 @@ for (let s = 0; s < payload.data.surahs.length; s++) {
       }
       expectedText = expectedText.slice((basmala + " ").length);
     }
-    const item = { surah: s + 1, ayah: a + 1, text: ayah.text.replace(/^\\uFEFF/, "") };
+    const item = { surah: s + 1, ayah: a + 1, text: ayah.text.replace(/^\uFEFF/, "") };
     apiAyahs.push(item);
-    comparisons.push({ ...item, expected: expectedText.normalize("NFC"), actual: ayah.text.normalize("NFC") });
+    comparisons.push({ ...item, expected: expectedText.normalize("NFC"), actual: item.text.normalize("NFC") });
   }
 }
 if (apiAyahs.length !== 6236 || referenceIndex !== 6236) {
