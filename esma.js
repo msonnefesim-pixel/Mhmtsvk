@@ -20,13 +20,15 @@ function renderEsma(query=""){
   const name=document.createElement("h2");name.className="esma-name";name.textContent=item[1];
   const meaning=document.createElement("p");meaning.className="esma-meaning";meaning.textContent=item[2];
   const targetLabel=document.createElement("small");targetLabel.className="esma-target";targetLabel.textContent=index===0?"GELENEKSEL UYGULAMADA · 66":"GELENEKSEL HEDEF · "+target;
-  const counter=document.createElement("div");counter.className="esma-counter";counter.textContent=String(Math.floor(Number(namesCounts[item[1]]||0)/target));
-  const counterLabel=document.createElement("small");counterLabel.className="esma-counter-label";counterLabel.textContent="TAMAMLANAN TUR";
+  const counterRow=document.createElement("div");counterRow.className="esma-counter-row";
+  const counter=document.createElement("div");counter.className="esma-counter";counter.textContent=String(Number(namesCounts[item[1]]||0));
+  const rounds=document.createElement("span");rounds.className="esma-rounds";rounds.textContent=String(Math.floor(Number(namesCounts[item[1]]||0)/target));
+  const counterLabel=document.createElement("small");counterLabel.className="esma-counter-label";counterLabel.textContent="TOPLAM ZİKİR · TUR SAYISI YANINDA";
   const tap=document.createElement("button");tap.type="button";tap.className="esma-tap";tap.textContent="ZİKİR ÇEK";
-  tap.addEventListener("click",()=>{const count=Number(namesCounts[item[1]]||0)+1;namesCounts[item[1]]=count;saveNamesCounts();counter.textContent=String(Math.floor(count/target));if(count>0&&count%target===0&&navigator.vibrate)navigator.vibrate([180,90,180,90,320]);});
+  tap.addEventListener("click",()=>{const count=Number(namesCounts[item[1]]||0)+1;namesCounts[item[1]]=count;saveNamesCounts();counter.textContent=String(count);rounds.textContent=String(Math.floor(count/target));if(count>0&&count%target===0&&navigator.vibrate)navigator.vibrate([180,90,180,90,320]);});
   const reset=document.createElement("button");reset.type="button";reset.className="esma-reset";reset.textContent="Sıfırla";
-  reset.addEventListener("click",()=>{if(!confirm(item[1]+" sayacı sıfırlansın mı?"))return;namesCounts[item[1]]=0;saveNamesCounts();counter.textContent="0";});
-  card.append(number,arabic,name,meaning,targetLabel,counter,counterLabel,tap,reset);namesGrid.append(card);
+  reset.addEventListener("click",()=>{if(!confirm(item[1]+" sayacı sıfırlansın mı?"))return;namesCounts[item[1]]=0;saveNamesCounts();counter.textContent="0";rounds.textContent="0";});
+  counterRow.append(counter,rounds);card.append(number,arabic,name,meaning,targetLabel,counterRow,counterLabel,tap,reset);namesGrid.append(card);
  });
  namesResultCount.textContent=filtered.length+" isim listeleniyor";
  if(!filtered.length){const empty=document.createElement("p");empty.className="names-empty";empty.textContent="Bu aramayla eşleşen isim bulunamadı.";namesGrid.append(empty);}
