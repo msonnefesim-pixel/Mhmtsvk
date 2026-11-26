@@ -13,8 +13,9 @@ if (actualSha256 !== expectedSha256) {
   throw new Error(`Pinned Tanzil reference checksum mismatch: ${actualSha256}`);
 }
 const referenceLines = new TextDecoder("utf-8", { fatal: true }).decode(referenceBytes)
-  .replace(/^\uFEFF/, "").trimEnd().split(/\r?\n/);
-if (referenceLines.length !== 6236) throw new Error(`Tanzil reference line count is ${referenceLines.length}, expected 6236`);
+  .replace(/^\uFEFF/, "").split(/\r?\n/)
+  .filter(line => line.trim() && !line.startsWith("#"));
+if (referenceLines.length !== 6236) throw new Error(`Tanzil reference ayah line count is ${referenceLines.length}, expected 6236`);
 
 const apiResponse = await fetch(apiUrl, { headers: { "accept": "application/json" } });
 if (!apiResponse.ok) throw new Error(`AlQuran Cloud full Quran request failed: HTTP ${apiResponse.status}`);
@@ -24,6 +25,9 @@ if (payload.code !== 200 || !Array.isArray(payload.data?.surahs) || payload.data
 }
 
 const apiAyahs = [];
+const comparisons = [];
+const basmala = "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ";
+let referenceIndex = 0;
 for (let s = 0; s < payload.data.surahs.length; s++) {
   const surah = payload.data.surahs[s];
   if (Number(surah.number) !== s + 1 || !Array.isArray(surah.ayahs) ||
@@ -36,29 +40,34 @@ for (let s = 0; s < payload.data.surahs.length; s++) {
         typeof ayah.text !== "string" || !ayah.text.trim()) {
       throw new Error(`Ayah structure check failed at ${s + 1}:${a + 1}`);
     }
-    apiAyahs.push({ surah: s + 1, ayah: a + 1, text: ayah.text });
+    const referenceLine = referenceLines[referenceIndex++];
+    if (typeof referenceLine !== "string") throw new Error("Tanzil reference ended before the API ayah list");
+    let expectedText = referenceLine;
+    if (a === 0 && s !== 0 && s !== 8) {
+      if (!expectedText.startsWith(basmala + " ")) {
+        throw new Error(`Expected Tanzil basmala prefix missing at surah ${s + 1}`);
+      }
+      expectedText = expectedText.slice((basmala + " ").length);
+    }
+    const item = { surah: s + 1, ayah: a + 1, text: ayah.text };
+    apiAyahs.push(item);
+    comparisons.push({ ...item, expected: expectedText.normalize("NFC"), actual: ayah.text.normalize("NFC") });
   }
 }
-if (apiAyahs.length !== 6236) throw new Error(`API returned ${apiAyahs.length} ayahs, expected 6236`);
-
-const mismatches = [];
-for (let i = 0; i < 6236; i++) {
-  const expected = referenceLines[i].normalize("NFC");
-  const actual = apiAyahs[i].text.normalize("NFC");
-  if (expected !== actual) mismatches.push({
-    surah: apiAyahs[i].surah,
-    ayah: apiAyahs[i].ayah,
-    tanzil: expected,
-    alquranCloud: actual
-  });
+if (apiAyahs.length !== 6236 || referenceIndex !== 6236) {
+  throw new Error(`Reference/API ayah count mismatch: reference ${referenceIndex}, API ${apiAyahs.length}`);
 }
+
+const mismatches = comparisons.filter(x => x.expected !== x.actual).map(x => ({
+  surah: x.surah, ayah: x.ayah, tanzil: x.expected, alquranCloud: x.actual
+}));
 const report = [
   "# Qur'an Uthmani text comparison",
   "",
   "- Reference: Tanzil Uthmani 1.1 (pinned publisher-file mirror)",
   "- Reference SHA-256: " + actualSha256,
   "- Compared edition: AlQuran Cloud `quran-uthmani`",
-  "- Comparison: ayah-by-ayah, NFC-normalized exact Unicode string comparison; no letters or diacritics stripped.",
+  "- Comparison: ayah-by-ayah, NFC-normalized exact Unicode string comparison; no letters or diacritics stripped. Tanzil's basmala prefix before the first ayah of each surah (except Al-Fatiha and At-Tawbah) is excluded because AlQuran Cloud returns that basmala as a separate surah-opening line, not as part of ayah 1.",
   "- Reference ayahs: " + referenceLines.length,
   "- API ayahs: " + apiAyahs.length,
   "- Exact mismatches: " + mismatches.length,
