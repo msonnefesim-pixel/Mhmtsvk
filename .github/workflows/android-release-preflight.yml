@@ -145,7 +145,7 @@ jobs:
           allowed_match = re.search(r"const AD_ALLOWED_PAGES = new Set\(\[(.*?)\]\);", ads, re.S)
           if not allowed_match:
               raise SystemExit("Ad page allowlist is missing")
-          allowed_pages = set(re.findall(r"['\\"]([^'\\"]+)['\\"]", allowed_match.group(1)))
+          allowed_pages = set(re.findall(r"""[\'"]([^\'"]+)[\'"]""", allowed_match.group(1)))
           protected_pages = {"quran", "reader", "tesbih", "zikirmatik"}
           if allowed_pages & protected_pages:
               raise SystemExit("Ads must remain disabled on Qur'an reading, Tesbih, and Zikirmatik screens")
