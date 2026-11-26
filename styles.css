@@ -217,3 +217,29 @@ body.dark .nav-item.selected {
   color: #ead9a8;
   background: rgba(201,168,92,.13);
 }
+
+/* Zikirmatik */
+.dhikr-panel,.dhikr-tools{margin:0 0 14px;padding:20px 17px;border:1px solid #b8c9b7;border-radius:20px;background:#d3dfd1;color:#29372f;box-shadow:0 8px 22px rgba(18,60,50,.05)}
+.dhikr-top{display:flex;align-items:center;justify-content:center;gap:9px;color:#98783c}.dhikr-top span{font-size:25px}.dhikr-top small{font-size:10px;font-weight:850;letter-spacing:2px}
+.dhikr-label{display:block;margin:14px 0 7px;color:#405648;font-size:11px;font-weight:800}
+.dhikr-input{width:100%;min-height:43px;padding:10px 12px;border:1px solid #b4c5b1;border-radius:11px;background:#f5f7f1;color:#29372f;font:600 13px system-ui,sans-serif}
+.dhikr-counter{margin:12px 0 0;text-align:center;color:#174638;font-family:Georgia,serif;font-size:76px;line-height:1.2;font-variant-numeric:tabular-nums}
+.dhikr-caption{text-align:center;color:#68796b;font-size:9px;font-weight:850;letter-spacing:2px}
+.dhikr-progress{height:8px;margin:15px 2px 6px;border-radius:10px;background:#bdcfbc;overflow:hidden}.dhikr-progress span{display:block;height:100%;width:0;background:#a88743;border-radius:10px;transition:width .15s}
+.dhikr-progress-text{text-align:center;color:#647565;font-size:11px;font-weight:700}
+.dhikr-complete{margin:12px 0 0;text-align:center;color:#245b3b;font-size:13px;font-weight:800}
+.dhikr-tap{display:block;width:100%;min-height:66px;margin:17px 0 10px;border:0;border-radius:16px;background:linear-gradient(145deg,#174638,#28634e);color:#f4e6bd;font-size:18px;font-weight:850;letter-spacing:1px;box-shadow:0 7px 15px rgba(18,60,50,.15)}
+.dhikr-tap:active{transform:scale(.985);filter:brightness(1.12)}
+.dhikr-actions{display:flex;justify-content:center;gap:12px}.dhikr-actions button{padding:10px 18px;border:1px solid #b4c5b1;border-radius:10px;background:#edf2e9;color:#405648;font-size:12px;font-weight:750}
+.dhikr-switch{display:flex;align-items:center;gap:9px;color:#405648;font-size:12px;font-weight:750}.dhikr-switch input{width:18px;height:18px;accent-color:#245b3b}
+.dhikr-add{display:flex;gap:8px;margin-top:10px}.dhikr-add .dhikr-input{min-width:0;flex:1}.dhikr-add button{padding:0 17px;border:0;border-radius:11px;background:#174638;color:#f4e6bd;font-weight:800}
+.dhikr-note{margin:12px 0 0;color:#68796b;font-size:10px;line-height:1.6}
+.dhikr-card-icon{font-size:26px}
+body.dark .dhikr-panel,body.dark .dhikr-tools{background:#26392f;border-color:#405647;color:#e5ebe2}
+body.dark .dhikr-label,body.dark .dhikr-switch{color:#dce6da}
+body.dark .dhikr-input{background:#172720;border-color:#405647;color:#e5ebe2}
+body.dark .dhikr-counter{color:#e8d9b5}
+body.dark .dhikr-progress{background:#405647}
+body.dark .dhikr-progress-text,body.dark .dhikr-note{color:#c0cbbf}
+body.dark .dhikr-actions button{background:#344b3c;border-color:#506653;color:#e5ebe2}
+body.dark .dhikr-complete{color:#c7e2c7}
