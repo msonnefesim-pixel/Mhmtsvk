@@ -1,4 +1,3 @@
-const MEAL_VERSION="1.0.4";
 const INSPIRATION_DATA_VERSION="2.0";
 const INSPIRATION_ITEMS=[
 {id:"h1",type:"hadith",title:"Ameller niyetlere göredir",text:"Ameller niyetlere göredir. Herkes ancak niyet ettiğinin karşılığını alır.",source:"Buhârî 1 · Müslim 1907a"},
