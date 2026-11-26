@@ -36,7 +36,7 @@ window.getQuranMealForSurah=async number=>{
  return surah.ayahs;
 };
 let ayahObserver=null;
-const pages={home:"homePage",quran:"quranPage",duas:"duasPage",names:"namesPage",continue:"continuePage",favorites:"favoritesPage",readingStats:"readingStatsPage",zikirmatik:"zikirmatikPage",inspiration:"inspirationPage"};
+const pages={home:"homePage",quran:"quranPage",duas:"duasPage",names:"namesPage",continue:"continuePage",favorites:"favoritesPage",readingStats:"readingStatsPage",zikirmatik:"zikirmatikPage",tesbih:"tesbihPage",inspiration:"inspirationPage"};
 let surahs=[];
 let surahListPromise=null;
 let quranTextPromise=null;
