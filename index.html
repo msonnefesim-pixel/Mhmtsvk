@@ -139,15 +139,17 @@
     <section class="page" id="inspirationPage">
       <div class="page-heading"><span class="eyebrow">GÖNLE DOKUNAN SÖZLER</span><h1>Gönle Dokunan Sözler</h1><p>Peygamber Efendimizin hadisleri ve Kur’an’dan seçilmiş ayetler.</p></div>
       <div class="inspiration-tabs" role="group" aria-label="İçerik türü"><button type="button" class="inspiration-tab active" data-inspiration-filter="all">Tümü</button><button type="button" class="inspiration-tab" data-inspiration-filter="hadith">Hadisler</button><button type="button" class="inspiration-tab" data-inspiration-filter="ayah">Ayetler</button></div>
-      <div class="inspiration-picker"><label for="inspirationSelect">Söz veya ayet seç</label><select id="inspirationSelect" class="surah-select"></select></div>
-      <div class="inspiration-preview" id="inspirationPreview"><div class="inspiration-preview-kicker">KUR'AN-I KERİM</div><div class="inspiration-preview-type">GÖNLE DOKUNAN SÖZLER</div><p class="inspiration-preview-text">Bir söz seçerek paylaşım kartını hazırla.</p><div class="inspiration-preview-source"></div><div class="inspiration-preview-brand">☾ · KUR'AN-I KERİM</div></div>
+      <div class="inspiration-list" id="inspirationList" aria-label="Söz ve ayet listesi"></div>
+      <div class="inspiration-picker"><label for="inspirationSelect">Listeden seç</label><select id="inspirationSelect" class="surah-select"></select></div>
+      <div class="inspiration-preview" id="inspirationPreview"><p class="inspiration-preview-text">Bir söz seç.</p><small class="inspiration-preview-attribution"></small></div>
+      <p class="inspiration-reference" id="inspirationReference"></p>
       <div class="inspiration-customize">
         <div><label for="inspirationTheme">Kart arka planı</label><select id="inspirationTheme" class="surah-select"><option value="green">Zümrüt yeşili</option><option value="cream">Krem ve altın</option><option value="night">Gece mavisi</option><option value="sage">Adaçayı</option></select></div>
         <div><label for="inspirationSize">Yazı boyutu</label><select id="inspirationSize" class="surah-select"><option value="normal">Normal</option><option value="large">Büyük</option><option value="xlarge">Çok büyük</option></select></div>
         <div><label for="inspirationFormat">Görsel boyutu</label><select id="inspirationFormat" class="surah-select"><option value="portrait">Instagram / Facebook (4:5)</option><option value="square">Kare (1:1)</option><option value="story">Hikâye (9:16)</option></select></div>
       </div>
       <div class="inspiration-actions"><button type="button" class="gold-button" id="inspirationShare">Görseli paylaş</button><button type="button" class="inspiration-secondary" id="inspirationDownload">Görseli kaydet</button></div>
-      <p class="source-note">Paylaş butonu telefonunun paylaşım menüsünü açar. Buradan Instagram, Facebook veya X'i seçebilirsin. Paylaşım seçenekleri telefondaki uygulamalara göre değişebilir. Hadis ve ayet kaynakları kartın üzerinde belirtilir.</p>
+      <p class="source-note">Paylaş butonu telefonunun paylaşım menüsünü açar. Buradan Instagram, Facebook veya X'i seçebilirsin. Paylaşım seçenekleri telefondaki uygulamalara göre değişebilir. Paylaşım görselinde yalnızca söz ve kısa kaynak bilgisi yer alır.</p>
     </section>
     <footer class="app-footer"><span>Uygulama Sahibi: <strong>Mehmet Şavk</strong></span><span>Sürüm: <strong id="appVersion">...</strong></span></footer>
   </main>
@@ -160,6 +162,6 @@
   <script src="app.js?v=86"></script>
   <script src="esma.js?v=15"></script>
   <script src="zikirmatik.js?v=10"></script>
-  <script src="inspiration.js?v=7"></script>
+  <script src="inspiration.js?v=8"></script>
 </body>
 </html>
