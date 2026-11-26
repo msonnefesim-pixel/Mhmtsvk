@@ -5,6 +5,36 @@ const API="https://api.alquran.cloud/v1";
 const MEAL_API="https://quranenc.com/api/v1";
 const MEAL_KEY="turkish_rwwad";
 const MEAL_VERSION="1.0.4";
+let offlineQuranDataPromise=null;
+async function loadOfflineQuranData(){
+ if(!offlineQuranDataPromise){
+  offlineQuranDataPromise=(async()=>{
+   const response=await fetch("./quran-offline-data.json");
+   if(!response.ok)throw new Error("Çevrimdışı Kur’an verisi yüklenemedi");
+   const data=await response.json();
+   if(data.schemaVersion!==1||!Array.isArray(data.surahs)||data.surahs.length!==114)throw new Error("Çevrimdışı Kur’an verisi doğrulanamadı");
+   let total=0;
+   for(let i=0;i<data.surahs.length;i++){
+    const surah=data.surahs[i];
+    if(Number(surah.number)!==i+1||!Array.isArray(surah.ayahs)||surah.ayahs.length!==Number(surah.numberOfAyahs))throw new Error("Sure veya ayet sırası eksik");
+    for(let j=0;j<surah.ayahs.length;j++){
+     const ayah=surah.ayahs[j];
+     if(Number(ayah.aya)!==j+1||typeof ayah.translation!=="string"||!ayah.translation.trim())throw new Error("Türkçe mealde eksik ayet var");
+    }
+    total+=surah.ayahs.length;
+   }
+   if(total!==6236)throw new Error("Çevrimdışı meal 6.236 ayet kontrolünden geçemedi");
+   return data;
+  })().catch(error=>{offlineQuranDataPromise=null;throw error;});
+ }
+ return offlineQuranDataPromise;
+}
+window.getQuranMealForSurah=async number=>{
+ const data=await loadOfflineQuranData();
+ const surah=data.surahs[Number(number)-1];
+ if(!surah||Number(surah.number)!==Number(number))throw new Error("Sure meali bulunamadı");
+ return surah.ayahs;
+};
 let ayahObserver=null;
 const pages={home:"homePage",quran:"quranPage",duas:"duasPage",names:"namesPage",continue:"continuePage",favorites:"favoritesPage",readingStats:"readingStatsPage",zikirmatik:"zikirmatikPage",inspiration:"inspirationPage"};
 let surahs=[];
@@ -71,7 +101,7 @@ const quranHeading=document.querySelector("#quranPage .page-heading");
 retrySurahList.addEventListener("click",()=>{retrySurahList.hidden=true;surahSelect.disabled=true;surahSelect.replaceChildren();const option=document.createElement("option");option.value="";option.textContent="Sureler yükleniyor…";surahSelect.append(option);surahListPromise=loadSurahList();});
 function renderSurahList(items){const current=surahSelect.value;surahSelect.replaceChildren();const first=document.createElement("option");first.value="";first.textContent=items.length===114?"Bir sure seçiniz":"Arama sonucundan sure seçiniz";surahSelect.append(first);items.forEach(s=>{const option=document.createElement("option");option.value=String(s.number);option.textContent=s.number+". "+(s.turkishName||s.englishName)+" · "+s.numberOfAyahs+" ayet";surahSelect.append(option);});surahSelect.disabled=!items.length;if(current&&items.some(s=>String(s.number)===current))surahSelect.value=current;}
 const TURKISH_SURAH_NAMES=["Fâtiha","Bakara","Âl-i İmrân","Nisâ","Mâide","En'âm","A'râf","Enfâl","Tevbe","Yûnus","Hûd","Yûsuf","Ra'd","İbrâhim","Hicr","Nahl","İsrâ","Kehf","Meryem","Tâhâ","Enbiyâ","Hac","Mü'minûn","Nûr","Furkân","Şuarâ","Neml","Kasas","Ankebût","Rûm","Lokmân","Secde","Ahzâb","Sebe","Fâtır","Yâsîn","Sâffât","Sâd","Zümer","Mü'min (Gâfir)","Fussilet","Şûrâ","Zuhruf","Duhân","Câsiye","Ahkâf","Muhammed","Fetih","Hucurât","Kâf","Zâriyât","Tûr","Necm","Kamer","Rahmân","Vâkıa","Hadîd","Mücâdele","Haşr","Mümtehine","Saff","Cuma","Münâfikûn","Tegâbün","Talâk","Tahrîm","Mülk","Kalem","Hâkka","Meâric","Nûh","Cin","Müzzemmil","Müddessir","Kıyâmet","İnsan","Mürselât","Nebe","Nâziât","Abese","Tekvîr","İnfitâr","Mutaffifîn","İnşikâk","Bürûc","Târık","A'lâ","Gâşiye","Fecr","Beled","Şems","Leyl","Duhâ","İnşirâh","Tîn","Alak","Kadr","Beyyine","Zilzâl","Âdiyât","Kâria","Tekâsür","Asr","Hümeze","Fîl","Kureyş","Mâûn","Kevser","Kâfirûn","Nasr","Tebbet (Mesed)","İhlâs","Felak","Nâs"];
-async function loadSurahList(){retrySurahList.hidden=true;try{const response=await fetch(API+"/surah");if(!response.ok)throw new Error("HTTP "+response.status);const json=await response.json();if(json.code!==200||!Array.isArray(json.data)||json.data.length!==114||json.data.some((s,i)=>Number(s.number)!==i+1)||TURKISH_SURAH_NAMES.length!==114)throw new Error("Sure listesi 114 sure ve doğru sıra kontrolünden geçemedi");surahs=json.data.map(s=>({...s,turkishName:TURKISH_SURAH_NAMES[s.number-1]||s.englishName}));renderSurahList(surahs);}catch(error){surahs=[];surahListPromise=null;surahSelect.replaceChildren();const option=document.createElement("option");option.value="";option.textContent="Sure listesi yüklenemedi";surahSelect.append(option);surahSelect.disabled=true;retrySurahList.hidden=false;}}
+async function loadSurahList(){retrySurahList.hidden=true;try{const offline=await loadOfflineQuranData();if(TURKISH_SURAH_NAMES.length!==114)throw new Error("Türkçe sure listesi kontrolü başarısız");surahs=offline.surahs.map(s=>({...s,turkishName:TURKISH_SURAH_NAMES[Number(s.number)-1]||s.englishName}));renderSurahList(surahs);}catch(error){surahs=[];surahListPromise=null;surahSelect.replaceChildren();const option=document.createElement("option");option.value="";option.textContent="Sure listesi yüklenemedi";surahSelect.append(option);surahSelect.disabled=true;retrySurahList.hidden=false;}}
 async function loadQuranText(){
  if(quranTextLines)return quranTextLines;
  if(!quranTextPromise){
@@ -120,13 +150,12 @@ async function loadSurah(number,restoreAyah=null,addHistory=true){
  document.getElementById("surahTitle").textContent="Sure yükleniyor…";
  const ayahList=document.getElementById("ayahList");ayahList.replaceChildren();if(ayahObserver)ayahObserver.disconnect();
  try{
-  const [{meta:s,texts:ayahTexts},mealResponse]=await Promise.all([
+  const [{meta:s,texts:ayahTexts},offline]=await Promise.all([
    getSurahAyahTexts(number),
-   fetch(MEAL_API+"/translation/sura/"+MEAL_KEY+"/"+number)
+   loadOfflineQuranData()
   ]);
-  if(!mealResponse.ok)throw new Error("Türkçe meal kaynağına ulaşılamadı");
-  const mealJson=await mealResponse.json();
-  if(!Array.isArray(mealJson.result))throw new Error("Türkçe meal verisi eksik");
+  const mealJson={result:offline.surahs[Number(number)-1]?.ayahs};
+  if(!Array.isArray(mealJson.result))throw new Error("Çevrimdışı Türkçe meal verisi eksik");
   if(Number(s.number)!==Number(number)||ayahTexts.length!==Number(s.numberOfAyahs)||ayahTexts.some(text=>typeof text!=="string"||!text.trim()))throw new Error("Tanzil sure metni ayet sayısı veya bütünlük kontrolünden geçemedi");
   const meals=new Map(mealJson.result.map(item=>[Number(item.aya),item]));
   if(meals.size!==Number(s.numberOfAyahs)||Array.from({length:Number(s.numberOfAyahs)},(_,i)=>i+1).some(n=>!meals.has(n)||typeof meals.get(n).translation!=="string"||!meals.get(n).translation.trim()))throw new Error("Türkçe mealde eksik veya tekrarlı ayet bulundu");
@@ -317,13 +346,12 @@ async function showDua(index){
   const surahNo=Number(match[1]),firstAyah=Number(match[2]),lastAyah=Number(match[3]||match[2]);
   if(firstAyah<1||lastAyah<firstAyah||lastAyah-firstAyah>9)throw new Error("Dua ayet aralığı geçersiz");
   const ayahNumbers=Array.from({length:lastAyah-firstAyah+1},(_,i)=>firstAyah+i);
-  const [mealResponse,...arabicTexts]=await Promise.all([
-   fetch(MEAL_API+"/translation/sura/"+MEAL_KEY+"/"+surahNo),
+  const [offline,...arabicTexts]=await Promise.all([
+   loadOfflineQuranData(),
    ...ayahNumbers.map(n=>getQuranAyahText(surahNo,n))
   ]);
-  if(!mealResponse.ok)throw new Error("Türkçe meal kaynağına ulaşılamadı");
-  const mealJson=await mealResponse.json();
-  if(!Array.isArray(mealJson.result)||arabicTexts.some(text=>typeof text!=="string"||!text.trim()))throw new Error("Ayet veya meal verisi eksik");
+  const mealJson={result:offline.surahs[surahNo-1]?.ayahs};
+  if(!Array.isArray(mealJson.result)||arabicTexts.some(text=>typeof text!=="string"||!text.trim()))throw new Error("Ayet veya çevrimdışı meal verisi eksik");
   const meals=new Map(mealJson.result.map(item=>[Number(item.aya),item]));
   const verses=ayahNumbers.map((n,i)=>{
    const translated=meals.get(n);
