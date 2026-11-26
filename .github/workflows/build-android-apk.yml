@@ -92,6 +92,9 @@ jobs:
               raise SystemExit("Merged release AndroidManifest.xml was not generated")
           root = ET.parse(manifests[0]).getroot()
           android_ns = "{http://schemas.android.com/apk/res/android}"
+          sdk = root.find("uses-sdk")
+          if sdk is None or sdk.attrib.get(android_ns + "targetSdkVersion") != "36":
+              raise SystemExit("New Google Play app must target Android 16 / API 36")
           permission_tags = ("uses-permission", "uses-permission-sdk-23")
           permissions = sorted({
               node.attrib.get(android_ns + "name", "")
