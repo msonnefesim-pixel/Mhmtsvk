@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#123c32">
   <meta name="description" content="Kur'an-ı Kerim, Türkçe meal, sure dinleme ve Esma-ül Hüsna.">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css?v=47">
+  <link rel="stylesheet" href="styles.css?v=48">
   <title>Kur'an-ı Kerim</title>
 </head>
 <body>
@@ -30,6 +30,7 @@
         <button class="feature-card" data-go="duas"><span class="feature-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 35c4-7 7-11 11-13 2-1 4 1 3 3l-3 5 8-11c2-3 6-1 4 2l-6 10 7-8c2-2 5 1 3 3l-8 12H15z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 12c1-3 3-5 5-5s4 2 5 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span><strong>Kur'an Duaları</strong><small>Kur'an'daki duaları oku</small><span class="card-arrow">↗</span></button>
         <button class="feature-card" data-go="listen"><span class="feature-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 26v-3a16 16 0 0 1 32 0v3M8 25h7v13H11a3 3 0 0 1-3-3zM40 25h-7v13h4a3 3 0 0 0 3-3z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><strong>Sure Dinle</strong><small>Kur'an-ı Kerim tilaveti</small><span class="card-arrow">↗</span></button>
         <button class="feature-card" data-go="names"><span class="feature-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="16" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="24" cy="24" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M24 3v5M24 40v5M3 24h5M40 24h5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span><strong>Esma-ül Hüsna</strong><small>99 güzel isim</small><span class="card-arrow">↗</span></button>
+        <button class="feature-card" data-go="favorites"><span class="feature-icon">♡</span><strong>Favori Ayetlerim</strong><small>Kaydettiğin ayetler</small><span class="card-arrow">↗</span></button>
         <button class="feature-card" data-go="continue"><span class="feature-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M13 7h22v34L24 33 13 41z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/></svg></span><strong>Kaldığım Yer</strong><small>Son okunan ayet</small><span class="card-arrow">↗</span></button><button class="feature-card" data-go="zikirmatik"><span class="feature-icon"><span class="dhikr-card-icon">📿</span></span><strong>Zikirmatik</strong><small>Zikirlerini say ve kaydet</small><span class="card-arrow">↗</span></button>
       </div>
       <div class="note-card"><span>✦</span><p><strong>Sade ve huzurlu bir okuma deneyimi</strong><br>Kur'an metni kaynağı: AlQuran Cloud. Arapça metin ve sesli tilavet AlQuran Cloud kaynaklarından sunulur.</p></div><p class="source-note"><a href="privacy.html">Gizlilik Politikası</a> · <a href="SOURCES.md">İçerik kaynakları</a></p>
@@ -51,7 +52,7 @@
 
       <div id="readingPanel" class="reading-panel" hidden>
         <button class="back-link" id="backToSurahs">← Sure listesine dön</button>
-        <div class="reading-tools"><div class="font-tools"><span>Yazı boyutu</span><button id="fontSmaller" type="button" aria-label="Yazıyı küçült">A−</button><button id="fontLarger" type="button" aria-label="Yazıyı büyüt">A+</button></div><div class="surah-tools"><button id="previousSurah" type="button">← Önceki sure</button><button id="nextSurah" type="button">Sonraki sure →</button></div></div>
+        <div class="reading-tools"><button class="favorites-shortcut" type="button" data-go="favorites">♡ Favori ayetlerim</button><div class="font-tools"><span>Yazı boyutu</span><button id="fontSmaller" type="button" aria-label="Yazıyı küçült">A−</button><button id="fontLarger" type="button" aria-label="Yazıyı büyüt">A+</button></div><div class="surah-tools"><button id="previousSurah" type="button">← Önceki sure</button><button id="nextSurah" type="button">Sonraki sure →</button></div></div>
         <div id="surahTitle" class="surah-title"></div>
         <div id="ayahList" class="ayah-list"></div>
       </div>
@@ -97,6 +98,10 @@
       <p class="source-note">Zikir hedefleri, İslamiyet.gen.tr sayfasında ebced hesabıyla aktarılan geleneksel adetlerden alınmıştır; dinen zorunlu veya sahih hadisle sabit sayılar değildir. Allah ismi için kaynakta günlük hedef bulunmadığından 66, aynı sayfada geçen özel bir uygulama adedi olarak gösterilir. <a href="https://islamiyet.gen.tr/allah-c-c/allah-azze-ve-cellenin-99-ismi-esma-ul-husna-sir-ve-faziletleri-kac-kere-zikir-edilmeli.html" target="_blank" rel="noopener">Kaynağı incele</a>.</p>
     </section>
 
+    <section class="page" id="favoritesPage">
+      <div class="page-heading"><span class="eyebrow">KAYDETTİĞİN AYETLER</span><h1>Favori Ayetlerim</h1><p>Beğendiğin ayetlere buradan yeniden ulaşabilirsin.</p></div>
+      <div id="favoritesList" class="favorites-list"><div class="empty-state"><div class="empty-symbol">♡</div><h2>Henüz favori ayetin yok</h2><p>Kur’an okurken ayetlerin yanındaki yıldız simgesine dokunarak buraya ekleyebilirsin.</p></div></div>
+    </section>
     <section class="page" id="continuePage">
       <div class="page-heading"><span class="eyebrow">OKUMAYA DEVAM ET</span><h1>Kaldığım Yer</h1></div>
       <div id="lastReadPanel" class="empty-state"><div class="empty-symbol">▤</div><h2>Henüz kayıt yok</h2><p>Okumaya başladığında son kaldığın sure burada saklanacak.</p></div>
@@ -124,7 +129,7 @@
     <button class="nav-item" data-go="listen"><span>♫</span><small>Dinle</small></button>
     <button class="nav-item" data-go="names"><span>99</span><small>Esma</small></button>
   </nav>
-  <script src="app.js?v=47"></script>
+  <script src="app.js?v=48"></script>
   <script src="listen.js?v=1"></script>
   <script src="esma.js?v=7"></script>
   <script src="zikirmatik.js?v=9"></script>
