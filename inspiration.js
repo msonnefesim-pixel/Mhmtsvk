@@ -78,8 +78,8 @@ async function render(){
  attribution.textContent=attributionFor(item);updateReference(item);
  preview.style.background=({green:"radial-gradient(circle at 50% 15%,#326451,#123c32 68%)",cream:"linear-gradient(145deg,#fff9e9,#e8d9b5)",night:"linear-gradient(145deg,#24344f,#101a2c)",sage:"linear-gradient(145deg,#dce7d7,#9caf9b)"})[theme.value];
  const light=theme.value==="cream"||theme.value==="sage";preview.style.color=light?"#29372f":"#f7f0dc";textNode.style.color=light?"#29372f":"#fffaf0";attribution.style.color=light?"#58675b":"#e5d6b2";
- textNode.style.fontSize=({normal:"22px",large:"26px",xlarge:"30px"})[size.value];preview.style.aspectRatio=({portrait:"4 / 5",square:"1 / 1",story:"9 / 16"})[format.value];preview.style.minHeight=format.value==="story"?"540px":format.value==="square"?"330px":"390px";
- if(item.type==="hadith"){shareButton.disabled=false;downloadButton.disabled=false;return;}
+ const baseFont=({normal:22,large:26,xlarge:30})[size.value];const quoteLength=(item.type==="hadith"?item.text:(item.displayText||"")).length;const autoFont=quoteLength>420?15:quoteLength>300?16:quoteLength>220?18:quoteLength>140?20:baseFont;textNode.style.fontSize=autoFont+"px";textNode.style.lineHeight="1.55";preview.style.padding=quoteLength>220?"24px 18px":"36px 25px";preview.style.aspectRatio=({portrait:"4 / 5",square:"1 / 1",story:"9 / 16"})[format.value];preview.style.minHeight=format.value==="story"?"540px":format.value==="square"?"330px":"390px";
+ if(item.type==="hadith"){const len=item.text.length;textNode.style.fontSize=(len>420?15:len>300?16:len>220?18:len>140?20:baseFont)+"px";shareButton.disabled=false;downloadButton.disabled=false;return;}
  try{const text=await loadAyahMeal(item);if(token!==selectionToken)return;item.displayText=text;textNode.textContent=text;shareButton.disabled=false;downloadButton.disabled=false;}
  catch(error){if(token!==selectionToken)return;item.displayText="";textNode.textContent="Ayet meali yüklenemedi. İnternet bağlantısını kontrol edip tekrar dene.";}
 }
