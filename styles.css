@@ -359,3 +359,35 @@ body.dark .inspiration-picker,body.dark .inspiration-customize,body.dark .inspir
 .inspiration-picker-panel>label{display:block;margin:0 0 7px;color:var(--green);font-size:11px;font-weight:800}
 body.dark .inspiration-picker-toggle{background:#26392f;border-color:#405647;color:#e8d9b5}
 body.dark .inspiration-picker-toggle small{color:#c4cbbf}
+
+
+/* Animasyonlu tesbih çekme */
+.tesbih-panel{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:18px 16px 20px;box-shadow:var(--shadow);text-align:center;overflow:hidden}
+.tesbih-art-wrap{max-width:360px;margin:0 auto 2px;background:radial-gradient(ellipse at center,#f4f0df 0%,#e6eadc 70%,transparent 100%);border-radius:22px}
+.tesbih-art{display:block;width:100%;height:auto;max-height:260px}
+.tesbih-bead{fill:url(#beadGreen);stroke:#075238;stroke-width:1.4;filter:drop-shadow(0 2px 1px rgba(4,50,31,.25));transition:fill .18s, r .18s}
+.tesbih-bead.is-passed{fill:#b58a3d;stroke:#87652d}
+.tesbih-bead.is-current{fill:#f4d889;stroke:#a77b2e;stroke-width:2.5;filter:drop-shadow(0 0 5px rgba(225,183,91,.9))}
+.tesbih-bead.tesbih-marker{stroke:#e9d39a;stroke-width:2}
+.tesbih-hand{transform-origin:220px 120px}
+.tesbih-hand.is-moving{animation:tesbih-hand-move .24s ease}
+@keyframes tesbih-hand-move{0%,100%{transform:translate(0,0) rotate(0)}45%{transform:translate(-5px,5px) rotate(-3deg)}}
+.tesbih-bead.is-current{animation:tesbih-bead-pop .28s ease}
+@keyframes tesbih-bead-pop{0%{r:6}50%{r:10}100%{r:7}}
+.tesbih-count-area{padding:5px 0 10px}
+.tesbih-count-label{font-size:10px;letter-spacing:2px;font-weight:850;color:var(--gold)}
+.tesbih-count{font-family:Georgia,serif;font-size:54px;line-height:1.15;color:var(--green);font-weight:700;font-variant-numeric:tabular-nums}
+.tesbih-round-label{font-size:12px;color:var(--muted)}
+.tesbih-round-label span{font-weight:800;color:var(--green)}
+.tesbih-milestones{display:flex;justify-content:space-between;margin:16px 2px 7px;color:var(--gold);font-size:12px;font-weight:850}
+.tesbih-progress{height:8px;border-radius:20px;background:var(--line);overflow:hidden}
+.tesbih-progress span{display:block;height:100%;width:0;border-radius:20px;background:linear-gradient(90deg,#0d6945,#d0ad5c);transition:width .2s ease}
+.tesbih-progress-row{display:flex;justify-content:space-between;gap:8px;margin:8px 1px 17px;color:var(--muted);font-size:10px}
+.tesbih-progress-row strong{color:var(--green)}
+.tesbih-tap{width:100%;min-height:58px;border:0;border-radius:16px;background:linear-gradient(135deg,#07583a,#16865a);color:#fff4d5;font-size:15px;font-weight:850;letter-spacing:1px;box-shadow:0 7px 18px rgba(8,83,55,.2);touch-action:manipulation}
+.tesbih-tap:active{transform:scale(.985)}
+.tesbih-reset{margin-top:12px;border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:11px;padding:9px 15px;font-size:11px}
+.tesbih-note{font-size:10px;line-height:1.6;color:var(--muted);margin:14px 4px 0}
+body.dark .tesbih-art-wrap{background:radial-gradient(ellipse at center,#263d32 0%,#1b2d24 72%,transparent 100%)}
+body.dark .tesbih-count{color:#e4eddf}
+@media(prefers-reduced-motion:reduce){.tesbih-hand.is-moving,.tesbih-bead.is-current{animation:none}.tesbih-progress span{transition:none}}
