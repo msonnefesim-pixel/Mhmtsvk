@@ -2,6 +2,7 @@ import { Capacitor } from '@capacitor/core';
 import {
   AdMob,
   AdmobConsentStatus,
+  PrivacyOptionsRequirementStatus,
   BannerAdPluginEvents,
   BannerAdPosition,
   BannerAdSize
@@ -30,6 +31,12 @@ function setBannerInset(height) {
   document.body.classList.toggle('native-banner-visible', value > 0);
 }
 
+function updatePrivacyOptionsEntryPoint(consent) {
+  const button = document.getElementById('adPrivacyOptions');
+  if (!button) return;
+  button.hidden = consent.privacyOptionsRequirementStatus !== PrivacyOptionsRequirementStatus.REQUIRED;
+}
+
 async function hideNativeBanner() {
   if (!Capacitor.isNativePlatform() || !sdkReady || !bannerVisible) {
     setBannerInset(0);
@@ -42,6 +49,26 @@ async function hideNativeBanner() {
   }
   bannerVisible = false;
   setBannerInset(0);
+}
+
+async function showTestBanner() {
+  if (!desiredVisibility || !sdkReady || !consentAllowsAds || bannerVisible) return;
+  try {
+    await AdMob.showBanner({
+      adId: TEST_BANNER_ID,
+      adSize: BannerAdSize.ADAPTIVE_BANNER,
+      position: BannerAdPosition.BOTTOM_CENTER,
+      margin: 0,
+      isTesting: true,
+      npa: true
+    });
+    bannerVisible = true;
+    if (!desiredVisibility) await hideNativeBanner();
+  } catch (error) {
+    bannerVisible = false;
+    setBannerInset(0);
+    console.warn('Test banner was not displayed:', error);
+  }
 }
 
 async function prepareAdMob() {
@@ -57,6 +84,7 @@ async function prepareAdMob() {
       ) {
         consent = await AdMob.showConsentForm();
       }
+      updatePrivacyOptionsEntryPoint(consent);
       consentAllowsAds = Boolean(consent.canRequestAds);
       if (!consentAllowsAds) return false;
 
@@ -89,27 +117,25 @@ window.setNativeAdVisibility = async (page, view = 'list') => {
   }
 
   const ready = await prepareAdMob();
-  if (!ready || !desiredVisibility || bannerVisible) return;
-
-  try {
-    await AdMob.showBanner({
-      adId: TEST_BANNER_ID,
-      adSize: BannerAdSize.ADAPTIVE_BANNER,
-      position: BannerAdPosition.BOTTOM_CENTER,
-      margin: 0,
-      isTesting: true,
-      npa: true
-    });
-    bannerVisible = true;
-    if (!desiredVisibility) await hideNativeBanner();
-  } catch (error) {
-    bannerVisible = false;
-    setBannerInset(0);
-    console.warn('Test banner was not displayed:', error);
-  }
+  if (!ready || !desiredVisibility) return;
+  await showTestBanner();
 };
 
-// The browser/PWA preview never initializes native advertising.
 if (Capacitor.isNativePlatform()) {
+  const privacyButton = document.getElementById('adPrivacyOptions');
+  if (privacyButton) {
+    privacyButton.addEventListener('click', async () => {
+      try {
+        await AdMob.showPrivacyOptionsForm();
+        const consent = await AdMob.requestConsentInfo();
+        updatePrivacyOptionsEntryPoint(consent);
+        consentAllowsAds = Boolean(consent.canRequestAds);
+        if (!consentAllowsAds) await hideNativeBanner();
+        else await showTestBanner();
+      } catch (error) {
+        console.warn('Privacy options form could not be opened:', error);
+      }
+    });
+  }
   window.setNativeAdVisibility('home', 'list');
 }
