@@ -41,6 +41,80 @@ jobs:
           test -s www/sw.js
       - name: Generate Android project
         run: npx cap add android
+      - name: Set Android package version from package.json
+        run: |
+          python3 - <<'PY'
+          import json
+          import re
+          from pathlib import Path
+
+          package = json.loads(Path("package.json").read_text())
+          version = package["version"]
+          match = re.fullmatch(r"(\\d+)\\.(\\d+)\\.(\\d+)", version)
+          if not match:
+              raise SystemExit(f"Invalid package version: {version}")
+          major, minor, patch = map(int, match.groups())
+          version_code = major * 10000 + minor * 100 + patch
+          gradle_path = Path("android/app/build.gradle")
+          if not gradle_path.is_file():
+              raise SystemExit("Generated android/app/build.gradle not found")
+          gradle = gradle_path.read_text()
+          gradle, code_count = re.subn(r"(?m)^(\\s*versionCode\\s+)\\d+\\s*$",
+                                       rf"\\g<1>{version_code}", gradle, count=1)
+          gradle, name_count = re.subn(r'(?m)^(\\s*versionName\\s+)[\'"][^\'"]+[\'"]\\s*      - name: Audit generated Android manifest and SDK dependencies
+        run: |
+          cd android
+          ./gradlew :app:processReleaseMainManifest
+          ./gradlew :app:dependencies --configuration releaseRuntimeClasspath > ../android-release-dependencies.txt
+          cd ..
+          python3 - <<'PY'
+          import re
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+
+          manifests = [p for p in Path("android/app/build/intermediates").rglob("AndroidManifest.xml")
+                       if "merged_manifest" in str(p) and "release" in str(p)]
+          assert manifests, "Merged release AndroidManifest.xml was not generated"
+          manifest = manifests[0]
+          root = ET.parse(manifest).getroot()
+          android_ns = "{http://schemas.android.com/apk/res/android}"
+          permissions = sorted({
+              node.attrib.get(android_ns + "name", "")
+              for node in root.findall("uses-permission")
+          } - {""})
+          print("Android permissions:", permissions or "none")
+          blocked = ("READ_CONTACTS", "WRITE_CONTACTS", "ACCESS_FINE_LOCATION",
+                     "ACCESS_COARSE_LOCATION", "READ_SMS", "SEND_SMS",
+                     "READ_CALL_LOG", "READ_PHONE_STATE", "READ_EXTERNAL_STORAGE",
+                     "MANAGE_EXTERNAL_STORAGE", "CAMERA", "RECORD_AUDIO")
+          unexpected = [p for p in permissions if any(p.endswith(x) for x in blocked)]
+          if unexpected:
+              raise SystemExit("Unexpected sensitive Android permissions: " + ", ".join(unexpected))
+
+          gradle_files = [Path("android/app/build.gradle"), Path("android/app/build.gradle.kts")]
+          gradle = next((p.read_text() for p in gradle_files if p.is_file()), "")
+          if not re.search(r'applicationId\s*[= ]\s*["\']com\.mehmetsavk\.kuranikerim["\']', gradle):
+              raise SystemExit("Android applicationId does not match Capacitor appId")
+          print("Android applicationId: com.mehmetsavk.kuranikerim")
+          PY
+          test -s android-release-dependencies.txt
+          echo "Merged release manifest audited; release dependency report generated."
+      - name: Build debug APK
+        run: cd android && ./gradlew assembleDebug
+      - name: Upload installable APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuran-i-kerim-v94-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 14
+,
+                                       lambda m: m.group(1) + '"' + version + '"', gradle, count=1)
+          if code_count != 1 or name_count != 1:
+              raise SystemExit("Could not safely update Android versionCode/versionName")
+          gradle_path.write_text(gradle)
+          print(f"Android versionName={version}, versionCode={version_code}")
+          PY
       - name: Sync Android project
         run: npx cap sync android
       - name: Audit generated Android manifest and SDK dependencies
