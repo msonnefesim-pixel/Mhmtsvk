@@ -20,7 +20,7 @@ function active(){return state.items.find(x=>x.id===state.active)||state.items[0
 function render(){
  const item=active();if(!item)return;
  $("dhikrName").textContent=item.name;
- $("dhikrCount").textContent=item.count;
+ $("dhikrCount").textContent=item.count+". kez";
  $("dhikrTarget").value=String(item.target);
  $("dhikrProgress").style.width=Math.min(100,item.target?item.count/item.target*100:0)+"%";
  $("dhikrProgressText").textContent=item.count+" / "+item.target;
