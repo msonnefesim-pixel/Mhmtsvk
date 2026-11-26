@@ -220,7 +220,7 @@ async function showDua(index){
    duaReading.append(block);
   });
   const range=firstAyah===lastAyah?firstAyah+". ayet":firstAyah+"-"+lastAyah+". ayetler";
-  const source=document.createElement("small");source.className="dua-reference";source.textContent=(TURKISH_SURAH_NAMES[surahNo-1]||"Kur'an")+" Suresi · "+range+" · Arapça: AlQuran Cloud · Meal: QuranEnc / Rowwad Translation Center";
+  const source=document.createElement("small");source.className="dua-reference";source.textContent=(TURKISH_SURAH_NAMES[surahNo-1]||"Kur'an")+" Suresi · "+range+" · Arapça: AlQuran Cloud · Meal: QuranEnc / Rowwad Translation Center · Sürüm "+MEAL_VERSION;
   duaReading.append(source);
  }catch(error){
   duaReading.replaceChildren();
