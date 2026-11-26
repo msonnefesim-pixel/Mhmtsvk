@@ -127,7 +127,7 @@ if (!inspiration.includes('console.info("Gönle Dokunan Sözler hazır:"') || !i
 if (!inspiration.includes("inspiration-preview-attribution") || inspiration.includes("inspiration-preview-kicker") || inspiration.includes("inspiration-preview-brand")) throw new Error("Share-card image must contain only quote and short attribution");
 // Keep the selector regression check explicit: it must start closed and be opened by its own button.
 console.log([
-  "App structure audit passed",
+  "App structure audit passed for V" + appVersion,
   "- Esma: 99 complete entries, 99 unique Arabic spellings, 99 unique Turkish names, 99 positive repetition targets",
   "- Turkish surah labels: 114 unique names",
   "- Static JavaScript-to-HTML element references: all present",
