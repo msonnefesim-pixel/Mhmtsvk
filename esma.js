@@ -26,7 +26,7 @@ function renderEsma(query=""){
   const counter=document.createElement("div");counter.className="esma-counter";counter.textContent=String(Number(namesCounts[item[1]]||0));
   const counterLabel=document.createElement("small");counterLabel.className="esma-counter-label";counterLabel.textContent="ÇEKİLEN";
   const tap=document.createElement("button");tap.type="button";tap.className="esma-tap";tap.textContent="ZİKİR ÇEK";
-  tap.addEventListener("click",()=>{const count=Number(namesCounts[item[1]]||0)+1;namesCounts[item[1]]=count;saveNamesCounts();counter.textContent=String(count);if(count===getNamesTarget()&&navigator.vibrate)navigator.vibrate([180,90,180,90,320]);});
+  tap.addEventListener("click",()=>{const count=Number(namesCounts[item[1]]||0)+1;namesCounts[item[1]]=count;saveNamesCounts();counter.textContent=String(count);if(count>0&&count%getNamesTarget()===0&&navigator.vibrate)navigator.vibrate([180,90,180,90,320]);});
   const reset=document.createElement("button");reset.type="button";reset.className="esma-reset";reset.textContent="Sıfırla";
   reset.addEventListener("click",()=>{if(!confirm(item[1]+" sayacı sıfırlansın mı?"))return;namesCounts[item[1]]=0;saveNamesCounts();counter.textContent="0";});
   card.append(number,arabic,name,meaning,counter,counterLabel,tap,reset);namesGrid.append(card);
