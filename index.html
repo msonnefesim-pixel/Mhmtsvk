@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#123c32">
   <meta name="description" content="Kur'an-ı Kerim, Türkçe meal, sure dinleme ve Esma-ül Hüsna.">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css?v=33">
+  <link rel="stylesheet" href="styles.css?v=34">
   <title>Kur'an-ı Kerim</title>
 </head>
 <body>
@@ -104,7 +104,7 @@
       <div class="page-heading"><span class="eyebrow">HUZURLA ZİKRET</span><h1>Zikirmatik</h1><p>Zikirlerini say, hedef belirle ve kaldığın yerden devam et.</p></div>
       <div class="dhikr-panel">
         <div class="dhikr-top"><span>📿</span><small>SEÇİLİ ZİKİR</small></div>
-        <label class="dhikr-label" for="dhikrName">Zikir adı</label><input id="dhikrName" class="dhikr-input" value="Sübhanallah" maxlength="50">
+        <label class="dhikr-label" for="dhikrHistory">Hazır zikirler</label><select id="dhikrHistory" class="dhikr-input"></select><div class="dhikr-selected" id="dhikrName">Sübhanallah</div>
         <div class="dhikr-counter" id="dhikrCount" aria-live="polite">0</div><div class="dhikr-caption">ÇEKİLEN ZİKİR</div>
         <label class="dhikr-label" for="dhikrTarget">Hedef (istediğin sayıyı yaz)</label><input id="dhikrTarget" class="dhikr-input" type="number" min="1" max="100000" value="33">
         <div class="dhikr-progress"><span id="dhikrProgress"></span></div><div class="dhikr-progress-text" id="dhikrProgressText">0 / 33</div>
@@ -112,7 +112,7 @@
         <button class="dhikr-tap" id="dhikrTap" type="button">ZİKİR ÇEK</button>
         <div class="dhikr-actions"><button id="dhikrUndo" type="button">↶ Geri al</button><button id="dhikrReset" type="button">Sıfırla</button></div>
       </div>
-      <div class="dhikr-tools"><label class="dhikr-switch"><input id="vibrationToggle" type="checkbox"><span>Titreşim</span></label><label class="dhikr-label" for="dhikrHistory">Kayıtlı zikirlerim</label><select id="dhikrHistory" class="dhikr-input"></select><div class="dhikr-add"><input id="newDhikrName" class="dhikr-input" maxlength="50" placeholder="Yeni zikir adı"><button id="addDhikr" type="button">Ekle</button></div><p class="dhikr-note">Her zikir kendi sayacı ve hedefiyle bu cihazda saklanır.</p></div>
+      <div class="dhikr-tools"><label class="dhikr-switch"><input id="vibrationToggle" type="checkbox"><span>Titreşim</span></label><label class="dhikr-label" for="newDhikrName">Kendi zikrini ekle (isteğe bağlı)</label><div class="dhikr-add"><input id="newDhikrName" class="dhikr-input" maxlength="50" placeholder="Yeni zikir adı"><button id="addDhikr" type="button">Ekle</button></div><p class="dhikr-note">Her zikir kendi sayacı ve hedefiyle bu cihazda saklanır.</p></div>
     </section>
     <footer class="app-footer"><span>Uygulama Sahibi: <strong>Mehmet Şavk</strong></span><span>Sürüm: <strong id="appVersion">...</strong></span></footer>
   </main>
@@ -123,7 +123,7 @@
     <button class="nav-item" data-go="listen"><span>♫</span><small>Dinle</small></button>
     <button class="nav-item" data-go="names"><span>99</span><small>Esma</small></button>
   </nav>
-  <script src="app.js?v=33"></script>
+  <script src="app.js?v=34"></script>
   <script src="listen.js?v=1"></script>
   <script src="esma.js?v=1"></script>\n  <script src="zikirmatik.js?v=1"></script>
 </body>
