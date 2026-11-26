@@ -8,6 +8,7 @@ Android ve mobil web için hazırlanmış Kur'an okuma uygulaması.
 - Kur'an duaları (ayet referanslarıyla)
 - Esma-ül Hüsna (yaygın 99 isim tertibi, Türkçe anlamlar ve isteğe bağlı geleneksel zikir adetleri)
 - Zikirmatik, günlük zikir geçmişi ve titreşim
+- Animasyonlu Tesbih Çekme: 99 boncuk sınırı, 33/66/99 titreşimleri
 - Kaldığım yer, favori ayetler ve günlük/haftalık/aylık okuma hedefleri
 - Ayet ve hadis paylaşım kartları
 
@@ -26,5 +27,9 @@ GitHub Actions şu kontrolleri çalıştırır:
 
 Otomatik kontroller, mealin anlam bakımından uzman denetimi veya bağımsız hafız/Mushaf son okuması yerine geçmez. Bu yayın öncesi kontroller ayrıca tamamlanmalıdır.
 
-## Android derlemesi
-APK iş akışı, son kalite kontrolleri tamamlanana kadar otomatik push derlemesi yapmayacak şekilde geçici olarak manuel tetiklemeye alınmıştır. Son aşamada imzalanmamış debug APK üretilecektir. Google Play yayını için ayrıca imzalı Android App Bundle (AAB), sürümleme, mağaza görselleri ve Veri Güvenliği beyanı hazırlanmalıdır.
+## Android ve reklam hazırlığı
+Android platformu Capacitor 8.5.3 sürüm ailesini kullanır; yeni Google Play uygulamaları için Android 16 / API 36 hedefi denetlenir. Android release preflight, APK/AAB oluşturmadan uygulama projesini üretir, birleştirilmiş manifesti ve SDK bağımlılıklarını kontrol eder, raporları saklar.
+
+AdMob entegrasyonu yalnızca Android için hazırlanmıştır. Şu an yalnızca Google'ın resmî test uygulama/banner kimlikleri kullanılır; gerçek reklam birimi kimlikleri eklenmemiştir. Küçük banner; ana sayfa ve izin verilen yardımcı bölümlerde gösterilecek, Kur'an okuma/meal, Zikirmatik ve Tesbih Çekme ekranlarında gizlenecektir. Rıza kontrolü UMP ile yapılır; gerekli olduğunda gizlilik seçenekleri girişi gösterilir. Web/PWA sürümünde reklam başlatılmaz.
+
+APK iş akışı son kalite kontrolleri tamamlanana kadar manuel tetiklemelidir. Son aşamada debug APK, ardından Google Play için imzalı Android App Bundle (AAB), sürümleme, mağaza görselleri ve nihai Veri Güvenliği beyanı hazırlanmalıdır.
