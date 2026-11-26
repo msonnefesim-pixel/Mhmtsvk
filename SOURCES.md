@@ -19,7 +19,7 @@
 - QuranEnc yayın koşulları indirme ve yeniden yayımlamaya; metnin değiştirilmemesi, QuranEnc.com ve yayıncının belirtilmesi, sürüm numarasının yazılması, transcript bilgilerinin korunması, güncel sürüme geçilmesi ve uygunsuz reklam gösterilmemesi şartlarıyla izin verir: https://quranenc.com/en/home/about/conditions. Uygulama meal metnini değiştirmeden gösterir; sure, dua ve paylaşım kartlarında kaynak/sürüm bilgisi görünür. Ticari yayın öncesi reklam yerleşimi ve kullanım senaryosu ayrıca kontrol edilmelidir.
 
 ## Kur'an duaları ve paylaşım kartlarındaki ayetler
-- Arapça ayet: AlQuran Cloud `quran-uthmani`.
+- Arapça ayet: Uygulamayla birlikte gelen Tanzil Project Uthmani 1.1 dosyası; ayetler sure/ayet numarasıyla yerel dosyadan alınır.
 - Türkçe meal: QuranEnc / Rowwad Translation Center, `turkish_rwwad`.
 - Dua ekranında ve paylaşım kartlarında ayet numarasıyla tam meal alınır; veri eksikse tahminî veya kısaltılmış meal gösterilmez.
 - Paylaşım kartlarındaki ayetler: İnşirah 94:5-6, Ra'd 13:28, Bakara 2:286, Zümer 39:53. Kur'an dualarında Hz. Musa'nın duası Tâhâ 20:25-28; Allah'a sığınma ve dayanma duası Yûnus 10:85-86 aralığıyla tam gösterilir.
@@ -43,9 +43,9 @@
 - Durum: Teknik akış adresi seçilmiş; ticari kullanım/Google Play için açık izin veya uygun lisans henüz teyit edilmedi.
 
 ## Yayın öncesi açık işler
-- [ ] Arapça metnin tamamını yetkili Mushaf nüshasıyla bağımsız karakter/hareke karşılaştırması (Tanzil Uthmani ile tam otomatik karşılaştırma ve uzman son okuması)
-- [ ] Esma-ül Hüsna yazılış, okunuş ve anlamlarını güvenilir kaynaklarla tek tek kontrol
+- [x] Arapça dosyanın Tanzil Uthmani 1.1 yayın kopyasıyla bayt bayt eşleşmesi, 6.236 ayet satırı, 114 sure ve besmele sınırı otomatik kontrolü.\n- [ ] Bağımsız ikinci Mushaf/uzman-hafız tarafından son okuma (otomatik aynı-kaynak kontrolünden ayrı bir onaydır).
+- [x] Esma-ül Hüsna 99 isim ve 99 zikir hedefi sayısı; 99 kısa anlam TDV İslâm Ansiklopedisi alfabetik tabloyla karşılaştırıldı.\n- [ ] Arapça yazılış ve Türkçe okunuşların uzman/hoca tarafından tek tek son kontrolü
 - [ ] Ses kayıtları için Google Play/ticari dağıtımın kapsamına uygun yazılı izin veya lisans (AlQuran Cloud koşulları, okuyucuya telif hakkı tanındığını ve ticari üründe kaldırma talep edilebileceğini söylüyor)
-- [ ] Meal yeniden yayımlama koşullarını sağlayıcıdan teyit
+- [x] QuranEnc yeniden yayımlama şartları (değiştirmeme, yayıncı/kaynak, sürüm, dipnot, güncel sürüm, reklam koşulları) kod ve arayüzle karşılaştırıldı; uygulamada reklam yok. Kaynakta değişiklik notu eklenirse QuranEnc'e ayrıca bildirilmelidir.
 - [x] Web/PWA gizlilik politikası; AlQuran Cloud, QuranEnc, Islamic Network ses CDN'si, cihaz içi depolama ve kullanıcının başlattığı paylaşım akışları eklendi.
 - [ ] Nihai Android paketi ve Google Play Veri Güvenliği beyanını gerçek SDK/manifest/paket davranışıyla son kez inceleme
