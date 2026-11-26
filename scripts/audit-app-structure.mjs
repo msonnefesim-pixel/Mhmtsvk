@@ -40,7 +40,7 @@ if (surahNames.length !== 114 || new Set(surahNames).size !== 114) {
 }
 
 const scriptGlobals = new Map();
-for (const [file, source] of [["app.js", app], ["esma.js", esma], ["zikirmatik.js", zikirmatik], ["tesbih.js", tesbih], ["inspiration.js", inspiration]]) {
+for (const [file, source] of [["app.js", app], ["esma.js", esma], ["zikirmatik.js", zikirmatik], ["inspiration.js", inspiration]]) {
   for (const match of source.matchAll(/^(?:const|let|var|function|class)\s+([A-Za-z_$][\w$]*)/gm)) {
     const name = match[1];
     if (scriptGlobals.has(name)) {
