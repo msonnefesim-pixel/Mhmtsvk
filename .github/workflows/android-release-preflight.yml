@@ -108,7 +108,7 @@ jobs:
           if bad:
               raise SystemExit("Unexpected sensitive permissions: " + ", ".join(bad))
           g = Path("android/app/build.gradle").read_text()
-          if not re.search(r'applicationId\\s*[= ]\\s*["\\']com\\.mehmetsavk\\.kuranikerim["\\']', g):
+          if not re.search(r'applicationId\s*[= ]\s*["\']com\.mehmetsavk\.kuranikerim["\']', g):
               raise SystemExit("Unexpected applicationId")
           package = __import__("json").loads(Path("package.json").read_text())
           parts = list(map(int, package["version"].split(".")))
