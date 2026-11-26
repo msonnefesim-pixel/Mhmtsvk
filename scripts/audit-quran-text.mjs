@@ -24,20 +24,24 @@ if (payload.code !== 200 || !Array.isArray(payload.data?.surahs) || payload.data
   throw new Error("AlQuran Cloud response did not contain all 114 surahs");
 }
 
-console.log("API first surah shape:", JSON.stringify(payload.data.surahs[0]).slice(0, 1200));
+const metadataResponse = await fetch("https://api.alquran.cloud/v1/surah");
+if (!metadataResponse.ok) throw new Error("Surah metadata request failed");
+const metadata = await metadataResponse.json();
+if (metadata.code !== 200 || !Array.isArray(metadata.data) || metadata.data.length !== 114) throw new Error("Invalid surah metadata");
+console.log("API surah 2 ayah 1:", JSON.stringify(payload.data.surahs[1]?.ayahs?.[0]));
 const apiAyahs = [];
 const comparisons = [];
 const basmala = "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ";
 let referenceIndex = 0;
 for (let s = 0; s < payload.data.surahs.length; s++) {
   const surah = payload.data.surahs[s];
-  if (Number(surah.number) !== s + 1 || !Array.isArray(surah.ayahs) ||
-      surah.ayahs.length !== Number(surah.numberOfAyahs)) {
+  if (Number(surah.number) !== s + 1 || Number(metadata.data[s]?.number) !== s + 1 ||
+      !Array.isArray(surah.ayahs) || surah.ayahs.length !== Number(metadata.data[s].numberOfAyahs)) {
     throw new Error(`Surah structure/count check failed at surah ${s + 1}`);
   }
   for (let a = 0; a < surah.ayahs.length; a++) {
     const ayah = surah.ayahs[a];
-    if (Number(ayah.numberInSurah) !== a + 1 || Number(ayah.surah?.number) !== s + 1 ||
+    if (Number(ayah.numberInSurah) !== a + 1 || Number(ayah.number) !== apiAyahs.length + 1 ||
         typeof ayah.text !== "string" || !ayah.text.trim()) {
       throw new Error(`Ayah structure check failed at ${s + 1}:${a + 1}`);
     }
@@ -50,7 +54,7 @@ for (let s = 0; s < payload.data.surahs.length; s++) {
       }
       expectedText = expectedText.slice((basmala + " ").length);
     }
-    const item = { surah: s + 1, ayah: a + 1, text: ayah.text };
+    const item = { surah: s + 1, ayah: a + 1, text: ayah.text.replace(/^\\uFEFF/, "") };
     apiAyahs.push(item);
     comparisons.push({ ...item, expected: expectedText.normalize("NFC"), actual: ayah.text.normalize("NFC") });
   }
