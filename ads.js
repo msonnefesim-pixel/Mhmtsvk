@@ -21,6 +21,7 @@ const AD_ALLOWED_PAGES = new Set([
 let sdkReady = false;
 let consentAllowsAds = false;
 let bannerVisible = false;
+let bannerShowPromise = null;
 let desiredVisibility = false;
 let startPromise = null;
 
@@ -53,22 +54,30 @@ async function hideNativeBanner() {
 
 async function showTestBanner() {
   if (!desiredVisibility || !sdkReady || !consentAllowsAds || bannerVisible) return;
-  try {
-    await AdMob.showBanner({
-      adId: TEST_BANNER_ID,
-      adSize: BannerAdSize.ADAPTIVE_BANNER,
-      position: BannerAdPosition.BOTTOM_CENTER,
-      margin: 0,
-      isTesting: true,
-      npa: true
-    });
-    bannerVisible = true;
-    if (!desiredVisibility) await hideNativeBanner();
-  } catch (error) {
-    bannerVisible = false;
-    setBannerInset(0);
-    console.warn('Test banner was not displayed:', error);
-  }
+  if (bannerShowPromise) return bannerShowPromise;
+
+  bannerShowPromise = (async () => {
+    try {
+      await AdMob.showBanner({
+        adId: TEST_BANNER_ID,
+        adSize: BannerAdSize.ADAPTIVE_BANNER,
+        position: BannerAdPosition.BOTTOM_CENTER,
+        margin: 0,
+        isTesting: true,
+        npa: true
+      });
+      bannerVisible = true;
+      if (!desiredVisibility) await hideNativeBanner();
+    } catch (error) {
+      bannerVisible = false;
+      setBannerInset(0);
+      console.warn('Test banner was not displayed:', error);
+    } finally {
+      bannerShowPromise = null;
+    }
+  })();
+
+  return bannerShowPromise;
 }
 
 async function prepareAdMob() {
