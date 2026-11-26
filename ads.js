@@ -90,7 +90,7 @@ async function prepareAdMob() {
 
       await AdMob.initialize();
       await AdMob.addListener(BannerAdPluginEvents.SizeChanged, size => {
-        if (bannerVisible) setBannerInset(size.height);
+        if (desiredVisibility) setBannerInset(size.height);
       });
       sdkReady = true;
       return true;
