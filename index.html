@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#123c32">
   <meta name="description" content="Kur'an-ı Kerim, Türkçe meal, Kur'an duaları ve Esma-ül Hüsna.">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css?v=89">
+  <link rel="stylesheet" href="styles.css?v=90">
   <title>Kur'an-ı Kerim</title>
 </head>
 <body>
@@ -139,8 +139,7 @@
     <section class="page" id="inspirationPage">
       <div class="page-heading"><span class="eyebrow">GÖNLE DOKUNAN SÖZLER</span><h1>Gönle Dokunan Sözler</h1><p>Peygamber Efendimizin hadisleri ve Kur’an’dan seçilmiş ayetler.</p></div>
       <div class="inspiration-tabs" role="group" aria-label="İçerik türü"><button type="button" class="inspiration-tab active" data-inspiration-filter="all">Tümü</button><button type="button" class="inspiration-tab" data-inspiration-filter="hadith">Hadisler</button><button type="button" class="inspiration-tab" data-inspiration-filter="ayah">Ayetler</button></div>
-      <div class="inspiration-list" id="inspirationList" aria-label="Söz ve ayet listesi"></div>
-      <div class="inspiration-picker"><label for="inspirationSelect">Listeden seç</label><select id="inspirationSelect" class="surah-select"></select></div>
+      <div class="inspiration-picker"><label for="inspirationSearch">Listeden seç</label><input id="inspirationSearch" class="inspiration-search" type="search" placeholder="Söz veya sure adı ara..." autocomplete="off"><div class="inspiration-list" id="inspirationList" aria-label="Seçilebilir söz ve ayet listesi"></div></div>
       <div class="inspiration-preview" id="inspirationPreview"><p class="inspiration-preview-text">Bir söz seç.</p><small class="inspiration-preview-attribution"></small></div>
       <p class="inspiration-reference" id="inspirationReference"></p>
       <div class="inspiration-customize">
@@ -159,9 +158,9 @@
     <button class="nav-item" data-go="duas"><span>♡</span><small>Dualar</small></button>
     <button class="nav-item" data-go="names"><span>99</span><small>Esma</small></button>
   </nav>
-  <script src="app.js?v=89"></script>
+  <script src="app.js?v=90"></script>
   <script src="esma.js?v=15"></script>
   <script src="zikirmatik.js?v=10"></script>
-  <script src="inspiration.js?v=10"></script>
+  <script src="inspiration.js?v=11"></script>
 </body>
 </html>
