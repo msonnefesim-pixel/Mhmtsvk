@@ -51,5 +51,6 @@
 - [x] Ses kayıtları için yazılı ticari izin henüz doğrulanmadığından sesli sureler bölümü uygulama kodundan ve paketinden çıkarıldı
 - [x] 114/114 surenin tüm Türkçe meal kayıtları sıra, tekillik ve boş olmayan çeviri bakımından doğrulandı.
 - [x] QuranEnc yeniden yayımlama şartları (değiştirmeme, yayıncı/kaynak, sürüm, dipnot, güncel sürüm, reklam koşulları) kod ve arayüzle karşılaştırıldı; uygulamada reklam yok. Kaynakta değişiklik notu eklenirse QuranEnc'e ayrıca bildirilmelidir.
-- [x] Web/PWA gizlilik politikası; yerel Tanzil metni, AlQuran Cloud sure metadata, QuranEnc meal, cihaz içi depolama ve kullanıcının başlattığı paylaşım akışları eklendi.
-- [ ] Nihai Android paketi ve Google Play Veri Güvenliği beyanını gerçek SDK/manifest/paket davranışıyla son kez inceleme
+- [x] V93 web uygulamasının veri akışı koddan incelendi: Kur'an metni ve meal uygulamayla gelen yerel dosyalardan okunuyor; okuma sırasında AlQuran Cloud/QuranEnc API çağrısı yapılmıyor. Okuma konumu, favoriler, zikir ve hedef kayıtları cihaz içi depolamada tutuluyor; reklam/analiz SDK'sı veya hesap akışı bulunmuyor.
+- [x] Gizlilik politikası V93'ün gerçek web uygulaması davranışına göre güncellendi; kullanıcı tarafından başlatılan paylaşım ve dış kaynak bağlantıları açıklandı.
+- [ ] Nihai Android paketi oluşturulduktan sonra birleştirilmiş manifest, izinler, SDK/bağımlılıklar ve gerçek veri akışları denetlenecek; Google Play Veri Güvenliği beyanı bu incelemeye göre kesinleştirilecek.
