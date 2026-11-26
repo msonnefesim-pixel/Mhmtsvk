@@ -6,7 +6,7 @@
 - Kullanılan edisyon: `quran-uthmani`
 - Kaynak koşulları: https://alquran.cloud/terms-and-conditions
 - 13.11.2026 tarihli koşullara göre Kur'an metni kullanılabilir; metin hareke ve yazımı korunarak aynen gösterilmeli ve kaynak belirtilmelidir. Metin üzerinde düzeltme veya yeniden yazım yapılmamalıdır.
-- Uygulama sure/ayet sayısı ve meal bütünlüğü kontrolleri yapar. Bu kontroller, bütün harf ve harekelerin bağımsız Mushaf karşılaştırmasıyla tek tek doğrulandığı anlamına gelmez.
+- Uygulama sure/ayet sayısı, her ayetin sure içi sıra numarası, sure numarası ve boş olmayan Arapça metin kontrolleri yapar; meal ayetlerinin tekil ve eksiksiz olmasını da denetler. Bu kontroller, bütün harf ve harekelerin bağımsız Mushaf karşılaştırmasıyla tek tek doğrulandığı anlamına gelmez. Tanzil, Medine Mushafı'nın Uthmani Unicode aktarımını sunduğunu ve metin sürümünü 1.1 olarak yayımladığını belirtir: https://tanzil.net/docs/uthmani · https://tanzil.net/docs/download.
 - Durum: Yapısal bütünlük kontrolü var; bağımsız tam Mushaf karşılaştırması henüz tamamlanmadı.
 
 ## Türkçe meal
@@ -43,8 +43,9 @@
 - Durum: Teknik akış adresi seçilmiş; ticari kullanım/Google Play için açık izin veya uygun lisans henüz teyit edilmedi.
 
 ## Yayın öncesi açık işler
-- [ ] Arapça metnin tamamını yetkili Mushaf nüshasıyla bağımsız karşılaştırma
+- [ ] Arapça metnin tamamını yetkili Mushaf nüshasıyla bağımsız karakter/hareke karşılaştırması (Tanzil Uthmani ile tam otomatik karşılaştırma ve uzman son okuması)
 - [ ] Esma-ül Hüsna yazılış, okunuş ve anlamlarını güvenilir kaynaklarla tek tek kontrol
-- [ ] Ses kayıtları için ticari kullanım izni/lisansı
+- [ ] Ses kayıtları için Google Play/ticari dağıtımın kapsamına uygun yazılı izin veya lisans (AlQuran Cloud koşulları, okuyucuya telif hakkı tanındığını ve ticari üründe kaldırma talep edilebileceğini söylüyor)
 - [ ] Meal yeniden yayımlama koşullarını sağlayıcıdan teyit
-- [ ] Gizlilik politikası ve Google Play veri güvenliği beyanını son kez inceleme
+- [x] Web/PWA gizlilik politikası; AlQuran Cloud, QuranEnc, Islamic Network ses CDN'si, cihaz içi depolama ve kullanıcının başlattığı paylaşım akışları eklendi.
+- [ ] Nihai Android paketi ve Google Play Veri Güvenliği beyanını gerçek SDK/manifest/paket davranışıyla son kez inceleme
