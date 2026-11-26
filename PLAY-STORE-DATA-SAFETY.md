@@ -1,10 +1,10 @@
 # Google Play Veri Güvenliği — yayın öncesi çalışma notu
 
-Son kod incelemesi: 26 Kasım 2026 · Web uygulaması: V93
+Son kod incelemesi: 26 Kasım 2026 · Web uygulaması: V94
 
 ## İncelenen uygulama davranışı
 - Hesap oluşturma veya oturum açma yok.
-- Reklam, analiz veya izleme SDK'sı görünmüyor.
+- V94 web kodunda reklam, analiz veya izleme SDK'sı bulunmuyor. AdMob entegrasyonu planlanıyor ancak henüz eklenmedi; eklendiğinde bu değerlendirme ve gizlilik politikası yeniden hazırlanmalı.
 - Uygulama kodunda kullanıcı verisini geliştirici sunucusuna gönderen bir akış görünmüyor.
 - Son okunan sure/ayet, favoriler, zikir sayaçları ve geçmişi, okuma hedefleri, tema ve yazı boyutu cihazın yerel depolamasında tutuluyor.
 - Arapça metin ve Türkçe meal uygulamayla gelen yerel veri dosyalarından okunuyor. Okuma sırasında AlQuran Cloud veya QuranEnc API isteği yapılmıyor.
@@ -13,6 +13,10 @@ Son kod incelemesi: 26 Kasım 2026 · Web uygulaması: V93
 
 ## Play Console için geçici değerlendirme
 Nihai Android paketi aynı davranışı ve yalnızca mevcut bağımlılıkları koruyorsa, Veri Güvenliği formunda “veri toplanmıyor” ve “veri paylaşılmıyor” yanıtları uygun olabilir. Bu bir taslak değerlendirmedir; Play Console'a henüz nihai cevap olarak girilmemelidir.
+
+## Android paket kontrolü durumu
+- Android derleme iş akışına, üretilecek AndroidManifest.xml içindeki izinleri ve `releaseRuntimeClasspath` bağımlılık ağacını raporlayan bir denetim adımı eklendi.
+- Bu denetim henüz Android derlemesi çalıştırılarak doğrulanmadı. Paket ve SDK listesi elde edilmeden nihai Veri Güvenliği beyanı yapılmayacak.
 
 ## Mevcut sınırlama
 Bu incelemede varsayılan dalda `android/app/src/main/AndroidManifest.xml` veya bir Android proje dizini bulunamadı; `package.json` yalnızca Capacitor Android/Core bağımlılıklarını ve `cap sync android` komutunu tanımlıyor. Bu nedenle henüz üretilmiş Android paketi, birleştirilmiş manifest veya gerçek paket SDK listesi incelenmiş değildir. Kullanıcı isteği doğrultusunda şu aşamada APK/AAB oluşturulmamıştır.
