@@ -99,9 +99,10 @@ if (!sw.includes("./app.js?v=" + appVersion) || !sw.includes("./styles.css?v=" +
   throw new Error("Service worker pre-cache does not use the current app assets");
 }
 
-if (!html.includes("inspiration.js?v=13") || !sw.includes("./inspiration.js?v=13")) throw new Error("Gönle Dokunan Sözler script/cache version mismatch");
+if (!html.includes("inspiration.js?v=14") || !sw.includes("./inspiration.js?v=14")) throw new Error("Gönle Dokunan Sözler script/cache version mismatch");
 const inspirationItems = [...inspiration.matchAll(/\{id:"[ha]\d+"/g)];
 if (inspirationItems.length < 24) throw new Error("Daily inspiration library must contain at least 24 entries");
+if (!html.includes('id="inspirationPickerToggle"') || !html.includes('id="inspirationPickerPanel"') || !inspiration.includes("pickerPanel.hidden=true") || !inspiration.includes('pickerToggle.addEventListener("click"')) throw new Error("Inspiration picker must open and close as a collapsible list");
 if (!inspiration.includes('console.info("Gönle Dokunan Sözler hazır:"') || !inspiration.includes('root.addEventListener("click"') || !inspiration.includes('#inspirationSearch') || inspiration.includes("inspirationSelect")) throw new Error("Inspiration picker must use the interactive searchable list");
 if (!inspiration.includes("inspiration-preview-attribution") || inspiration.includes("inspiration-preview-kicker") || inspiration.includes("inspiration-preview-brand")) throw new Error("Share-card image must contain only quote and short attribution");
 console.log([
