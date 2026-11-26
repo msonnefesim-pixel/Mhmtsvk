@@ -1,0 +1,117 @@
+name: Android Release Preflight
+on:
+  push:
+    branches: [main]
+    paths:
+      - "app.js"
+      - "esma.js"
+      - "zikirmatik.js"
+      - "tesbih.js"
+      - "inspiration.js"
+      - "index.html"
+      - "styles.css"
+      - "package.json"
+      - "capacitor.config.json"
+      - "scripts/**"
+      - ".github/workflows/android-release-preflight.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  android-preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - name: Install Capacitor
+        run: npm install --no-audit --no-fund
+      - name: Check app source
+        run: |
+          node --check app.js
+          node --check esma.js
+          node --check zikirmatik.js
+          node --check tesbih.js
+          node --check inspiration.js
+          node scripts/audit-app-structure.mjs
+      - name: Build bundled offline content
+        run: node scripts/build-offline-quran-data.mjs
+      - name: Prepare Android web assets
+        run: |
+          mkdir -p www
+          cp index.html app.js esma.js zikirmatik.js inspiration.js tesbih.js styles.css manifest.webmanifest icon-v2.svg quran-uthmani.txt quran-offline-data.json privacy.html SOURCES.md sw.js www/
+          test -s www/index.html
+          test -s www/quran-uthmani.txt
+          test -s www/quran-offline-data.json
+          test -s www/tesbih.js
+      - name: Generate Android project
+        run: npx cap add android
+      - name: Set package version
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          version = json.loads(Path("package.json").read_text())["version"]
+          parts = version.split(".")
+          if len(parts) != 3 or not all(x.isdigit() for x in parts):
+              raise SystemExit(f"Invalid version: {version}")
+          major, minor, patch = map(int, parts)
+          code = major * 10000 + minor * 100 + patch
+          p = Path("android/app/build.gradle")
+          lines = p.read_text().splitlines()
+          ci = next((i for i,x in enumerate(lines) if x.strip().startswith("versionCode ")), None)
+          ni = next((i for i,x in enumerate(lines) if x.strip().startswith("versionName ")), None)
+          if ci is None or ni is None:
+              raise SystemExit("Android version fields not found")
+          lines[ci] = lines[ci].split("versionCode")[0] + f"versionCode {code}"
+          lines[ni] = lines[ni].split("versionName")[0] + f'versionName "{version}"'
+          p.write_text("\n".join(lines) + "\n")
+          print(f"versionName={version}; versionCode={code}")
+          PY
+      - name: Sync Android project
+        run: npx cap sync android
+      - name: Audit release manifest and SDK dependency graph
+        run: |
+          cd android
+          ./gradlew :app:processReleaseMainManifest
+          ./gradlew :app:dependencies --configuration releaseRuntimeClasspath > ../android-release-dependencies.txt
+          cd ..
+          python3 - <<'PY'
+          import re
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          manifests = [p for p in Path("android/app/build/intermediates").rglob("AndroidManifest.xml")
+                       if "merged_manifest" in str(p) and "release" in str(p)]
+          if not manifests:
+              raise SystemExit("Release merged manifest missing")
+          root = ET.parse(manifests[0]).getroot()
+          ns = "{http://schemas.android.com/apk/res/android}"
+          tags = ("uses-permission", "uses-permission-sdk-23")
+          perms = sorted({n.attrib.get(ns+"name","") for t in tags for n in root.findall(t)}-{""})
+          print("Merged Android permissions:", perms or "none")
+          blocked = ("READ_CONTACTS","WRITE_CONTACTS","ACCESS_FINE_LOCATION","ACCESS_COARSE_LOCATION",
+                     "READ_SMS","SEND_SMS","READ_CALL_LOG","WRITE_CALL_LOG","READ_PHONE_STATE",
+                     "READ_EXTERNAL_STORAGE","WRITE_EXTERNAL_STORAGE","MANAGE_EXTERNAL_STORAGE","CAMERA","RECORD_AUDIO")
+          bad = [p for p in perms if any(p.endswith(x) for x in blocked)]
+          if bad:
+              raise SystemExit("Unexpected sensitive permissions: " + ", ".join(bad))
+          g = Path("android/app/build.gradle").read_text()
+          if not re.search(r'applicationId\\s*[= ]\\s*["\\']com\\.mehmetsavk\\.kuranikerim["\\']', g):
+              raise SystemExit("Unexpected applicationId")
+          package = __import__("json").loads(Path("package.json").read_text())
+          parts = list(map(int, package["version"].split(".")))
+          expected_code = parts[0]*10000 + parts[1]*100 + parts[2]
+          if f'versionName "{package["version"]}"' not in g or f"versionCode {expected_code}" not in g:
+              raise SystemExit("Android version does not match package.json")
+          print("Package ID and Android version verified.")
+          PY
+          test -s android-release-dependencies.txt
+          echo "Preflight passed. No APK or AAB was built."
