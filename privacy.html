@@ -17,7 +17,7 @@
 <p>Kur'an-ı Kerim uygulaması; Arapça Kur'an metni, Türkçe meal, Kur'an duaları, Esma-ül Hüsna, zikirmatik, animasyonlu tesbih sayacı, okuma ilerlemesi, favori ayetler ve paylaşım kartları sunar. Bu politika, uygulamanın bilgileri nasıl kullandığını açıklar.</p>
 
 <h2>2. Toplanan bilgiler ve cihazda saklanan kayıtlar</h2>
-<p>Uygulamanın mevcut kodunda hesap oluşturma, reklam, analiz veya izleme SDK'sı bulunmaz. Uygulama konum, kişi listesi, telefon numarası, fotoğraf arşivi ya da kimlik bilgisi istemez. Geliştiriciye kullanıcı hesabı veya kişisel profil verisi gönderilmez.</p>
+<p>Uygulamada hesap oluşturma veya oturum açma yoktur. Android sürümünde Google Mobile Ads (AdMob) SDK'sı yalnızca banner reklam altyapısı için kullanılır. İlk Android test paketleri Google'ın resmî test reklam kimlikleriyle çalışacak; gerçek reklam kimlikleri yayın öncesinde ayrıca yapılandırılacaktır. Web/PWA sürümünde yerel reklam gösterimi başlatılmaz. Uygulama kendi sunucusuna kullanıcı hesabı veya kişisel profil verisi göndermez.</p>
 <p>Son okunan sure ve ayet, favori ayetler, zikir sayaçları ve zikir geçmişi, tesbih çekme sayacı, günlük/haftalık/aylık okuma hedefleri, tema ve yazı boyutu tercihleri yalnızca cihazın uygulama/tarayıcı yerel depolama alanında tutulur. Bu kayıtlar uygulama verileri veya tarayıcı site verileri silinirse kaybolabilir. Uygulamada kullanıcı hesabı olmadığı için sunucuda tutulmuş bir hesap verisi bulunmaz.</p>
 
 <h2>3. Kur'an metni ve Türkçe meal</h2>
@@ -29,16 +29,21 @@
 <h2>5. Paylaşım özelliği</h2>
 <p>Kullanıcı bir ayet, söz veya görseli paylaşmayı seçtiğinde, seçilen içerik telefonun işletim sistemi paylaşım menüsüne verilir. Kullanıcı paylaşım yapacağı uygulamayı kendisi seçer. Paylaşılan içerik seçilen uygulamanın sağlayıcısına ulaşabilir ve o sağlayıcının gizlilik koşulları geçerli olur. Uygulama bu paylaşımı kendi sunucusuna göndermez.</p>
 
-<h2>6. Çocukların gizliliği</h2>
+<h2>6. Reklam hizmeti ve üçüncü taraf verileri</h2>
+<p>Android uygulamasında Google Mobile Ads SDK, yalnızca banner reklam hizmeti için kullanılır. Reklam isteği, Google'ın Kullanıcı Rızası Yönetimi (UMP) aracılığıyla sağlanan rıza durumu reklam isteğine izin verdiğinde başlatılır. Banner reklam; ana sayfa, dualar, Esma-ül Hüsna ve bazı yardımcı ekranlarda gösterilebilir. Kur'an metni ve meal okuma ekranlarında, ayrıca Tesbih Çekme ekranında reklam gösterilmez. Web/PWA sürümünde AdMob SDK başlatılmaz.</p>
+<p>Google Mobile Ads SDK, hizmetin çalışması kapsamında cihazın IP adresini (yaklaşık konum çıkarımı için), uygulama içi etkileşim bilgilerini, tanılama ve performans bilgilerini ve cihaz/hesap tanımlayıcılarını otomatik olarak toplayabilir ve reklam, analiz ve sahtekârlığı önleme amaçlarıyla paylaşabilir. Google, bu verilerin aktarım sırasında TLS ile şifrelendiğini belirtir. Bu veriler geliştiricinin kendi sunucusuna gönderilmez; reklam hizmeti Google tarafından sağlanır. Ayrıntılar için <a href="https://developers.google.com/admob/android/privacy/play-data-disclosure" target="_blank" rel="noopener">Google Mobile Ads veri açıklamasını</a> ve <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Gizlilik Politikası'nı</a> inceleyin.</p>
+<p>Reklam tercihleri ve rıza seçenekleri Google'ın sunduğu rıza formu üzerinden yönetilir. Reklam SDK'sının veri işleme uygulamaları ve bu politikanın kapsamı, kullanılan SDK sürümü ve yayın yapılandırması değiştiğinde yeniden gözden geçirilir.</p>
+
+<h2>7. Çocukların gizliliği</h2>
 <p>Uygulama çocuklardan bilerek kişisel bilgi talep etmez; hesap açma veya kişisel profil oluşturma özelliği sunmaz.</p>
 
-<h2>7. Veri silme</h2>
+<h2>8. Veri silme</h2>
 <p>Uygulamada hesap bulunmadığından hesap silme işlemi yoktur. Cihazda saklanan uygulama kayıtları, Android ayarlarından uygulama verileri temizlenerek veya web sürümünde tarayıcının site verileri silinerek kaldırılabilir.</p>
 
-<h2>8. Değişiklikler ve iletişim</h2>
+<h2>9. Değişiklikler ve iletişim</h2>
 <p>Uygulamanın özellikleri veya kullandığı hizmetler değişirse bu politika güncellenir. Gizlilik politikasıyla ilgili talepler için <a href="https://github.com/msonnefesim-pixel/Mhmtsvk/issues">proje iletişim sayfasını</a> kullanabilirsiniz. Lütfen herkese açık bildirimlerde özel veya kişisel bilgilerinizi paylaşmayın.</p>
 
-<p><em>Bu politika, 26 Kasım 2026 tarihinde incelenen V94 web uygulaması kodu ve mevcut Capacitor bağımlılık tanımı esas alınarak hazırlanmıştır. Google Play yayını öncesinde üretilecek nihai Android paketi, birleştirilmiş Android manifesti, tüm SDK/bağımlılıklar ve gerçek veri akışları ayrıca incelenecek; Play Console Veri Güvenliği beyanı bu son incelemeye göre kesinleştirilecektir.</em></p>
+<p><em>Bu politika, 26 Kasım 2026 tarihinde incelenen V94 uygulama kodu ve Android AdMob test entegrasyonu esas alınarak hazırlanmıştır. Android test yapılandırmasında yalnızca Google'ın test uygulama ve banner kimlikleri kullanılır. Google Play yayını öncesinde nihai Android paketi, birleştirilmiş manifest, tüm SDK/bağımlılıklar, rıza mesajı ve gerçek reklam yapılandırması yeniden incelenecek; Play Console Veri Güvenliği beyanı bu son incelemeye göre kesinleştirilecektir.</em></p>
 </article></main>
 </body>
 </html>
