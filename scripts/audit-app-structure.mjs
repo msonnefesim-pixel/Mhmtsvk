@@ -1,8 +1,8 @@
 import { readFile } from "node:fs/promises";
 
 const read = path => readFile(new URL("../" + path, import.meta.url), "utf8");
-const [html, app, esma, zikirmatik, inspiration, sw, packageText, buildWorkflow] = await Promise.all([
-  read("index.html"), read("app.js"), read("esma.js"), read("zikirmatik.js"), read("inspiration.js"),
+const [html, app, esma, zikirmatik, tesbih, inspiration, sw, packageText, buildWorkflow] = await Promise.all([
+  read("index.html"), read("app.js"), read("esma.js"), read("zikirmatik.js"), read("tesbih.js"), read("inspiration.js"),
   read("sw.js"), read("package.json"), read(".github/workflows/build-android-apk.yml")
 ]);
 
@@ -40,7 +40,7 @@ if (surahNames.length !== 114 || new Set(surahNames).size !== 114) {
 }
 
 const scriptGlobals = new Map();
-for (const [file, source] of [["app.js", app], ["esma.js", esma], ["zikirmatik.js", zikirmatik], ["inspiration.js", inspiration]]) {
+for (const [file, source] of [["app.js", app], ["esma.js", esma], ["zikirmatik.js", zikirmatik], ["tesbih.js", tesbih], ["inspiration.js", inspiration]]) {
   for (const match of source.matchAll(/^(?:const|let|var|function|class)\s+([A-Za-z_$][\w$]*)/gm)) {
     const name = match[1];
     if (scriptGlobals.has(name)) {
@@ -83,6 +83,11 @@ if (!html.includes("Uygulama Sahibi:") || !html.includes("Mehmet Şavk") || !htm
   throw new Error("App owner/version footer is missing");
 }
 if (!zikirmatik.includes("const PRESETS=[")) throw new Error("Zikirmatik presets were not found");
+if (!html.includes('tesbih.js?v=1') || !sw.includes("./tesbih.js?v=1")) throw new Error("Tesbih script/cache version mismatch");
+for (const id of ["tesbihCount","tesbihBeads","tesbihHand","tesbihTap","tesbihReset","tesbihProgress","tesbihRounds","tesbihProgressBar","tesbihNext"]) {
+  if (!ids.has(id) || !tesbih.includes('$("' + id + '")')) throw new Error("Tesbih control is missing or not wired: " + id);
+}
+if (!tesbih.includes('navigator.vibrate([120,55,120])') || !tesbih.includes('count>=99')) throw new Error("Tesbih milestone vibration or 99-count limit is missing");
 
 const packageVersion = JSON.parse(packageText).version;
 const appVersion = app.match(/register\("\.\/sw\.js\?v=(\d+)"/)?.[1];
