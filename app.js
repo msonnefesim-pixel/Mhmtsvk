@@ -375,10 +375,10 @@ async function showDua(index){
   duaReading.append(source);
  }catch(error){
   duaReading.replaceChildren();const msg=document.createElement("p");msg.className="error-note";
-  msg.textContent="Ayetin Arapça metni veya tam Türkçe meali kaynaktan doğrulanamadı. Bu nedenle eksik ya da tahminî bir meal gösterilmiyor. İnternet bağlantını kontrol edip tekrar dene.";
+  msg.textContent="Ayetin Arapça metni veya çevrimdışı Türkçe meali yüklenemedi. Lütfen uygulama verilerinin ilk kez internet bağlantısıyla yüklenmiş olduğundan emin ol ve tekrar dene.";
   duaReading.append(msg);
  }
 }
 
 surahListPromise=loadSurahList();
-if("serviceWorker"in navigator&&location.protocol.startsWith("http"))window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=85",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{}));
+if("serviceWorker"in navigator&&location.protocol.startsWith("http"))window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=86",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{}));
