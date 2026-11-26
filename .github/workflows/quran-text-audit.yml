@@ -6,6 +6,7 @@ on:
     paths:
       - "scripts/audit-quran-text.mjs"
       - "quran-uthmani.txt"
+      - "app.js"
       - "scripts/audit-remote-content.mjs"
       - ".github/workflows/quran-text-audit.yml"
   workflow_dispatch:
@@ -31,6 +32,7 @@ jobs:
           node --check inspiration.js
           node --check listen.js
           node --check scripts/audit-quran-text.mjs
+          node --check scripts/audit-remote-content.mjs
       - name: Verify bundled Tanzil Uthmani 1.1 text
         run: node scripts/audit-quran-text.mjs
       - name: Verify all 114 Turkish meal and audio endpoints
