@@ -82,7 +82,7 @@ surahSelect.addEventListener("change",()=>{const number=Number(surahSelect.value
 searchEl.addEventListener("input",()=>{const q=searchEl.value.trim().toLocaleLowerCase("tr");renderSurahList(surahs.filter(s=>(s.turkishName||s.englishName).toLocaleLowerCase("tr").includes(q)||s.englishName.toLocaleLowerCase("tr").includes(q)||s.name.includes(q)||String(s.number)===q));});
 const DAILY_READING_KEY="quran-daily-reading-v1";
 function getDailyReading(){
-  const today=new Date().toLocaleDateString("en-CA");
+  const now=new Date();const today=now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0")+"-"+String(now.getDate()).padStart(2,"0");
   try{const saved=JSON.parse(localStorage.getItem(DAILY_READING_KEY)||"null");if(saved&&saved.date===today)return saved;}catch{}
   return {date:today,ayahs:[],surahs:[],target:20};
 }
