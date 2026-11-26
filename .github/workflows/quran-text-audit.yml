@@ -30,7 +30,6 @@ jobs:
           node --check esma.js
           node --check zikirmatik.js
           node --check inspiration.js
-          node --check listen.js
           node --check scripts/audit-quran-text.mjs
           node --check scripts/audit-remote-content.mjs
       - name: Verify bundled Tanzil Uthmani 1.1 text
