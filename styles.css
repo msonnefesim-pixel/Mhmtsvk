@@ -346,3 +346,16 @@ body.dark .period-reading-heading span{color:#d8bd79}
 .inspiration-customize{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:15px;margin-bottom:13px;border:1px solid var(--line);border-radius:15px;background:var(--paper)}.inspiration-customize label{display:block;margin:0 0 7px;color:var(--green);font-size:11px;font-weight:800}.inspiration-customize>div:last-child{grid-column:1/-1}.inspiration-customize select{width:100%}.inspiration-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}.inspiration-actions .gold-button{min-height:46px;justify-content:center}.inspiration-secondary{min-height:46px;padding:10px;border:1px solid #d8bd79;border-radius:12px;background:#f7f0dc;color:#806a3d;font-size:12px;font-weight:800}
 body.dark .inspiration-picker,body.dark .inspiration-customize,body.dark .inspiration-choice{background:#26392f;border-color:#405647}body.dark .inspiration-picker label,body.dark .inspiration-customize label,body.dark .inspiration-choice strong{color:#e8d9b5}body.dark .inspiration-choice.active{background:#344638;border-color:#b89b59}body.dark .inspiration-choice small{color:#d8bd79}body.dark .inspiration-tab{background:#26392f;color:#e8d9b5;border-color:#405647}body.dark .inspiration-tab.active{background:#d8bd79;color:#173e31}body.dark .inspiration-secondary{background:#293b30;border-color:#8d794a;color:#f0dfb2}
 @media(max-width:370px){.inspiration-preview{min-height:340px;padding:25px 18px}.inspiration-preview-text{font-size:19px}.inspiration-customize{grid-template-columns:1fr}.inspiration-customize>div:last-child{grid-column:auto}}
+
+/* V93: Gönle Dokunan Sözler açılır seçim alanı */
+.inspiration-picker-toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:58px;padding:11px 14px;border:1px solid var(--line);border-radius:12px;background:var(--cream);color:var(--green);text-align:left;cursor:pointer;touch-action:manipulation}
+.inspiration-picker-toggle>span:first-child{display:flex;flex-direction:column;gap:4px;min-width:0}
+.inspiration-picker-toggle strong{font-size:13px;font-weight:850}
+.inspiration-picker-toggle small{font-size:11px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.inspiration-picker-chevron{font-size:22px;line-height:1;transition:transform .18s ease}
+.inspiration-picker-toggle[aria-expanded="true"] .inspiration-picker-chevron{transform:rotate(180deg)}
+.inspiration-picker-panel{padding-top:13px}
+.inspiration-picker-panel[hidden]{display:none!important}
+.inspiration-picker-panel>label{display:block;margin:0 0 7px;color:var(--green);font-size:11px;font-weight:800}
+body.dark .inspiration-picker-toggle{background:#26392f;border-color:#405647;color:#e8d9b5}
+body.dark .inspiration-picker-toggle small{color:#c4cbbf}
