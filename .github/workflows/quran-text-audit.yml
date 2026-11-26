@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "scripts/audit-quran-text.mjs"
+      - "quran-uthmani.txt"
       - ".github/workflows/quran-text-audit.yml"
   workflow_dispatch:
 
