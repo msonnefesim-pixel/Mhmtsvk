@@ -23,15 +23,17 @@ Bu nedenle nihai Play Console formunda “hiç veri toplanmıyor” veya “hiç
 
 ## Android paket kontrolü durumu
 - Android derleme iş akışına, üretilecek birleştirilmiş AndroidManifest.xml içindeki izinleri ve releaseRuntimeClasspath bağımlılık ağacını raporlayan denetim adımı eklendi.
-- Android release preflight iş akışı, APK/AAB üretmeden Android projesini oluşturup manifest ve bağımlılık denetimi yapacak şekilde hazırlandı. Denetim artık yeni uygulama için targetSdkVersion 36 ve minSdkVersion 24 şartlarını da doğruluyor.
-- Preflight sonucu henüz tamamlanmadı; nihai manifest ve SDK raporu görülmeden denetim başarılı kabul edilmeyecek.
+- Android release preflight, APK/AAB üretmeden Android projesini oluşturup manifest ve bağımlılık denetimi yaptı; 26 Kasım 2026 tarihli başarılı V94 kontrolünde targetSdkVersion 36, minSdkVersion 24, package ID ve versionCode 9400 doğrulandı.
+- İncelenen Gradle bağımlılık ağacında AdMob eklentisiyle Google Mobile Ads SDK 25.4.0 ve User Messaging Platform 4.0.0 görüldü.
+- Birleştirilmiş manifestte INTERNET, ACCESS_NETWORK_STATE, AD_ID ve Android Ad Services reklam/attribution/topics izinleri bulundu. Kişiler, konum, SMS, çağrı kaydı, kamera ve mikrofon izinleri bulunmadı.
+- Bu kontrol yalnızca manifest/bağımlılık ön kontrolüdür; gerçek cihazda reklam gösterimi, rıza akışı ve nihai AAB henüz test edilmedi.
 
 ## Mevcut sınırlama
 - Android proje dizini repoda saklanmıyor; GitHub Actions içinde Capacitor ile yeniden oluşturuluyor.
 - Google test reklam kimlikleri yalnızca test içindir; bunlarla gerçek gelir elde edilmez.
 - Kullanıcının AdMob hesabından gerçek uygulama kimliği ve banner birimi kimliği alınmadı.
 - Google AdMob/UMP panelinde gerekli bölgesel rıza mesajlarının yapılandırıldığı henüz doğrulanmadı.
-- Kullanıcı isteği doğrultusunda şu aşamada APK/AAB oluşturulmamıştır.
+- Kullanıcı isteği doğrultusunda şu aşamada APK/AAB oluşturulmamıştır; test reklam kimlikleri dışında gerçek reklam kimliği de kullanılmamaktadır.
 
 ## Yayın öncesi zorunlu Android kontrolü
 1. Üretilecek AAB içindeki birleştirilmiş AndroidManifest.xml dosyasını incele.
