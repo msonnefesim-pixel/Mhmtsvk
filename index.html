@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#123c32">
   <meta name="description" content="Kur'an-ı Kerim, Türkçe meal, Kur'an duaları ve Esma-ül Hüsna.">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css?v=95">
+  <link rel="stylesheet" href="styles.css?v=96">
   <title>Kur'an-ı Kerim</title>
 </head>
 <body>
@@ -31,6 +31,7 @@
         <button class="feature-card" data-go="names"><span class="feature-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="16" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="24" cy="24" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M24 3v5M24 40v5M3 24h5M40 24h5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span><strong>Esma-ül Hüsna</strong><small>99 güzel isim</small><span class="card-arrow">↗</span></button><button class="feature-card" data-go="continue"><span class="feature-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M13 7h22v34L24 33 13 41z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/></svg></span><strong>Kaldığım Yer</strong><small>Son okunan ayet</small><span class="card-arrow">↗</span></button><button class="feature-card" data-go="zikirmatik"><span class="feature-icon"><span class="dhikr-card-icon">📿</span></span><strong>Zikirmatik</strong><small>Zikirlerini say ve kaydet</small><span class="card-arrow">↗</span></button>
         <button class="feature-card" data-go="tesbih"><span class="feature-icon"><span class="dhikr-card-icon">🟢</span></span><strong>Tesbih Çekme</strong><small>Animasyonlu el ve tesbih</small><span class="card-arrow">↗</span></button>
         <button class="feature-card" data-go="inspiration"><span class="feature-icon">✦</span><strong>Gönle Dokunan Sözler</strong><small>Hadisler ve seçilmiş ayetler</small><span class="card-arrow">↗</span></button>
+        <button class="feature-card cuma-feature-card" id="cumaFeatureCard" data-go="cuma" hidden><span class="feature-icon">🌙</span><strong>Cuma Mesajları</strong><small>Bu haftanın mesajını paylaş</small><span class="card-arrow">↗</span></button>
         <button class="feature-card" data-go="readingStats"><span class="feature-icon">🌙</span><strong>Günlük Okuma Takibi</strong><small>Bugünkü okuma hedefin</small><span class="card-arrow">↗</span></button>
         <button class="feature-card" data-go="favorites"><span class="feature-icon">♡</span><strong>Favori Ayetlerim</strong><small>Kaydettiğin ayetler</small><span class="card-arrow">↗</span></button>
         
@@ -167,6 +168,12 @@
         <p class="tesbih-note">33, 66 ve 99. boncukta telefon titreşir. Titreşim, cihazın ve tarayıcının desteğine bağlıdır.</p>
       </div>
     </section>
+    <section class="page" id="cumaPage">
+      <div class="page-heading"><span class="eyebrow">HAFTANIN GÜZEL MESAJI</span><h1>Cuma Mesajları</h1><p>Her hafta yenilenen, gönülden bir cuma duası ve güzel dilek.</p></div>
+      <article class="cuma-message-card" id="cumaMessageCard"><div class="cuma-card-crescent" aria-hidden="true">☾</div><div class="cuma-card-kicker">HAYIRLI CUMALAR</div><h2 id="cumaMessageTitle"></h2><p id="cumaMessageText"></p><div class="cuma-card-footer">KUR’ANI KERİM · HUZUR • HİDAYET • BEREKET</div></article>
+      <div class="cuma-week-label" id="cumaWeekLabel">Bu haftanın mesajı</div><div class="cuma-actions"><button type="button" class="gold-button" id="cumaShare">Mesajı paylaş</button><button type="button" class="inspiration-secondary" id="cumaCopy">Mesajı kopyala</button></div>
+      <p class="source-note">Bu bölümdeki mesajlar uygulama için özel hazırlanmış iyi dilek ve dua metinleridir; ayet veya hadis olarak aktarılmaz.</p>
+    </section>
     <section class="page" id="inspirationPage">
       <div class="page-heading"><span class="eyebrow">GÖNLE DOKUNAN SÖZLER</span><h1>Gönle Dokunan Sözler</h1><p>Peygamber Efendimizin hadisleri ve Kur’an’dan seçilmiş ayetler.</p></div>
       <div class="inspiration-tabs" role="group" aria-label="İçerik türü"><button type="button" class="inspiration-tab active" data-inspiration-filter="all">Tümü</button><button type="button" class="inspiration-tab" data-inspiration-filter="hadith">Hadisler</button><button type="button" class="inspiration-tab" data-inspiration-filter="ayah">Ayetler</button></div>
@@ -189,7 +196,7 @@
     <button class="nav-item" data-go="duas"><span>♡</span><small>Dualar</small></button>
     <button class="nav-item" data-go="names"><span>99</span><small>Esma</small></button>
   </nav>
-  <script src="app.js?v=95"></script>
+  <script src="app.js?v=96"></script>
   <script src="esma.js?v=15"></script>
   <script src="zikirmatik.js?v=10"></script>
   <script src="tesbih.js?v=1"></script>
