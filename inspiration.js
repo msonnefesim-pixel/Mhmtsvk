@@ -117,7 +117,7 @@ let filter="all",searchTerm="",current=INSPIRATION_ITEMS[0],selectionToken=0,sel
 const INSPIRATION_FONTS={georgia:'Georgia, "Times New Roman", serif',palatino:'"Palatino Linotype", "Book Antiqua", serif',times:'"Times New Roman", Times, serif',arial:"Arial, Helvetica, sans-serif",trebuchet:'"Trebuchet MS", Arial, sans-serif'};
 const INSPIRATION_THEMES=[{"id":"emerald","label":"Zümrüt yeşili","colors":["#326451","#174638","#0d3027","#b99a59","#f3e4bb","#fffaf0","#ead9a8"],"light":false},{"id":"navy","label":"Gece laciverti","colors":["#334d78","#203557","#111d38","#a9bde0","#e0eaff","#f6f8ff","#c8d8f5"],"light":false},{"id":"burgundy","label":"Bordo","colors":["#873e50","#642c3c","#421c2b","#d2a0a5","#f6dfe1","#fff5f5","#efc4c9"],"light":false},{"id":"purple","label":"Asil mor","colors":["#70558e","#503968","#342343","#c3a8db","#eddef8","#fff9ff","#ddc2f0"],"light":false},{"id":"rose","label":"Gül kurusu","colors":["#b87983","#925b68","#673c4d","#e0b4b9","#fff0f0","#fffafa","#f3d0d4"],"light":false},{"id":"turquoise","label":"Turkuaz","colors":["#368b8b","#22696f","#164b55","#9ed5cf","#d8f5f0","#f4fffd","#bce8df"],"light":false},{"id":"olive","label":"Zeytin yeşili","colors":["#777b43","#555a2d","#35391e","#c3bd78","#f0edcf","#fffef2","#ded79b"],"light":false},{"id":"coffee","label":"Kahve","colors":["#8a6349","#67452f","#493021","#c7a17b","#f3dfc8","#fff8ef","#e4c5a1"],"light":false},{"id":"charcoal","label":"Antrasit","colors":["#626b73","#414950","#252c33","#aeb8c1","#e4e9ed","#f9fbfc","#d4dce3"],"light":false},{"id":"cream","label":"Krem","colors":["#d8c79f","#b49a6c","#8f7852","#79633d","#493a25","#fffaf0","#a68a5a"],"light":true}];
 const mealCache=new Map();
-const attributionFor=item=>item.type==="hadith"?"Hz. Muhammed (s.a.v.)":item.type==="ayah"?"Kur’an-ı Kerim ayeti":"Gönle dokunan güzel söz";
+const attributionFor=item=>item.type==="hadith"?"Hz. Muhammed (s.a.v.)":item.type==="ayah"?"Kur’an-ı Kerim ayeti":"";
 function visibleItems(){return INSPIRATION_ITEMS.filter(item=>(filter==="all"||item.type===filter)&&(!searchTerm||(item.title+" "+item.text).toLocaleLowerCase("tr").includes(searchTerm)));}
 function setButtons(){
  listRoot.replaceChildren();
@@ -190,7 +190,7 @@ async function makeImage(){
  const chosenFont=INSPIRATION_FONTS[selectedFont]||INSPIRATION_FONTS.georgia;const layout=wrapText(ctx,quote,width-190,size.value==="normal"?52:size.value==="large"?62:72,chosenFont),lineHeight=layout.font*1.55,totalHeight=layout.lines.length*lineHeight+72;
  let y=(height-totalHeight)/2+lineHeight/2;ctx.fillStyle=palette.light?colors[4]:colors[5];ctx.font="600 "+layout.font+"px "+chosenFont;
  layout.lines.forEach(line=>{ctx.fillText(line,width/2,y,width-190);y+=lineHeight;});
- ctx.fillStyle=colors[6];ctx.font="26px Arial, sans-serif";ctx.fillText(attributionFor(current),width/2,y+18,width-160);
+ const imageAttribution=attributionFor(current);if(imageAttribution){ctx.fillStyle=colors[6];ctx.font="26px Arial, sans-serif";ctx.fillText(imageAttribution,width/2,y+18,width-160);}
  return new Promise(resolve=>canvas.toBlob(resolve,"image/png"));
 }
 function download(blob){const url=URL.createObjectURL(blob),link=document.createElement("a");link.href=url;link.download="gonle-dokunan-sozler.png";document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);}
