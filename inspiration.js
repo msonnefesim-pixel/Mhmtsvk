@@ -143,9 +143,9 @@ function updateReference(item){reference.textContent=item.type==="hadith"?"Hadis
 async function render(){
  if(!current){textNode.textContent="Henüz gösterilecek söz bulunmuyor.";attribution.textContent="";shareButton.disabled=true;downloadButton.disabled=true;return;}
  const item=current,token=++selectionToken;shareButton.disabled=true;downloadButton.disabled=true;
- textNode.textContent=item.type==="hadith"?item.text:"Ayetin çevrimdışı meali yükleniyor…";
+ textNode.textContent=item.type==="ayah"?"Ayetin çevrimdışı meali yükleniyor…":item.text;
  attribution.textContent=attributionFor(item);updateReference(item);
- const palette=INSPIRATION_THEMES.find(x=>x.id===selectedTheme)||INSPIRATION_THEMES[0];preview.style.background="radial-gradient(circle at 50% 15%,"+palette.colors[0]+","+palette.colors[1]+" 68%)";preview.style.borderColor=palette.colors[3];const light=palette.light;preview.style.color=light?palette.colors[5]:"#f7f0dc";textNode.style.color=light?palette.colors[5]:"#fffaf0";attribution.style.color=light?palette.colors[4]:palette.colors[6];
+ const palette=INSPIRATION_THEMES.find(x=>x.id===selectedTheme)||INSPIRATION_THEMES[0];preview.style.background="radial-gradient(circle at 50% 15%,"+palette.colors[0]+","+palette.colors[1]+" 68%)";preview.style.borderColor=palette.colors[3];const light=palette.light;preview.style.color=light?palette.colors[4]:"#f7f0dc";textNode.style.color=light?palette.colors[4]:"#fffaf0";attribution.style.color=palette.colors[6];
  const baseFont=({normal:22,large:26,xlarge:30})[size.value];const quoteLength=(item.type!=="ayah"?item.text:(item.displayText||"")).length;const autoFont=quoteLength>420?15:quoteLength>300?16:quoteLength>220?18:quoteLength>140?20:baseFont;textNode.style.fontSize=autoFont+"px";textNode.style.lineHeight="1.55";preview.style.padding=quoteLength>220?"24px 18px":"36px 25px";preview.style.aspectRatio=({portrait:"4 / 5",square:"1 / 1",story:"9 / 16"})[format.value];preview.style.minHeight=format.value==="story"?"540px":format.value==="square"?"330px":"390px";
  if(item.type!=="ayah"){const len=item.text.length;textNode.style.fontSize=(len>420?15:len>300?16:len>220?18:len>140?20:baseFont)+"px";shareButton.disabled=false;downloadButton.disabled=false;return;}
  try{const text=await loadAyahMeal(item);if(token!==selectionToken)return;item.displayText=text;textNode.textContent=text;const fittedFont=text.length>420?15:text.length>300?16:text.length>220?18:text.length>140?20:baseFont;textNode.style.fontSize=fittedFont+"px";textNode.style.lineHeight="1.55";preview.style.padding=text.length>220?"24px 18px":"36px 25px";shareButton.disabled=false;downloadButton.disabled=false;}
@@ -183,11 +183,11 @@ async function makeImage(){
  const width=1080,height=format.value==="square"?1080:format.value==="story"?1920:1350,canvas=document.createElement("canvas");
  canvas.width=width;canvas.height=height;const ctx=canvas.getContext("2d");
  const palette=INSPIRATION_THEMES.find(x=>x.id===selectedTheme)||INSPIRATION_THEMES[0],colors=palette.colors,gradient=ctx.createLinearGradient(0,0,width,height);gradient.addColorStop(0,colors[0]);gradient.addColorStop(1,colors[1]);ctx.fillStyle=gradient;ctx.fillRect(0,0,width,height);
- ctx.strokeStyle=colors[2]+"66";ctx.lineWidth=2;ctx.strokeRect(42,42,width-84,height-84);ctx.textAlign="center";ctx.textBaseline="middle";
+ ctx.strokeStyle=colors[3]+"99";ctx.lineWidth=2;ctx.strokeRect(42,42,width-84,height-84);ctx.textAlign="center";ctx.textBaseline="middle";
  const layout=wrapText(ctx,quote,width-190,size.value==="normal"?52:size.value==="large"?62:72),lineHeight=layout.font*1.55,totalHeight=layout.lines.length*lineHeight+72;
- let y=(height-totalHeight)/2+lineHeight/2;ctx.fillStyle=colors[3];ctx.font="600 "+layout.font+"px Georgia, serif";
+ let y=(height-totalHeight)/2+lineHeight/2;ctx.fillStyle=palette.light?colors[4]:colors[5];ctx.font="600 "+layout.font+"px Georgia, serif";
  layout.lines.forEach(line=>{ctx.fillText(line,width/2,y,width-190);y+=lineHeight;});
- ctx.fillStyle=colors[2];ctx.font="26px Arial, sans-serif";ctx.fillText(attributionFor(current),width/2,y+18,width-160);
+ ctx.fillStyle=colors[6];ctx.font="26px Arial, sans-serif";ctx.fillText(attributionFor(current),width/2,y+18,width-160);
  return new Promise(resolve=>canvas.toBlob(resolve,"image/png"));
 }
 function download(blob){const url=URL.createObjectURL(blob),link=document.createElement("a");link.href=url;link.download="gonle-dokunan-sozler.png";document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);}
