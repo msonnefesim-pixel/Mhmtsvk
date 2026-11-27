@@ -1,0 +1,183 @@
+name: Build Signed Google Play AAB (Internal Testing)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build-signed-aab:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check upload signing secrets
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          : "${ANDROID_KEYSTORE_BASE64:?Add the ANDROID_KEYSTORE_BASE64 repository secret first}"
+          : "${ANDROID_KEYSTORE_PASSWORD:?Add the ANDROID_KEYSTORE_PASSWORD repository secret first}"
+          : "${ANDROID_KEY_ALIAS:?Add the ANDROID_KEY_ALIAS repository secret first}"
+          : "${ANDROID_KEY_PASSWORD:?Add the ANDROID_KEY_PASSWORD repository secret first}"
+          echo "All four upload-key secrets are present."
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - name: Install Capacitor
+        run: npm install --no-audit --no-fund
+      - name: Build native AdMob bridge
+        run: npm run build:ads
+      - name: Check JavaScript syntax and app structure
+        run: |
+          node --check app.js
+          node --check ads.js
+          node --check esma.js
+          node --check zikirmatik.js
+          node --check tesbih.js
+          node --check inspiration.js
+          node scripts/audit-app-structure.mjs
+      - name: Build bundled offline Quran and Turkish meal data
+        run: node scripts/build-offline-quran-data.mjs
+      - name: Prepare app assets
+        run: |
+          mkdir -p www
+          cp index.html app.js esma.js zikirmatik.js inspiration.js tesbih.js styles.css manifest.webmanifest icon-v2.svg quran-uthmani.txt quran-offline-data.json privacy.html SOURCES.md sw.js ads.bundle.js www/
+          test -s www/index.html
+          test -s www/quran-uthmani.txt
+          test -s www/quran-offline-data.json
+          test -s www/tesbih.js
+          test -s www/ads.bundle.js
+          test -s www/sw.js
+      - name: Generate Android project
+        run: npx cap add android
+      - name: Configure registered AdMob app ID and keep Google test ads
+        run: node scripts/configure-admob-test.mjs
+      - name: Set Android package version from package.json
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          version = json.loads(Path("package.json").read_text())["version"]
+          parts = version.split(".")
+          if len(parts) != 3 or not all(part.isdigit() for part in parts):
+              raise SystemExit(f"Invalid package version: {version}")
+          major, minor, patch = map(int, parts)
+          version_code = major * 10000 + minor * 100 + patch
+          gradle_path = Path("android/app/build.gradle")
+          if not gradle_path.is_file():
+              raise SystemExit("Generated android/app/build.gradle not found")
+          lines = gradle_path.read_text().splitlines()
+          code_index = next((i for i, line in enumerate(lines) if line.strip().startswith("versionCode ")), None)
+          name_index = next((i for i, line in enumerate(lines) if line.strip().startswith("versionName ")), None)
+          if code_index is None or name_index is None:
+              raise SystemExit("Could not find versionCode/versionName in generated Gradle file")
+          lines[code_index] = lines[code_index].split("versionCode")[0] + f"versionCode {version_code}"
+          lines[name_index] = lines[name_index].split("versionName")[0] + f'versionName "{version}"'
+          gradle_path.write_text("\n".join(lines) + "\n")
+          print(f"Android versionName={version}, versionCode={version_code}")
+          PY
+      - name: Configure the Google Play upload signing key
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/upload-key.jks"
+          test -s "$RUNNER_TEMP/upload-key.jks"
+          keytool -list -keystore "$RUNNER_TEMP/upload-key.jks" -storepass "$ANDROID_KEYSTORE_PASSWORD" -alias "$ANDROID_KEY_ALIAS" >/dev/null
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+          path = Path("android/app/build.gradle")
+          text = path.read_text()
+          if "signingConfigs {" not in text:
+              match = re.search(r"(?m)^([ \\t]*)buildTypes\\s*\\{", text)
+              if not match:
+                  raise SystemExit("Could not find Android buildTypes block")
+              indent = match.group(1)
+              signing = (
+                  indent + "signingConfigs {\\n" +
+                  indent + "    release {\\n" +
+                  indent + "        storeFile file(System.getenv('ANDROID_KEYSTORE_PATH'))\\n" +
+                  indent + "        storePassword System.getenv('ANDROID_KEYSTORE_PASSWORD')\\n" +
+                  indent + "        keyAlias System.getenv('ANDROID_KEY_ALIAS')\\n" +
+                  indent + "        keyPassword System.getenv('ANDROID_KEY_PASSWORD')\\n" +
+                  indent + "    }\\n" +
+                  indent + "}\\n"
+              )
+              text = text[:match.start()] + signing + text[match.start():]
+          release = re.search(r"(?m)^(\\s*)release\\s*\\{", text)
+          if not release:
+              raise SystemExit("Could not find release build type")
+          block_start = release.end()
+          if not re.search(r"signingConfig\\s+signingConfigs\\.release", text[block_start:block_start+600]):
+              text = text[:block_start] + "\\n" + release.group(1) + "    signingConfig signingConfigs.release" + text[block_start:]
+          path.write_text(text)
+          print("Release signing configuration added without exposing key material.")
+          PY
+      - name: Sync Android project
+        run: npx cap sync android
+      - name: Audit release manifest and build signed Android App Bundle
+        env:
+          ANDROID_KEYSTORE_PATH: ${{ runner.temp }}/upload-key.jks
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          cd android
+          ./gradlew :app:processReleaseMainManifest
+          ./gradlew :app:bundleRelease
+          cd ..
+          python3 - <<'PY'
+          import json
+          import re
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          manifests = [p for p in Path("android/app/build/intermediates").rglob("AndroidManifest.xml")
+                       if "merged_manifest" in str(p) and "release" in str(p)]
+          if not manifests:
+              raise SystemExit("Merged release AndroidManifest.xml was not generated")
+          root = ET.parse(manifests[0]).getroot()
+          ns = "{http://schemas.android.com/apk/res/android}"
+          sdk = root.find("uses-sdk")
+          if sdk is None or sdk.attrib.get(ns + "targetSdkVersion") != "36":
+              raise SystemExit("New Google Play app must target Android 16 / API 36")
+          permissions = sorted({node.attrib.get(ns + "name", "") for tag in ("uses-permission", "uses-permission-sdk-23") for node in root.findall(tag)} - {""})
+          blocked = ("READ_CONTACTS", "WRITE_CONTACTS", "ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION",
+                     "READ_SMS", "SEND_SMS", "READ_CALL_LOG", "WRITE_CALL_LOG", "READ_PHONE_STATE",
+                     "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE", "MANAGE_EXTERNAL_STORAGE", "CAMERA", "RECORD_AUDIO")
+          unexpected = [p for p in permissions if any(p.endswith(x) for x in blocked)]
+          if unexpected:
+              raise SystemExit("Unexpected sensitive Android permissions: " + ", ".join(unexpected))
+          gradle = Path("android/app/build.gradle").read_text()
+          if not re.search(r'applicationId\\s*[= ]\\s*["\\']com\\.mehmetsavk\\.kuranikerim["\\']', gradle):
+              raise SystemExit("Android applicationId does not match the registered package ID")
+          package = json.loads(Path("package.json").read_text())
+          major, minor, patch = map(int, package["version"].split("."))
+          expected_code = major * 10000 + minor * 100 + patch
+          if f'versionName "{package["version"]}"' not in gradle or f"versionCode {expected_code}" not in gradle:
+              raise SystemExit("Android version does not match package.json")
+          print("Release manifest, target SDK, permissions, package ID and version verified.")
+          PY
+          test -s android/app/build/outputs/bundle/release/app-release.aab
+          jarsigner -verify -verbose -certs android/app/build/outputs/bundle/release/app-release.aab >/dev/null
+          keytool -printcert -jarfile android/app/build/outputs/bundle/release/app-release.aab
+          echo "Signed AAB created and signature verified."
+      - name: Upload signed internal-testing AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuran-i-kerim-signed-internal-aab
+          path: android/app/build/outputs/bundle/release/app-release.aab
+          if-no-files-found: error
+          retention-days: 30
