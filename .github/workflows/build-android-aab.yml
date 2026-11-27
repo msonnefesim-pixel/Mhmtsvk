@@ -116,10 +116,13 @@ jobs:
                   indent + "}\n"
               )
               text = text[:match.start()] + signing + text[match.start():]
-          release = re.search(r"(?m)^(\s*)release\s*\{", text)
+          build_types = re.search(r"(?m)^[ \t]*buildTypes\s*\{", text)
+          if not build_types:
+              raise SystemExit("Could not find Android buildTypes block")
+          release = re.search(r"(?m)^([ \t]*)release\s*\{", text[build_types.end():])
           if not release:
               raise SystemExit("Could not find release build type")
-          block_start = release.end()
+          block_start = build_types.end() + release.end()
           if not re.search(r"signingConfig\s+signingConfigs\.release", text[block_start:block_start+600]):
               text = text[:block_start] + "\n" + release.group(1) + "    signingConfig signingConfigs.release" + text[block_start:]
           path.write_text(text)
