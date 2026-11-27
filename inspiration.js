@@ -109,11 +109,12 @@ if(root.dataset.inspirationInitialized==="true")return;
 root.style.pointerEvents="auto";
 const pickerToggle=root.querySelector("#inspirationPickerToggle"),pickerPanel=root.querySelector("#inspirationPickerPanel"),pickerCurrent=root.querySelector("#inspirationPickerCurrent");
 const search=root.querySelector("#inspirationSearch"),preview=root.querySelector("#inspirationPreview"),listRoot=root.querySelector("#inspirationList");
-const themeOptions=root.querySelector("#inspirationThemeOptions"),size=root.querySelector("#inspirationSize"),format=root.querySelector("#inspirationFormat");
+const themeOptions=root.querySelector("#inspirationThemeOptions"),size=root.querySelector("#inspirationSize"),fontControl=root.querySelector("#inspirationFont"),format=root.querySelector("#inspirationFormat");
 const shareButton=root.querySelector("#inspirationShare"),downloadButton=root.querySelector("#inspirationDownload");
 const textNode=preview?.querySelector(".inspiration-preview-text"),attribution=preview?.querySelector(".inspiration-preview-attribution"),reference=root.querySelector("#inspirationReference");
-if(!pickerToggle||!pickerPanel||!pickerCurrent||!search||!preview||!listRoot||!themeOptions||!size||!format||!shareButton||!downloadButton||!textNode||!attribution||!reference){console.error("Gönle Dokunan Sözler: gerekli ekran öğeleri eksik.");return;}
-let filter="all",searchTerm="",current=INSPIRATION_ITEMS[0],selectionToken=0,selectedTheme="emerald";
+if(!pickerToggle||!pickerPanel||!pickerCurrent||!search||!preview||!listRoot||!themeOptions||!size||!fontControl||!format||!shareButton||!downloadButton||!textNode||!attribution||!reference){console.error("Gönle Dokunan Sözler: gerekli ekran öğeleri eksik.");return;}
+let filter="all",searchTerm="",current=INSPIRATION_ITEMS[0],selectionToken=0,selectedTheme="emerald",selectedFont="georgia";
+const INSPIRATION_FONTS={georgia:'Georgia, "Times New Roman", serif',palatino:'"Palatino Linotype", "Book Antiqua", serif',times:'"Times New Roman", Times, serif',arial:"Arial, Helvetica, sans-serif",trebuchet:'"Trebuchet MS", Arial, sans-serif'};
 const INSPIRATION_THEMES=[{"id":"emerald","label":"Zümrüt yeşili","colors":["#326451","#174638","#0d3027","#b99a59","#f3e4bb","#fffaf0","#ead9a8"],"light":false},{"id":"navy","label":"Gece laciverti","colors":["#334d78","#203557","#111d38","#a9bde0","#e0eaff","#f6f8ff","#c8d8f5"],"light":false},{"id":"burgundy","label":"Bordo","colors":["#873e50","#642c3c","#421c2b","#d2a0a5","#f6dfe1","#fff5f5","#efc4c9"],"light":false},{"id":"purple","label":"Asil mor","colors":["#70558e","#503968","#342343","#c3a8db","#eddef8","#fff9ff","#ddc2f0"],"light":false},{"id":"rose","label":"Gül kurusu","colors":["#b87983","#925b68","#673c4d","#e0b4b9","#fff0f0","#fffafa","#f3d0d4"],"light":false},{"id":"turquoise","label":"Turkuaz","colors":["#368b8b","#22696f","#164b55","#9ed5cf","#d8f5f0","#f4fffd","#bce8df"],"light":false},{"id":"olive","label":"Zeytin yeşili","colors":["#777b43","#555a2d","#35391e","#c3bd78","#f0edcf","#fffef2","#ded79b"],"light":false},{"id":"coffee","label":"Kahve","colors":["#8a6349","#67452f","#493021","#c7a17b","#f3dfc8","#fff8ef","#e4c5a1"],"light":false},{"id":"charcoal","label":"Antrasit","colors":["#626b73","#414950","#252c33","#aeb8c1","#e4e9ed","#f9fbfc","#d4dce3"],"light":false},{"id":"cream","label":"Krem","colors":["#d8c79f","#b49a6c","#8f7852","#79633d","#493a25","#fffaf0","#a68a5a"],"light":true}];
 const mealCache=new Map();
 const attributionFor=item=>item.type==="hadith"?"Hz. Muhammed (s.a.v.)":item.type==="ayah"?"Kur’an-ı Kerim ayeti":"Gönle dokunan güzel söz";
@@ -146,7 +147,7 @@ async function render(){
  textNode.textContent=item.type==="ayah"?"Ayetin çevrimdışı meali yükleniyor…":item.text;
  attribution.textContent=attributionFor(item);updateReference(item);
  const palette=INSPIRATION_THEMES.find(x=>x.id===selectedTheme)||INSPIRATION_THEMES[0];preview.style.background="radial-gradient(circle at 50% 15%,"+palette.colors[0]+","+palette.colors[1]+" 68%)";preview.style.borderColor=palette.colors[3];const light=palette.light;preview.style.color=light?palette.colors[4]:"#f7f0dc";textNode.style.color=light?palette.colors[4]:"#fffaf0";attribution.style.color=palette.colors[6];
- const baseFont=({normal:22,large:26,xlarge:30})[size.value];const quoteLength=(item.type!=="ayah"?item.text:(item.displayText||"")).length;const autoFont=quoteLength>420?15:quoteLength>300?16:quoteLength>220?18:quoteLength>140?20:baseFont;textNode.style.fontSize=autoFont+"px";textNode.style.lineHeight="1.55";preview.style.padding=quoteLength>220?"24px 18px":"36px 25px";preview.style.aspectRatio=({portrait:"4 / 5",square:"1 / 1",story:"9 / 16"})[format.value];preview.style.minHeight=format.value==="story"?"540px":format.value==="square"?"330px":"390px";
+ const baseFont=({normal:22,large:26,xlarge:30})[size.value],chosenFont=INSPIRATION_FONTS[selectedFont]||INSPIRATION_FONTS.georgia;textNode.style.fontFamily=chosenFont;const quoteLength=(item.type!=="ayah"?item.text:(item.displayText||"")).length;const autoFont=quoteLength>420?15:quoteLength>300?16:quoteLength>220?18:quoteLength>140?20:baseFont;textNode.style.fontSize=autoFont+"px";textNode.style.lineHeight="1.55";preview.style.padding=quoteLength>220?"24px 18px":"36px 25px";preview.style.aspectRatio=({portrait:"4 / 5",square:"1 / 1",story:"9 / 16"})[format.value];preview.style.minHeight=format.value==="story"?"540px":format.value==="square"?"330px":"390px";
  if(item.type!=="ayah"){const len=item.text.length;textNode.style.fontSize=(len>420?15:len>300?16:len>220?18:len>140?20:baseFont)+"px";shareButton.disabled=false;downloadButton.disabled=false;return;}
  try{const text=await loadAyahMeal(item);if(token!==selectionToken)return;item.displayText=text;textNode.textContent=text;const fittedFont=text.length>420?15:text.length>300?16:text.length>220?18:text.length>140?20:baseFont;textNode.style.fontSize=fittedFont+"px";textNode.style.lineHeight="1.55";preview.style.padding=text.length>220?"24px 18px":"36px 25px";shareButton.disabled=false;downloadButton.disabled=false;}
  catch(error){if(token!==selectionToken)return;item.displayText="";textNode.textContent="Ayet meali yüklenemedi. İnternet bağlantısını kontrol edip tekrar dene.";}
@@ -168,10 +169,12 @@ root.addEventListener("click",event=>{
 });
 search.addEventListener("input",()=>{searchTerm=search.value.trim().toLocaleLowerCase("tr");setButtons();});
 [size,format].forEach(control=>control.addEventListener("change",render));
+fontControl.addEventListener("change",()=>{selectedFont=INSPIRATION_FONTS[fontControl.value]?fontControl.value:"georgia";try{localStorage.setItem("inspiration-card-font",selectedFont);}catch{}render();});
+try{selectedFont=localStorage.getItem("inspiration-card-font")||"georgia";}catch{}if(!INSPIRATION_FONTS[selectedFont])selectedFont="georgia";fontControl.value=selectedFont;
 themeOptions.addEventListener("click",event=>{const button=event.target.closest("[data-inspiration-theme]");if(button)applyInspirationTheme(button.dataset.inspirationTheme,true);});
-function wrapText(ctx,text,maxWidth,fontSize){
+function wrapText(ctx,text,maxWidth,fontSize,fontFamily){
  let font=fontSize,lines=[];
- while(font>=34){ctx.font="600 "+font+"px Georgia, serif";lines=[];let line="";
+ while(font>=34){ctx.font="600 "+font+"px "+fontFamily;lines=[];let line="";
   for(const word of text.split(/\s+/)){const candidate=line?line+" "+word:word;if(ctx.measureText(candidate).width>maxWidth&&line){lines.push(line);line=word;}else line=candidate;}
   if(line)lines.push(line);if(lines.length<=9)break;font-=2;
  }
@@ -184,8 +187,8 @@ async function makeImage(){
  canvas.width=width;canvas.height=height;const ctx=canvas.getContext("2d");
  const palette=INSPIRATION_THEMES.find(x=>x.id===selectedTheme)||INSPIRATION_THEMES[0],colors=palette.colors,gradient=ctx.createLinearGradient(0,0,width,height);gradient.addColorStop(0,colors[0]);gradient.addColorStop(1,colors[1]);ctx.fillStyle=gradient;ctx.fillRect(0,0,width,height);
  ctx.strokeStyle=colors[3]+"99";ctx.lineWidth=2;ctx.strokeRect(42,42,width-84,height-84);ctx.textAlign="center";ctx.textBaseline="middle";
- const layout=wrapText(ctx,quote,width-190,size.value==="normal"?52:size.value==="large"?62:72),lineHeight=layout.font*1.55,totalHeight=layout.lines.length*lineHeight+72;
- let y=(height-totalHeight)/2+lineHeight/2;ctx.fillStyle=palette.light?colors[4]:colors[5];ctx.font="600 "+layout.font+"px Georgia, serif";
+ const chosenFont=INSPIRATION_FONTS[selectedFont]||INSPIRATION_FONTS.georgia;const layout=wrapText(ctx,quote,width-190,size.value==="normal"?52:size.value==="large"?62:72,chosenFont),lineHeight=layout.font*1.55,totalHeight=layout.lines.length*lineHeight+72;
+ let y=(height-totalHeight)/2+lineHeight/2;ctx.fillStyle=palette.light?colors[4]:colors[5];ctx.font="600 "+layout.font+"px "+chosenFont;
  layout.lines.forEach(line=>{ctx.fillText(line,width/2,y,width-190);y+=lineHeight;});
  ctx.fillStyle=colors[6];ctx.font="26px Arial, sans-serif";ctx.fillText(attributionFor(current),width/2,y+18,width-160);
  return new Promise(resolve=>canvas.toBlob(resolve,"image/png"));
@@ -204,5 +207,5 @@ function applyInspirationTheme(id,save=true){const palette=INSPIRATION_THEMES.fi
 let savedInspirationTheme="emerald";try{savedInspirationTheme=localStorage.getItem("inspiration-card-theme")||"emerald";}catch{}applyInspirationTheme(savedInspirationTheme,false);
 pickerCurrent.textContent=current.title;
 updateList();
-console.info("Gönle Dokunan Sözler hazır:",INSPIRATION_ITEMS.length,"içerik; 10 renk paleti ve klavyesiz liste seçimi etkin.");
+console.info("Gönle Dokunan Sözler hazır:",INSPIRATION_ITEMS.length,"içerik; 10 renk paleti, yazı tipi seçimi ve klavyesiz liste seçimi etkin.");
 })();
