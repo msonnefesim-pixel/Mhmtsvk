@@ -140,7 +140,14 @@ async function loadAyahMeal(item){
  if(parts.some(part=>!part||typeof part.translation!=="string"||!part.translation.trim()))throw new Error("Ayetin tam meali bulunamadı");
  const text=parts.map(part=>part.translation.trim()).join(" ");mealCache.set(item.id,text);return text;
 }
-function updateReference(item){reference.textContent=item.type==="hadith"?"Hadis kaynağı: "+item.source:item.type==="ayah"?"Ayet kaynağı: "+item.source+" · Meal: QuranEnc / Rowwad Translation Center":"Güzel söz · Ayet veya hadis değildir."; }
+function updateReference(item){
+ reference.replaceChildren();
+ if(item.type==="hadith"){
+  reference.append("Hadis kaynağı: "+item.source+" · ");
+  const link=document.createElement("a");link.href="https://sunnah.com/search?q="+encodeURIComponent(item.title);link.target="_blank";link.rel="noopener";link.textContent="Sunnah.com'da kaynağı ara";reference.append(link);
+ }else if(item.type==="ayah")reference.textContent="Ayet kaynağı: "+item.source+" · Meal: QuranEnc / Rowwad Translation Center";
+ else reference.textContent="Güzel söz · Ayet veya hadis değildir.";
+}
 async function render(){
  if(!current){textNode.textContent="Henüz gösterilecek söz bulunmuyor.";attribution.textContent="";shareButton.disabled=true;downloadButton.disabled=true;return;}
  const item=current,token=++selectionToken;shareButton.disabled=true;downloadButton.disabled=true;
