@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#123c32">
   <meta name="description" content="Kur'an-ı Kerim, Türkçe meal, Kur'an duaları ve Esma-ül Hüsna.">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css?v=97">
+  <link rel="stylesheet" href="styles.css?v=98">
   <title>Kur'an-ı Kerim</title>
 </head>
 <body>
@@ -175,13 +175,13 @@
       <p class="source-note">Bu bölümdeki mesajlar uygulama için özel hazırlanmış iyi dilek ve dua metinleridir; ayet veya hadis olarak aktarılmaz.</p>
     </section>
     <section class="page" id="inspirationPage">
-      <div class="page-heading"><span class="eyebrow">GÖNLE DOKUNAN SÖZLER</span><h1>Gönle Dokunan Sözler</h1><p>Peygamber Efendimizin hadisleri ve Kur’an’dan seçilmiş ayetler.</p></div>
-      <div class="inspiration-tabs" role="group" aria-label="İçerik türü"><button type="button" class="inspiration-tab active" data-inspiration-filter="all">Tümü</button><button type="button" class="inspiration-tab" data-inspiration-filter="hadith">Hadisler</button><button type="button" class="inspiration-tab" data-inspiration-filter="ayah">Ayetler</button></div>
+      <div class="page-heading"><span class="eyebrow">GÖNLE DOKUNAN SÖZLER</span><h1>Gönle Dokunan Sözler</h1><p>Hadisler, Kur’an’dan seçilmiş ayetler ve gönle dokunan güzel sözler. Güzel sözler ayet veya hadis değildir.</p></div>
+      <div class="inspiration-tabs" role="group" aria-label="İçerik türü"><button type="button" class="inspiration-tab active" data-inspiration-filter="all">Tümü</button><button type="button" class="inspiration-tab" data-inspiration-filter="hadith">Hadisler</button><button type="button" class="inspiration-tab" data-inspiration-filter="ayah">Ayetler</button><button type="button" class="inspiration-tab" data-inspiration-filter="reflection">Güzel sözler</button></div>
       <div class="inspiration-picker"><button type="button" class="inspiration-picker-toggle" id="inspirationPickerToggle" aria-expanded="false" aria-controls="inspirationPickerPanel"><span><strong>Listeden seç</strong><small id="inspirationPickerCurrent">Ameller niyetlere göredir</small></span><span class="inspiration-picker-chevron" aria-hidden="true">⌄</span></button><div class="inspiration-picker-panel" id="inspirationPickerPanel" hidden><label for="inspirationSearch">Söz veya sure adı ara</label><input id="inspirationSearch" class="inspiration-search" type="search" placeholder="Söz veya sure adı ara..." autocomplete="off"><div class="inspiration-list" id="inspirationList" aria-label="Seçilebilir söz ve ayet listesi"></div></div></div>
       <div class="inspiration-preview" id="inspirationPreview"><p class="inspiration-preview-text">Bir söz seç.</p><small class="inspiration-preview-attribution"></small></div>
       <p class="inspiration-reference" id="inspirationReference"></p>
       <div class="inspiration-customize">
-        <div><label for="inspirationTheme">Kart arka planı</label><select id="inspirationTheme" class="surah-select"><option value="green">Zümrüt yeşili</option><option value="cream">Krem ve altın</option><option value="night">Gece mavisi</option><option value="sage">Adaçayı</option></select></div>
+        <div class="inspiration-palette-wrap"><div class="inspiration-palette-label">Kart rengini seç</div><div class="cuma-theme-options inspiration-theme-options" id="inspirationThemeOptions"><button type="button" class="cuma-theme-option inspiration-theme-option" data-inspiration-theme="emerald" aria-label="Zümrüt yeşili" aria-pressed="true" title="Zümrüt yeşili"><span style="background:linear-gradient(135deg,#326451,#0d3027)"></span></button><button type="button" class="cuma-theme-option inspiration-theme-option" data-inspiration-theme="navy" aria-label="Gece laciverti" aria-pressed="false" title="Gece laciverti"><span style="background:linear-gradient(135deg,#334d78,#111d38)"></span></button><button type="button" class="cuma-theme-option inspiration-theme-option" data-inspiration-theme="burgundy" aria-label="Bordo" aria-pressed="false" title="Bordo"><span style="background:linear-gradient(135deg,#873e50,#421c2b)"></span></button><button type="button" class="cuma-theme-option inspiration-theme-option" data-inspiration-theme="purple" aria-label="Asil mor" aria-pressed="false" title="Asil mor"><span style="background:linear-gradient(135deg,#70558e,#342343)"></span></button><button type="button" class="cuma-theme-option inspiration-theme-option" data-inspiration-theme="rose" aria-label="Gül kurusu" aria-pressed="false" title="Gül kurusu"><span style="background:linear-gradient(135deg,#b87983,#673c4d)"></span></button><button type="button" class="cuma-theme-option inspiration-theme-option" data-inspiration-theme="turquoise" aria-label="Turkuaz" aria-pressed="false" title="Turkuaz"><span style="background:linear-gradient(135deg,#368b8b,#164b55)"></span></button><button type="button" class="cuma-theme-option inspiration-theme-option" data-inspiration-theme="olive" aria-label="Zeytin yeşili" aria-pressed="false" title="Zeytin yeşili"><span style="background:linear-gradient(135deg,#777b43,#35391e)"></span></button><button type="button" class="cuma-theme-option inspiration-theme-option" data-inspiration-theme="coffee" aria-label="Kahve" aria-pressed="false" title="Kahve"><span style="background:linear-gradient(135deg,#8a6349,#493021)"></span></button><button type="button" class="cuma-theme-option inspiration-theme-option" data-inspiration-theme="charcoal" aria-label="Antrasit" aria-pressed="false" title="Antrasit"><span style="background:linear-gradient(135deg,#626b73,#252c33)"></span></button><button type="button" class="cuma-theme-option inspiration-theme-option" data-inspiration-theme="cream" aria-label="Krem" aria-pressed="false" title="Krem"><span style="background:linear-gradient(135deg,#d8c79f,#8f7852)"></span></button></div><div class="cuma-theme-name" id="inspirationThemeName">Zümrüt yeşili</div></div>
         <div><label for="inspirationSize">Yazı boyutu</label><select id="inspirationSize" class="surah-select"><option value="normal">Normal</option><option value="large">Büyük</option><option value="xlarge">Çok büyük</option></select></div>
         <div><label for="inspirationFormat">Görsel boyutu</label><select id="inspirationFormat" class="surah-select"><option value="portrait">Instagram / Facebook (4:5)</option><option value="square">Kare (1:1)</option><option value="story">Hikâye (9:16)</option></select></div>
       </div>
@@ -196,11 +196,11 @@
     <button class="nav-item" data-go="duas"><span>♡</span><small>Dualar</small></button>
     <button class="nav-item" data-go="names"><span>99</span><small>Esma</small></button>
   </nav>
-  <script src="app.js?v=97"></script>
+  <script src="app.js?v=98"></script>
   <script src="esma.js?v=15"></script>
   <script src="zikirmatik.js?v=10"></script>
   <script src="tesbih.js?v=1"></script>
-  <script src="inspiration.js?v=15"></script>
+  <script src="inspiration.js?v=16"></script>
   <script src="ads.bundle.js?v=95"></script>
 </body>
 </html>
