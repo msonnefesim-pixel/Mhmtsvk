@@ -125,6 +125,9 @@ if (!htmlInspirationVersion || htmlInspirationVersion !== swInspirationVersion) 
 const cumaMatch = app.match(/const CUMA_MESSAGES=(\[[\s\S]*?\]);\nconst CUMA_ANCHOR/);
 if (!cumaMatch) throw new Error("Cuma message library is missing");
 const cumaMessages = JSON.parse(cumaMatch[1]);
+const cumaThemeIds = [...app.matchAll(/\{id:"(emerald|navy|burgundy|purple|rose|turquoise|olive|coffee|charcoal|cream)",label:/g)].map(match => match[1]);
+if (new Set(cumaThemeIds).size !== 10) throw new Error("Cuma card must provide ten unique color themes");
+if (html.includes("KUR’ANI KERİM · HUZUR") || !html.includes("id=\"cumaThemeOptions\"")) throw new Error("Cuma card branding/footer should be removed and theme picker must exist");
 if (cumaMessages.length !== 52 || cumaMessages.some(item => !item.title?.trim() || !item.text?.trim())) throw new Error("Cuma message library must contain 52 complete weekly messages");
 if (!app.includes("Europe/Istanbul") || !app.includes("day===4&&Number(p.hour)>=22") || !html.includes('id="cumaFeatureCard"') || !html.includes('id="cumaPage"')) throw new Error("Automatic Friday visibility schedule or Cuma page is incomplete");
 const inspirationItems = [...inspiration.matchAll(/\{id:"[ha]\d+"/g)];
