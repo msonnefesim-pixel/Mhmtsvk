@@ -29,14 +29,15 @@
 - Kolaylaştırınız, zorlaştırmayınız; müjdeleyiniz, nefret ettirmeyiniz: Buhârî 69; Müslim 1732. Kaynaklar: https://sunnah.com/bukhari/3/11 ve https://sunnah.com/muslim/32/6
 - Sizin en hayırlınız, Kur'an'ı öğrenen ve öğretendir: Buhârî 5027. Kaynak: https://sunnah.com/bukhari/66/49
 - Güzel söz sadakadır: Bu ifade daha kapsamlı bir sadaka hadisinin parçasıdır; Buhârî 2989 ve Müslim 1009. Kaynaklar: https://sunnah.com/bukhari:2989 ve https://sunnah.com/muslim:1009
-- Hadislerin Türkçe ifadeleri anlamı koruyan kısa aktarımlardır; paylaşım kartlarında kaynak künyesi görünür. Kaynak numaraları birincil hadis koleksiyonlarındaki güncel numaralandırmayla eşleştirildi.
+- Hadislerin Türkçe ifadeleri anlamı koruyan kısa aktarımlardır; uygulamada her hadis kartının altında koleksiyon ve hadis numarası gösterilir ve Sunnah.com üzerinde ilgili başlığı aramaya yönlendiren bağlantı bulunur. Bu bağlantı, Sunnah.com’un Türkçe metin çevirisinin uygulamaya kopyalandığı anlamına gelmez. Kaynak numaraları birincil hadis koleksiyonlarındaki numaralandırmayla eşleştirilmiştir.
 - Zikirmatikteki “Allahümme ente's-selâmü ve minke's-selâm, tebârekte zâ'l-celâli ve'l-ikrâm” hazır zikrinin hedefi 1'dir; Sahih Müslim 591'de namaz bitiminde istiğfarın ardından bu dua bir kez aktarılır. Kaynak: https://sunnah.com/muslim/5/171.
 
 ## Esma-ül Hüsna
 - Uygulamadaki liste, Tirmizî 3507'de yer alan ve yaygınlaşan 99 isim tertibidir. Liste, Diyanet İşleri Başkanlığı Din İşleri Yüksek Kurulu'nun *Fetvalar* kitabındaki “Allah'ın 99 ismi” sıralı listesiyle karşılaştırıldı: https://dijital.diyanet.gov.tr/File/Download?id=389&path=fetvalar.pdf (s. 51-52). Hadis kaynağı: https://sunnah.com/tirmidhi:3507. TDV İslâm Ansiklopedisi, isim listesinin hadisin ikinci kısmında yalnız Tirmizî ve İbn Mâce rivayetlerinde bulunduğunu; birçok âlimin listenin râvi tarafından eklendiği görüşünde olduğunu ve iki rivayetteki listelerin farklılaştığını aktarır: https://islamansiklopedisi.org.tr/esma-i-husna. Diyanet kaynağı da Allah'ın isimlerinin 99 ile sınırlı olmadığını, bu sayının meşhur isimleri ifade ettiğini belirtir. Uygulama listeyi tek ve tartışmasız tertip olarak sunmaz.
 - Bu nedenle uygulamadaki liste “Allah'ın yalnızca 99 ismi vardır” veya “bu sıralama tartışmasız biçimde Peygamberimizden aynen nakledilmiştir” anlamında sunulmamalıdır.
 - v78'de 99 ismin kısa Türkçe anlamları, TDV İslâm Ansiklopedisi'nin Tirmizî tertibine ait alfabetik anlam tablosuyla satır satır karşılaştırılarak TDV'nin kısa açıklamaları esas alınacak biçimde hizalandı: https://islamansiklopedisi.org.tr/esma-i-husna (özellikle alfabetik tablo). Bu, uzman/hoca onayı veya bütün Arapça harekelerin bağımsız Mushaf kontrolü değildir. Türkçe okunuşların akademik transkripsiyonla tek tek uzman denetimi ayrıca sürmektedir.
-- Zikir hedefleri, kullanıcının seçtiği İslamiyet.gen.tr sayfasındaki “Günde Zikir Sayısı” değerlerinden aktarılmıştır: https://islamiyet.gen.tr/allah-c-c/allah-azze-ve-cellenin-99-ismi-esma-ul-husna-sir-ve-faziletleri-kac-kere-zikir-edilmeli.html (22.04.2015). Bu, geleneksel uygulama derlemesidir; kaynaklar arasında sayılar değişebilir ve her değer doğrudan ebced değeri değildir. Sayılar Diyanet tarafından belirlenmiş, farz/sünnet veya sahih hadisle sabit hedefler değildir. Allah ismi için sayfada günlük hedef bulunmaz; uygulamadaki 66, sayfada anlatılan özel uygulama adedidir ve zorunlu günlük hedef değildir. Sayfa içindeki fazilet/sonuç iddiaları uygulamaya aktarılmamıştır.
+- Esma-ül Hüsna kartlarında TDV İslâm Ansiklopedisi metinlerinden uzun açıklamalar veya tablo bütünü aktarılmaz; yalnızca kısa anlam notları gösterilir ve ayrıntı için ilgili TDV maddesine bağlantı verilir. TDV metinlerinin tamamı veya uzun bölümleri kopyalanmaz. Kaynak: https://islamansiklopedisi.org.tr/esma-i-husna.
+- Önceki sürümlerde İslamiyet.gen.tr sayfasından alınan özel zikir adetleri ve bunlara bağlı geleneksel hedef listesi kaldırıldı. Esma sayaçları artık yalnızca kullanıcının kendi tekrarlarını sayar; herhangi bir isim için dinî veya geleneksel hedef sayısı önermez.
 
 
 - V94 arayüz güncellemesi: mevcut zikirmatikten ayrı, 33 boncuklu animasyonlu tesbih ekranı eklendi. Sayaç 33, 66 ve 99'da cihaz titreşimini destekler; toplam sayaç değeri yalnızca cihazın yerel depolamasında saklanır. Bu özellik yeni bir hesap veya geliştirici sunucusuna veri aktarımı oluşturmaz.
@@ -48,7 +49,7 @@
 ## Yayın öncesi açık işler
 - [x] Arapça dosyanın Tanzil Uthmani 1.1 yayın kopyasıyla bayt bayt eşleşmesi, 6.236 ayet satırı, 114 sure ve besmele sınırı otomatik kontrolü.
 - [ ] Bağımsız ikinci Mushaf/uzman-hafız tarafından son okuma (otomatik aynı-kaynak kontrolünden ayrı bir onaydır).
-- [x] Esma-ül Hüsna 99 isim ve 99 zikir hedefi sayısı; 99 kısa anlam TDV İslâm Ansiklopedisi alfabetik tabloyla karşılaştırıldı.
+- [x] Esma-ül Hüsna 99 isim listesi; kısa anlam notları TDV maddesine bağlantı verilerek sunulur. İslamiyet.gen.tr kaynaklı özel zikir hedefleri kaldırıldı.
 - [ ] Arapça yazılış ve Türkçe okunuşların uzman/hoca tarafından tek tek son kontrolü
 - [x] 114/114 ses dosyası adresinin teknik erişilebilirliği kontrol edildi.
 - [x] Ses kayıtları için yazılı ticari izin henüz doğrulanmadığından sesli sureler bölümü uygulama kodundan ve paketinden çıkarıldı
