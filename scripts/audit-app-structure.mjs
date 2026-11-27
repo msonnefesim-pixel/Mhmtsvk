@@ -119,7 +119,14 @@ if (!sw.includes("./app.js?v=" + appVersion) || !sw.includes("./styles.css?v=" +
   throw new Error("Service worker pre-cache does not use the current app assets");
 }
 
-if (!html.includes("inspiration.js?v=14") || !sw.includes("./inspiration.js?v=14")) throw new Error("Gönle Dokunan Sözler script/cache version mismatch");
+const htmlInspirationVersion = html.match(/inspiration\\.js\\?v=(\\d+)/)?.[1];
+const swInspirationVersion = sw.match(/\\.\\/inspiration\\.js\\?v=(\\d+)/)?.[1];
+if (!htmlInspirationVersion || htmlInspirationVersion !== swInspirationVersion) throw new Error("Gönle Dokunan Sözler script/cache version mismatch");
+const cumaMatch = app.match(/const CUMA_MESSAGES=(\\[[\\s\\S]*?\\]);\\nconst CUMA_ANCHOR/);
+if (!cumaMatch) throw new Error("Cuma message library is missing");
+const cumaMessages = JSON.parse(cumaMatch[1]);
+if (cumaMessages.length !== 52 || cumaMessages.some(item => !item.title?.trim() || !item.text?.trim())) throw new Error("Cuma message library must contain 52 complete weekly messages");
+if (!app.includes("Europe/Istanbul") || !app.includes("day===4&&Number(p.hour)>=22") || !html.includes('id="cumaFeatureCard"') || !html.includes('id="cumaPage"')) throw new Error("Automatic Friday visibility schedule or Cuma page is incomplete");
 const inspirationItems = [...inspiration.matchAll(/\{id:"[ha]\d+"/g)];
 if (inspirationItems.length < 24) throw new Error("Daily inspiration library must contain at least 24 entries");
 if (!html.includes('id="inspirationPickerToggle"') || !html.includes('id="inspirationPickerPanel"') || !inspiration.includes("pickerPanel.hidden=true") || !inspiration.includes('pickerToggle.addEventListener("click"')) throw new Error("Inspiration picker must open and close as a collapsible list");
