@@ -101,27 +101,27 @@ jobs:
           path = Path("android/app/build.gradle")
           text = path.read_text()
           if "signingConfigs {" not in text:
-              match = re.search(r"(?m)^([ \\t]*)buildTypes\\s*\\{", text)
+              match = re.search(r"(?m)^([ \t]*)buildTypes\s*\{", text)
               if not match:
                   raise SystemExit("Could not find Android buildTypes block")
               indent = match.group(1)
               signing = (
-                  indent + "signingConfigs {\\n" +
-                  indent + "    release {\\n" +
-                  indent + "        storeFile file(System.getenv('ANDROID_KEYSTORE_PATH'))\\n" +
-                  indent + "        storePassword System.getenv('ANDROID_KEYSTORE_PASSWORD')\\n" +
-                  indent + "        keyAlias System.getenv('ANDROID_KEY_ALIAS')\\n" +
-                  indent + "        keyPassword System.getenv('ANDROID_KEY_PASSWORD')\\n" +
-                  indent + "    }\\n" +
-                  indent + "}\\n"
+                  indent + "signingConfigs {\n" +
+                  indent + "    release {\n" +
+                  indent + "        storeFile file(System.getenv('ANDROID_KEYSTORE_PATH'))\n" +
+                  indent + "        storePassword System.getenv('ANDROID_KEYSTORE_PASSWORD')\n" +
+                  indent + "        keyAlias System.getenv('ANDROID_KEY_ALIAS')\n" +
+                  indent + "        keyPassword System.getenv('ANDROID_KEY_PASSWORD')\n" +
+                  indent + "    }\n" +
+                  indent + "}\n"
               )
               text = text[:match.start()] + signing + text[match.start():]
-          release = re.search(r"(?m)^(\\s*)release\\s*\\{", text)
+          release = re.search(r"(?m)^(\s*)release\s*\{", text)
           if not release:
               raise SystemExit("Could not find release build type")
           block_start = release.end()
-          if not re.search(r"signingConfig\\s+signingConfigs\\.release", text[block_start:block_start+600]):
-              text = text[:block_start] + "\\n" + release.group(1) + "    signingConfig signingConfigs.release" + text[block_start:]
+          if not re.search(r"signingConfig\s+signingConfigs\.release", text[block_start:block_start+600]):
+              text = text[:block_start] + "\n" + release.group(1) + "    signingConfig signingConfigs.release" + text[block_start:]
           path.write_text(text)
           print("Release signing configuration added without exposing key material.")
           PY
@@ -161,7 +161,7 @@ jobs:
           if unexpected:
               raise SystemExit("Unexpected sensitive Android permissions: " + ", ".join(unexpected))
           gradle = Path("android/app/build.gradle").read_text()
-          if not re.search(r'applicationId\\s*[= ]\\s*["\\']com\\.mehmetsavk\\.kuranikerim["\\']', gradle):
+          if not re.search(r'applicationId\s*[= ]\s*["\']com\.mehmetsavk\.kuranikerim["\']', gradle):
               raise SystemExit("Android applicationId does not match the registered package ID")
           package = json.loads(Path("package.json").read_text())
           major, minor, patch = map(int, package["version"].split("."))
